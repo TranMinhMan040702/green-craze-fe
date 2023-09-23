@@ -1,8 +1,9 @@
 function EcommerceLayout({ children }) {
-    return (<>
-    <h1>Layout Ecommerce</h1>
-    <div>{children}</div>
-    </>);
+    return (
+        <div className="w-[1280px] min-h-screen">
+            <div>{children}</div>
+        </div>
+    );
 }
 
 export default EcommerceLayout;
