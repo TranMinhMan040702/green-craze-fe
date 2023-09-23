@@ -1,21 +1,19 @@
 import config from '../config';
 import { EcommerceLayout } from '../layouts';
-import Home from '../layouts/Ecommerce/components/Home';
-import Product from '../layouts/Ecommerce/components/Product';
-
+import HomePage from '../pages/Ecommerce/Home';
 const privateRoutes = [];
 
 const publicRoutes = [
     {
         path: config.routes.web.home,
-        component: Home,
+        component: HomePage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: false,
     },
     {
         path: config.routes.web.product,
-        component: Product,
+        // component: Product,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: false,
