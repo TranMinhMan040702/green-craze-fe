@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import routes from './routes';
-import './index.css'
+import './index.css';
 
 function App() {
-
     return (
         <Router>
             <div className="App">

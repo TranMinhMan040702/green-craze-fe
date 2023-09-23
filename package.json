@@ -16,10 +16,11 @@
         "@fortawesome/free-solid-svg-icons": "^6.0.0",
         "@fortawesome/react-fontawesome": "^0.1.17",
         "@tanstack/react-query": "^4.35.3",
-        "react": "^18.2.0",
         "axios": "^1.5.0",
+        "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.16.0"
+        "react-router-dom": "^6.16.0",
+        "vite-plugin-require": "^1.1.11"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.6",
