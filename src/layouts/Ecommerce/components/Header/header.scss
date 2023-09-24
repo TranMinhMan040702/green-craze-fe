@@ -1,34 +1,49 @@
 .header-container {
-  .head-container {
-    .search {
-      background-color: var(--search-main);
-      input {
-        &:focus-visible {
-          + button {
-            color: var(--primary-color);
-          }
+    .head-container {
+        .search {
+            background-color: var(--search-main);
+            input {
+                &:focus-visible {
+                    + button {
+                        color: var(--primary-color);
+                    }
+                }
+            }
+            button {
+                color: black;
+            }
         }
-      }
-      button {
-        color: black;
-      }
+        .cart {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            color: var(--primary-color);
+        }
+        input[type='checkbox']#active:checked ~ .wrapper {
+            display: flex !important;
+        }
+        .wrapper {
+            .top {
+                background-color: var(--primary-color);
+            }
+            li {
+                color: var(--text-color);
+                padding: 13px 15px;
+                &:hover {
+                    background-color: var(--hover-menu);
+                }
+            }
+        }
     }
-    .cart {
-      border: 2px solid var(--primary-color);
-      border-radius: 5px;
-      color: var(--primary-color);
+    .navbar-container {
+        background-color: var(--primary-color);
+        li {
+            a {
+                display: flex;
+                padding: 13px 20px;
+            }
+            &:hover {
+                background-color: var(--hover-navbar);
+            }
+        }
     }
-  }
-  .navbar-container {
-    background-color: var(--primary-color);
-    li {
-      a {
-        display: flex;
-        padding: 13px 20px;
-      }
-      &:hover {
-        background-color: var(--hover-navbar);
-      }
-    }
-  }
 }
