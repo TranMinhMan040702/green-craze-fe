@@ -3,9 +3,7 @@ import Footer from '../../../layouts/Ecommerce/components/Footer';
 function Home() {
     return (
         <>
-            <Header />
             <div></div>
-            <Footer />
         </>
     );
 }
