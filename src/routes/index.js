@@ -1,7 +1,16 @@
 import config from '../config';
 import { EcommerceLayout } from '../layouts';
 import HomePage from '../pages/Ecommerce/Home';
-const privateRoutes = [];
+import ProfilePage from '../pages/Ecommerce/ProfilePage';
+const privateRoutes = [
+    {
+        path: config.routes.web.profile,
+        component: ProfilePage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+];
 
 const publicRoutes = [
     {
