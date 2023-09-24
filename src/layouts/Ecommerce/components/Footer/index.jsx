@@ -6,19 +6,19 @@ import { faFacebook, faInstagram, faTwitch, faTwitter } from '@fortawesome/free-
 function Footer() {
     return (
         <div className="footer-container">
-            <div className="wrapper 2xl:ml-[36rem] 2xl:mr-[36rem] mr-[5rem] ml-[5rem] pt-[4rem] flex justify-center items-center">
+            <div className="wrapper 2xl:mx-[36rem] mx-[5rem] pt-[4rem] flex justify-center items-center">
                 <div className="grid lg:grid-cols-4 gap-[2rem] md:grid-cols-2 sm:grid-cols-1">
                     <div className="mb-5">
-                        <div className="uppercase text-white text-[1.8rem] font-medium leading-snug">
-                            VỀ CHÚNG TÔI
+                        <div className="uppercase mb-7 text-white text-[1.8rem] font-medium leading-snug">
+                            Về chúng tôi
                         </div>
                         <img
                             className="w-[10rem] h-[10rem] my-4"
                             src="https://via.placeholder.com/100x87"
                         />
                         <div className="pr-[0.3rem]">
-                            <div className="text-white text-[1.6rem] my-3 font-normal leading-snug">
-                                CÔNG TY TNHH THE GREEN CRAZE
+                            <div className="text-white uppercase text-[1.6rem] my-3 font-normal leading-snug">
+                                Công ty TNHH HTV GreenCraze
                             </div>
                         </div>
                         <div className="justify-start my-2 items-baseline gap-[.5rem] inline-flex">
@@ -59,8 +59,8 @@ function Footer() {
                         </div>
                     </div>
                     <div className="mb-5">
-                        <div className="text-white uppercase text-[1.8rem] font-medium leading-snug">
-                            HƯỚNG DẪN
+                        <div className="text-white uppercase mb-7 text-[1.8rem] font-medium leading-snug">
+                            Hướng dẫn
                         </div>
                         <div className="flex-col justify-start items-start gap-[1rem] flex">
                             <div className="text-index text-white text-[1.5rem] font-normal leading-snug">
@@ -84,8 +84,8 @@ function Footer() {
                         </div>
                     </div>
                     <div className="mb-5">
-                        <div className="text-white uppercase text-3xl font-medium leading-snug">
-                            THÔNG TIN
+                        <div className="text-white uppercase mb-7 text-3xl font-medium leading-snug">
+                            Thông tin
                         </div>
                         <div className="flex-col justify-start items-start gap-[1rem] flex">
                             <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
@@ -100,8 +100,8 @@ function Footer() {
                         </div>
                     </div>
                     <div className="mb-5">
-                        <div className="flex-col justify-start items-start gap-[16.59px] flex">
-                            <div className="text-white uppercase text-3xl font-medium leading-snug">
+                        <div className="flex-col justify-start items-start gap-[1.7rem] flex">
+                            <div className="text-white text-3xl font-medium leading-snug">
                                 Theo dõi chúng tôi
                             </div>
                             <div className="justify-start items-start inline-flex">
@@ -136,9 +136,9 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='lg:px-[36rem] pt-3 pb-2.5 flex-col bg-white justify-start items-start inline-flex"'>
+            <div className='lg:px-[36rem] pt-3 pb-2.5 flex-col bg-white text-center'>
                 <div className="text-slate-700 text-[1.6rem] font-normal leading-[2.1rem]">
-                    © Bản quyền thuộc về The Green Crazw
+                    © Bản quyền thuộc về The Green Craze
                 </div>
             </div>
         </div>
