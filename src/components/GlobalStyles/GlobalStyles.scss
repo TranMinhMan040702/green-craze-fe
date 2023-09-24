@@ -1,4 +1,3 @@
-
 @import 'normalize.css';
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
@@ -7,10 +6,10 @@
     --price-color: #f3283d;
     --btn-color: #ff5722;
     --star-color: #f6a500;
-    --text-color: #161823;
-    --black: #000;
-    --white: #fff;
-    --hover: #e9ecef;
+    --text-color: #3a445e;
+    --search-main: #eeeeee;
+    --hover-navbar: #4b723d;
+    --hover-menu: #ebf5e7;
     --text-sidebar: #29335d;
     --color-icon: #adb5bd;
     --border-form: #ced4da;
@@ -21,7 +20,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    // transition: all 1s;
+    transition: all 0.5s;
 }
 html {
     font-size: 62.5%;
