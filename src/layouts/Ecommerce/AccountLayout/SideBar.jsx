@@ -19,7 +19,7 @@ const items = [
         getItem('Hồ sơ', config.routes.web.profile),
         getItem('Địa chỉ', config.routes.web.address),
         getItem('Yêu thích', config.routes.web.favorites),
-        getItem('Đổi mật khẩu', 'change-password'),
+        getItem('Đổi mật khẩu', config.routes.web.password),
     ]),
     getItem('Đơn mua', 'my-order', <FontAwesomeIcon icon={faBook} />),
     getItem('Thông báo', 'my-notification', <FontAwesomeIcon icon={faBell} />),

@@ -6,6 +6,7 @@ const routes = {
         profile: '/user/profile',
         address: '/user/address',
         favorites: '/user/favorites',
+        password: '/user/password',
     },
 };
 export default routes;

@@ -4,6 +4,7 @@ import AddressPage from '../pages/Ecommerce/Address';
 import ProductFavoritesPage from '../pages/Ecommerce/ProductFavorites';
 import HomePage from '../pages/Ecommerce/Home';
 import ProfilePage from '../pages/Ecommerce/Profile';
+import ChangePasswordPage from '../pages/Ecommerce/ChangePassword';
 const privateRoutes = [
     {
         path: config.routes.web.profile,
@@ -22,6 +23,13 @@ const privateRoutes = [
     {
         path: config.routes.web.favorites,
         component: ProductFavoritesPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.password,
+        component: ChangePasswordPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,
