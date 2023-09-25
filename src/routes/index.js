@@ -1,7 +1,7 @@
 import config from '../config';
 import { EcommerceLayout } from '../layouts';
 import HomePage from '../pages/Ecommerce/Home';
-import ProfilePage from '../pages/Ecommerce/ProfilePage';
+import ProfilePage from '../pages/Ecommerce/Profile';
 const privateRoutes = [
     {
         path: config.routes.web.profile,

@@ -1,10 +1,12 @@
+import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import './ecommercelayout.scss';
 function EcommerceLayout({ children }) {
     return (
         <>
-            <div className="container min-h-screen mx-auto">
-                <div>{children}</div>
+            <Header />
+            <div className="main">
+                <div className="container min-h-screen mx-auto">{children}</div>
             </div>
             <Footer />
         </>

@@ -1,0 +1,13 @@
+.profile-container {
+    form {
+        .submit-btn {
+            background-color: var(--primary-color);
+        }
+        .avatar-uploader {
+            .ant-upload{
+                width: 15rem !important;
+                height: 15rem !important;
+            }
+        }
+    }
+}
