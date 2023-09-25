@@ -1,6 +1,7 @@
 import config from '../config';
 import { EcommerceLayout } from '../layouts';
 import AddressPage from '../pages/Ecommerce/Address';
+import ProductFavoritesPage from '../pages/Ecommerce/ProductFavorites';
 import HomePage from '../pages/Ecommerce/Home';
 import ProfilePage from '../pages/Ecommerce/Profile';
 const privateRoutes = [
@@ -14,6 +15,13 @@ const privateRoutes = [
     {
         path: config.routes.web.address,
         component: AddressPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.favorites,
+        component: ProductFavoritesPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,
