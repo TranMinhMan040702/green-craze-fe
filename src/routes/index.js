@@ -1,11 +1,19 @@
 import config from '../config';
 import { EcommerceLayout } from '../layouts';
+import AddressPage from '../pages/Ecommerce/Address';
 import HomePage from '../pages/Ecommerce/Home';
 import ProfilePage from '../pages/Ecommerce/Profile';
 const privateRoutes = [
     {
         path: config.routes.web.profile,
         component: ProfilePage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.address,
+        component: AddressPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,

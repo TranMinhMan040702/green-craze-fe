@@ -17,7 +17,7 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem('Tài khoản của tôi', 'my-account', <FontAwesomeIcon icon={faUser} />, [
         getItem('Hồ sơ', config.routes.web.profile),
-        getItem('Địa chỉ', 'address'),
+        getItem('Địa chỉ', config.routes.web.address),
         getItem('Yêu thích', 'wish'),
         getItem('Đổi mật khẩu', 'change-password'),
     ]),
@@ -27,11 +27,11 @@ const items = [
 function SideBar({ routeKey }) {
     const navigate = useNavigate();
     const onClick = (e) => {
-        // navigate(e.key);
+        navigate(e.key);
     };
     return (
         <div>
-            <div className="flex items-center max-md:flex-col justify-center pt-7 pb-[2.7rem] border-b-[0.1rem]">
+            <div className="flex items-center max-md:flex-col justify-center pt-7 pb-[2.7rem] border-b-[0.1rem] border-b-gray-300">
                 <img
                     src="https://via.placeholder.com/100x87"
                     className="rounded-full w-[4.8rem] h-[4.8rem] bg-gray-500"
@@ -48,6 +48,7 @@ function SideBar({ routeKey }) {
                 className="bg-transparent border-none"
                 onClick={onClick}
                 defaultSelectedKeys={[routeKey]}
+                defaultOpenKeys={['my-account']}
                 mode="inline"
                 items={items}
             />

@@ -3,7 +3,8 @@ const routes = {
     web: {
         home: '/home',
         product: '/products',
-        profile: '/profile',
+        profile: '/user/profile',
+        address: '/user/address',
     },
 };
 export default routes;
