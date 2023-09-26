@@ -5,6 +5,7 @@ import ProductFavoritesPage from '../pages/Ecommerce/ProductFavorites';
 import HomePage from '../pages/Ecommerce/Home';
 import ProfilePage from '../pages/Ecommerce/Profile';
 import ChangePasswordPage from '../pages/Ecommerce/ChangePassword';
+import OrderPage from '../pages/Ecommerce/Order';
 const privateRoutes = [
     {
         path: config.routes.web.profile,
@@ -30,6 +31,13 @@ const privateRoutes = [
     {
         path: config.routes.web.password,
         component: ChangePasswordPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.order,
+        component: OrderPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,

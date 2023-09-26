@@ -21,7 +21,7 @@ const items = [
         getItem('Yêu thích', config.routes.web.favorites),
         getItem('Đổi mật khẩu', config.routes.web.password),
     ]),
-    getItem('Đơn mua', 'my-order', <FontAwesomeIcon icon={faBook} />),
+    getItem('Đơn mua', config.routes.web.order, <FontAwesomeIcon icon={faBook} />),
     getItem('Thông báo', 'my-notification', <FontAwesomeIcon icon={faBell} />),
 ];
 function SideBar({ routeKey }) {
@@ -29,6 +29,7 @@ function SideBar({ routeKey }) {
     const onClick = (e) => {
         navigate(e.key);
     };
+
     return (
         <div>
             <div className="flex items-center max-md:flex-col justify-center pt-7 pb-[2.7rem] border-b-[0.1rem] border-b-gray-300">
@@ -48,7 +49,7 @@ function SideBar({ routeKey }) {
                 className="bg-transparent border-none"
                 onClick={onClick}
                 defaultSelectedKeys={[routeKey]}
-                defaultOpenKeys={['my-account']}
+                defaultOpenKeys={[items[0].key]}
                 mode="inline"
                 items={items}
             />

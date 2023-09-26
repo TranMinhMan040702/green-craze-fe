@@ -1,5 +1,5 @@
 import AccountLayout from '../../../layouts/Ecommerce/AccountLayout';
-import './profilepage.scss';
+import './profile.scss';
 import Info from './Info';
 import Head from './Head';
 import config from '../../../config';
