@@ -64,7 +64,7 @@ function Head() {
                 </div>
             </div>
             <input className="hidden" type="checkbox" id="active" />
-            <div className="wrapper hidden h-screen w-screen fixed top-0 left-0 justify-between">
+            <div className="wrapper hidden h-screen w-screen fixed top-0 left-0 justify-between z-10">
                 <div className="menu bg-white min-w-[300px]">
                     <div className="top py-[1rem] px-[1.5rem]">
                         <div className="flex items-center text-white">

@@ -1,6 +1,8 @@
 const routes = {
     admin: {},
     web: {
+        register: '/register',
+        login: '/login',
         home: '/home',
         product: '/products',
         profile: '/user/profile',

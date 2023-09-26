@@ -1,5 +1,4 @@
-function PrivateRoute({children, roles}) {
-    
+function PrivateRoute({ children, roles }) {
     return children;
 }
 
