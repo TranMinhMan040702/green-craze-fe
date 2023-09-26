@@ -10,16 +10,6 @@
         .ant-tabs-nav-wrap {
             display: block;
             .ant-tabs-nav-list {
-                .ant-tabs-tab {
-                    margin-bottom: 0.7rem !important;
-                    padding-top: 1.7rem;
-                    padding-bottom: 0.92rem;
-                    flex-grow: 1;
-                    &:hover {
-                        color: var(--primary-color) !important;
-                    }
-                }
-
                 .ant-tabs-ink-bar {
                     height: 2px;
                     width: 100%;
@@ -29,6 +19,13 @@
                     margin: 0;
                     display: flex;
                     justify-content: center;
+                    margin-bottom: 0.7rem !important;
+                    padding-top: 1.7rem;
+                    padding-bottom: 0.92rem;
+                    flex-grow: 1;
+                    &:hover {
+                        color: var(--primary-color) !important;
+                    }
                     .ant-tabs-tab-btn {
                         font-size: 1.6rem;
                         font-weight: 500;
@@ -43,10 +40,35 @@
         }
     }
 }
-
+@media only screen and (max-width: 1366px){
+    .order-container{
+        .ant-tabs {
+            .ant-tabs-nav-wrap {
+                .ant-tabs-tab {
+                    width: calc(100% / 6);
+                    margin: 0;
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 0.7rem !important;
+                    padding-top: 1.7rem;
+                    padding-bottom: 0.92rem;
+                    &:hover {
+                        color: var(--primary-color) !important;
+                    }
+                    .ant-tabs-tab-btn {
+                        font-size: 1.6rem;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+}
 @media only screen and (max-width: 472px) {
-    .ant-tabs-nav-list {
-        white-space: break-spaces;
-        text-align: center;
+    .order-container{
+        .ant-tabs-nav-list {
+            white-space: break-spaces;
+            text-align: center;
+        }
     }
 }
