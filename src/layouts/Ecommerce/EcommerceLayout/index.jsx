@@ -1,7 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './ecommercelayout.scss';
-import Header from '../components/Header';
 
 function EcommerceLayout({ children }) {
     return (
