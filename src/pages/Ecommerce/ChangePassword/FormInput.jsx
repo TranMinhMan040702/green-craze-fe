@@ -29,7 +29,7 @@ function FormInput() {
                             },
                         ]}
                     >
-                        <Input
+                        <Input.Password
                             className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none"
                             defaultValue=""
                         />
@@ -44,7 +44,7 @@ function FormInput() {
                             },
                         ]}
                     >
-                        <Input
+                        <Input.Password
                             className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none"
                             defaultValue=""
                         />
@@ -57,9 +57,17 @@ function FormInput() {
                                 required: true,
                                 message: 'Nhập mật khẩu xác nhận!',
                             },
+                            ({ getFieldValue }) => ({
+                              validator(_, value) {
+                                if (!value || getFieldValue('newpassoword') === value) {
+                                  return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'));
+                              },
+                            })
                         ]}
                     >
-                        <Input
+                        <Input.Password
                             className="text-black text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow"
                             defaultValue={''}
                         />
