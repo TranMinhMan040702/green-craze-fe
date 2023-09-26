@@ -9,7 +9,6 @@ import OrderPage from '../pages/Ecommerce/Order';
 import OrderDetailPage from '../pages/Ecommerce/OrderDetail';
 import NotificationPage from '../pages/Ecommerce/Notification';
 import LoginPage from '../pages/Ecommerce/Login';
-import ProfilePage from '../pages/Ecommerce/ProfilePage';
 import RegisterPage from '../pages/Ecommerce/Register';
 
 const privateRoutes = [

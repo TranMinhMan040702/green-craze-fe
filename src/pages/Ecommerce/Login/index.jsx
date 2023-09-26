@@ -5,8 +5,8 @@ import { Button, Form, Input } from 'antd';
 
 function LoginPage() {
     return (
-        <div className="login-container">
-            <div className="w-[400px] max-sm:w-[350px] bg-white rounded-[5px] shadow-[0_2px_6px_0_rgba(0,0,0,0.3)] my-[3.5rem] max-lg:mt-[7rem] mx-auto">
+        <div className="login-container py-[3.6rem]">
+            <div className="w-[400px] max-sm:w-[350px] bg-white rounded-[5px] shadow-[0_2px_6px_0_rgba(0,0,0,0.3)] max-lg:mt-[7rem] mx-auto">
                 <div className="p-[2rem]">
                     <div className="flex justify-between items-center">
                         <h3 className="text-[2.8rem]">Đăng nhập</h3>
@@ -46,7 +46,7 @@ function LoginPage() {
                             ]}
                         >
                             <Input
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none py-[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Nhập Email . . ."
                             />
                         </Form.Item>
@@ -61,7 +61,7 @@ function LoginPage() {
                             ]}
                         >
                             <Input.Password
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="password h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none py-[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
                                 placeholder="Nhập Password . . ."
                             />
                         </Form.Item>
