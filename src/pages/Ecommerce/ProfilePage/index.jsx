@@ -57,7 +57,7 @@ function ProfilePage() {
                             <Form.Item
                                 label="Số điện thoại"
                                 name="phone"
-                                className='md:flex md:flex-col'
+                                className="md:flex md:flex-col"
                                 rules={[
                                     {
                                         required: true,
