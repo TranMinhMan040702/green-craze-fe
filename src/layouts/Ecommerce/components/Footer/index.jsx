@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './footer.scss';
 import { faLocationPin, faMailBulk, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faInstagram, faTwitch, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -63,24 +64,24 @@ function Footer() {
                             Hướng dẫn
                         </div>
                         <div className="flex-col justify-start items-start gap-[1rem] flex">
-                            <div className="text-index text-white text-[1.5rem] font-normal leading-snug">
+                            <Link className="text-index text-white text-[1.5rem] font-normal leading-snug">
                                 Điều Khoản
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Mua Hàng và Thanh Toán
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Chính Sách Giao Hàng
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Chính Sách Đổi Trả
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Chính Sách Hoàn Tiền
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Chính Sách Bảo Mật Thông Tin
-                            </div>
+                            </Link>
                         </div>
                     </div>
                     <div className="mb-5">
@@ -88,15 +89,15 @@ function Footer() {
                             Thông tin
                         </div>
                         <div className="flex-col justify-start items-start gap-[1rem] flex">
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Trang chủ
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Giới thiệu
-                            </div>
-                            <div className="text-index text-white text-[1.5rem]  font-normal leading-snug">
+                            </Link>
+                            <Link className="text-index text-white text-[1.5rem]  font-normal leading-snug">
                                 Tuyển dụng
-                            </div>
+                            </Link>
                         </div>
                     </div>
                     <div className="mb-5">
@@ -105,32 +106,32 @@ function Footer() {
                                 Theo dõi chúng tôi
                             </div>
                             <div className="justify-start items-start inline-flex">
-                                <div className="self-stretch pt-[0.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
+                                <Link className="self-stretch pt-[0.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
                                     <div className="text-white text-[2.5rem] font-normal leading-[2.5rem]">
                                         <FontAwesomeIcon
                                             className="text-index "
                                             icon={faFacebook}
                                         />
                                     </div>
-                                </div>
-                                <div className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
+                                </Link>
+                                <Link className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
                                     <div className="text-white text-[2.5rem] font-normal leading-[2.5rem]">
                                         <FontAwesomeIcon className="text-index " icon={faTwitter} />
                                     </div>
-                                </div>
-                                <div className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
+                                </Link>
+                                <Link className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
                                     <div className="text-white text-[2.5rem] font-normal leading-[2.5rem]">
                                         <FontAwesomeIcon className="text-index " icon={faTwitch} />
                                     </div>
-                                </div>
-                                <div className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
+                                </Link>
+                                <Link className="self-stretch pl-4 pt-[.5rem] pb-[0.8rem] flex-col justify-start items-start inline-flex">
                                     <div className="text-white text-[2.5rem] font-normal leading-[2.5rem]">
                                         <FontAwesomeIcon
                                             className="text-index "
                                             icon={faInstagram}
                                         />
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

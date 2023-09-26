@@ -9,6 +9,8 @@ const images = {
         slide2: require('../../../src/assets/images/slide2.png'),
         slide3: require('../../../src/assets/images/slide3.png'),
     },
+    facebook: require('../../../src/assets/images/facebook.png'),
+    google: require('../../../src/assets/images/google.png'),
 };
 
 export default images;

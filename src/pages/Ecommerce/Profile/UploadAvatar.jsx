@@ -18,11 +18,11 @@ function UploadAvatar() {
         }
     };
     return (
-        <div className="flex flex-col item-center text-center xl:border-l-[0.1rem] xl:ml-[6rem]">
+        <div className="flex flex-col item-center text-center xl:border-l-[0.1rem] xl:ml-[6rem] mb-[3rem]">
             <Upload
                 name="avatar"
                 listType="picture-circle"
-                className="avatar-uploader flex justify-center "
+                className="avatar-uploader flex justify-center"
                 showUploadList={false}
                 beforeUpload={() => false}
                 onChange={handleChange}
@@ -41,7 +41,7 @@ function UploadAvatar() {
                 )}
             </Upload>
             <Button
-                className="h-[4.5rem] w-[20rem] mx-auto mt-5"
+                className="h-[4.5rem] w-[20rem] mx-auto mt-[2.1rem]"
                 onClick={() => inputRef?.current?.click()}
                 icon={<UploadOutlined />}
             >

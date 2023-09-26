@@ -1,0 +1,26 @@
+.profile-container {
+    form {
+        .submit-btn {
+            background-color: var(--primary-color);
+        }
+        .avatar-uploader {
+            .ant-upload{
+                width: 15rem !important;
+                height: 15rem !important;
+            }
+        }
+        @media only screen and (max-width: 1280px) and (min-width: 576px) {
+            .ant-row {
+                input {
+                    // width: 70% !important;
+                }
+                .ant-form-item-explain-error {
+                    // width: 70% !important;
+                }
+                .ant-col{
+                    // overflow: visible;
+                }
+            }
+        }
+    }
+}
