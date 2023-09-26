@@ -4,8 +4,8 @@ import { Button, Form, Input } from 'antd';
 
 function RegisterPage() {
     return (
-        <div className="register-container">
-            <div className="w-[400px] max-sm:w-[350px] bg-white rounded-[5px] shadow-[0_2px_6px_0_rgba(0,0,0,0.3)] my-[3.5rem] max-lg:mt-[7rem] mx-auto">
+        <div className="register-container py-[3.6rem] ">
+            <div className="w-[400px] max-sm:w-[350px] bg-white rounded-[5px] shadow-[0_2px_6px_0_rgba(0,0,0,0.3)] max-lg:mt-[7rem] mx-auto">
                 <div className="p-[2rem]">
                     <div className="flex justify-between items-center">
                         <h3 className="text-[2.8rem]">Đăng ký</h3>
@@ -40,7 +40,7 @@ function RegisterPage() {
                             ]}
                         >
                             <Input
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Họ . . ."
                             />
                         </Form.Item>
@@ -55,7 +55,7 @@ function RegisterPage() {
                             ]}
                         >
                             <Input
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Tên . . ."
                             />
                         </Form.Item>
@@ -89,7 +89,7 @@ function RegisterPage() {
                             ]}
                         >
                             <Input.Password
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Password . . ."
                             />
                         </Form.Item>
@@ -115,7 +115,7 @@ function RegisterPage() {
                             ]}
                         >
                             <Input.Password
-                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none p-y[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Nhập lại Password . . ."
                             />
                         </Form.Item>
