@@ -7,6 +7,7 @@ import ProfilePage from '../pages/Ecommerce/Profile';
 import ChangePasswordPage from '../pages/Ecommerce/ChangePassword';
 import OrderPage from '../pages/Ecommerce/Order';
 import OrderDetailPage from '../pages/Ecommerce/OrderDetail';
+import NotificationPage from '../pages/Ecommerce/Notification';
 const privateRoutes = [
     {
         path: config.routes.web.profile,
@@ -46,6 +47,13 @@ const privateRoutes = [
     {
         path: config.routes.web.order_detail,
         component: OrderDetailPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.notification,
+        component: NotificationPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,

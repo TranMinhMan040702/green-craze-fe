@@ -22,7 +22,7 @@ const items = [
         getItem('Đổi mật khẩu', config.routes.web.password),
     ]),
     getItem('Đơn mua', config.routes.web.order, <FontAwesomeIcon icon={faBook} />),
-    getItem('Thông báo', 'my-notification', <FontAwesomeIcon icon={faBell} />),
+    getItem('Thông báo', config.routes.web.notification, <FontAwesomeIcon icon={faBell} />),
 ];
 function SideBar({ routeKey }) {
     const navigate = useNavigate();

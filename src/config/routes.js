@@ -9,6 +9,7 @@ const routes = {
         password: '/user/password',
         order: '/user/order',
         order_detail: '/user/order/:id',
+        notification: '/user/notification',
     },
 };
 export default routes;
