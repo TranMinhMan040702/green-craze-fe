@@ -1,0 +1,20 @@
+.account-layout-container {
+    .ant-menu{
+        .ant-menu-submenu-selected{
+            .ant-menu-submenu-title {
+                color: var(--primary-color);
+                // font-weight: 700;
+            }
+        }
+        .ant-menu-sub {
+            background-color: transparent !important;
+        }
+        .ant-menu-item-selected {
+            background-color: transparent;
+            color: var(--primary-color);
+            .ant-menu-title-content{
+                font-weight: 700;
+            }
+        }
+    }
+}
