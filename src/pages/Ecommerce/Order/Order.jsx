@@ -7,6 +7,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderItem from './OrderItem';
+import { NavLink } from 'react-router-dom';
+import config from '../../../config';
 
 function Order({ isLastItem = false }) {
     return (
@@ -16,11 +18,11 @@ function Order({ isLastItem = false }) {
                     <FontAwesomeIcon icon={faTruck} className="mr-[0.7rem]" />
                     <p className="mb-0">Đơn hàng chưa được xử lý</p>
                 </div>
-                <div className="border-b-[0.16rem] border-b-gray-300 cursor-pointer">
+                <NavLink to={config.routes.web.order + '/1'} className="border-b-[0.16rem] border-b-gray-300 cursor-pointer">
                     <OrderItem />
                     <OrderItem />
                     <OrderItem />
-                </div>
+                </NavLink>
                 <div className="bg-stone-100">
                     <div className="flex justify-end px-[2.2rem] py-[1.5rem]">
                         <div className="flex items-center text-black text-[1.8rem]">

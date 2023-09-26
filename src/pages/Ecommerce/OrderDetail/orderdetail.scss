@@ -1,0 +1,87 @@
+.order-detail-container {
+    .order-status-container {
+        $--order-state-color: #F7941D;
+        .stepper {
+            position: relative;
+            justify-content: space-between;
+            box-sizing: border-box;
+            flex-wrap: nowrap;
+            display: flex;
+        }
+        .stepper__step {
+            width: 14rem;
+            text-align: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            cursor: default;
+            z-index: 1;
+        }
+        .stepper__step-icon {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: auto;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            font-size: 1.875rem;
+            border: 0.4rem solid #e0e0e0;
+            color: #e0e0e0;
+            background-color: #fff;
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.7s,
+                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.7s,
+                color 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.7s;
+        }
+        .stepper__step-icon--finish {
+            border-color: $--order-state-color;
+            color: $--order-state-color;
+        }
+        .stepper__step-text {
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            color: rgba(0, 0, 0, 0.8);
+            line-height: 1.25rem;
+            margin: 1.25rem 0 0.25rem;
+        }
+        .stepper__step-date {
+            font-size: 1.2rem;
+            color: rgba(0, 0, 0, 0.26);
+            height: 0.875rem;
+        }
+        .stepper__step-icon--pending {
+            background-color: $--order-state-color;
+            color: #fff;
+            fill: $--order-state-color;
+            border-color: $--order-state-color;
+        }
+        .stepper__line {
+            position: absolute;
+            top: 2.9rem;
+            height: 4px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .stepper__line-background {
+            background: #e0e0e0;
+        }
+        .stepper__line-foreground {
+            background: $--order-state-color;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stepper__line-background,
+        .stepper__line-foreground {
+            position: absolute;
+            width: calc(100% - 14rem);
+            margin: 0 6rem;
+            height: 100%;
+            box-sizing: border-box;
+        }
+    }
+    .contact-container {
+        background-color: var(--background-main-color);
+    }
+}

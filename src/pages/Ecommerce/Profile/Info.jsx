@@ -16,7 +16,7 @@ function Info() {
                     remember: true,
                 }}
                 autoComplete="off"
-                className="grid xl:grid-cols-2 mx-[1.6rem]"
+                className="grid sm:grid-cols-2 mx-[1.6rem]"
             >
                 <div className="">
                     <Form.Item
@@ -69,14 +69,14 @@ function Info() {
                             },
                         ]}
                     >
-                        <Input type='date' className='w-[14rem] text-[1.6rem] p-3 h-[3rem] bg-white rounded-[0.3rem] shadow'/>
+                        <Input type='date' className='max-w-[14rem] text-[1.6rem] p-3 h-[3rem] bg-white rounded-[0.3rem] shadow'/>
                     </Form.Item>
                 </div>
                 <div className="">
                     <UploadAvatar />
                 </div>
 
-                <Form.Item className="text-center md:ml-[8rem] mt-2">
+                <Form.Item className="text-center max-md:flex xl:ml-[8rem] mt-2 max-sm:justify-center">
                     <Button className="submit-btn text-white text-[1.9rem] w-[11rem] h-[4rem]" htmlType="submit">
                         Lưu
                     </Button>

@@ -1,17 +1,17 @@
 .order-container {
-    .space{
+    .space {
         height: 20px;
         background: var(--background-main-color) !important;
     }
     .ant-tabs {
-        .ant-tabs-nav{
+        .ant-tabs-nav {
             margin: 0;
         }
         .ant-tabs-nav-wrap {
             display: block;
             .ant-tabs-nav-list {
                 .ant-tabs-tab {
-                    margin-bottom: .7rem !important;
+                    margin-bottom: 0.7rem !important;
                     padding-top: 1.7rem;
                     padding-bottom: 0.92rem;
                     flex-grow: 1;
@@ -19,7 +19,7 @@
                         color: var(--primary-color) !important;
                     }
                 }
-                
+
                 .ant-tabs-ink-bar {
                     height: 2px;
                     width: 100%;
@@ -41,5 +41,12 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 472px) {
+    .ant-tabs-nav-list {
+        white-space: break-spaces;
+        text-align: center;
     }
 }

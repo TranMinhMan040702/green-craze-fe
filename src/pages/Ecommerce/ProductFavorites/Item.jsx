@@ -10,9 +10,9 @@ function Item({ isLastItem = false }) {
             } pt-[3.7rem] pb-[2.2rem] mx-[2.1rem] items-center`}
         >
             <div className="text-[1.6rem] flex items-center gap-[2.5rem]">
-                <p className="text-red-400 hover:text-red-700 cursor-pointer text-[1.6rem] h-[4rem] mt-[1rem] ">
+                <p className="text-red-400 hover:text-red-700 mb-0 cursor-pointer text-[1.6rem] mt-[1rem] ">
                     <FontAwesomeIcon icon={faTrash} className='mr-3'/>
-                    Xoá
+                    <span className='max-md:hidden'>Xoá</span>
                 </p>
                 <div className="flex justify-center items-center gap-[2.2rem]">
                     <img className="w-[7.9rem] h-[7.9rem] " src="https://via.placeholder.com/79x79" />
@@ -24,9 +24,9 @@ function Item({ isLastItem = false }) {
             <div className="text-right">
                 <Button
                     icon={<FontAwesomeIcon icon={faCartPlus} />}
-                    className="text-blue-600 text-[1.6rem] h-[4rem] mt-[1rem] "
+                    className="text-blue-600 text-[1.6rem] h-[4rem] "
                 >
-                    Thêm vào giỏ hàng
+                    <span className='max-md:hidden'>Thêm vào giỏ hàng</span>
                 </Button>
             </div>
         </div>
