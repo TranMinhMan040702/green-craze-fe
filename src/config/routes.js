@@ -4,6 +4,8 @@ const routes = {
         register: '/register',
         login: '/login',
         home: '/home',
+        cart: '/cart',
+        checkout: '/checkout',
         product: '/products',
         profile: '/user/profile',
         address: '/user/address',

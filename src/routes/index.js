@@ -10,8 +10,24 @@ import OrderDetailPage from '../pages/Ecommerce/OrderDetail';
 import NotificationPage from '../pages/Ecommerce/Notification';
 import LoginPage from '../pages/Ecommerce/Login';
 import RegisterPage from '../pages/Ecommerce/Register';
+import CartPage from '../pages/Ecommerce/Cart';
+import CheckoutPage from '../pages/Ecommerce/Checkout';
 
 const privateRoutes = [
+    {
+        path: config.routes.web.checkout,
+        component: CheckoutPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.cart,
+        component: CartPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
     {
         path: config.routes.web.profile,
         component: ProfilePage,
