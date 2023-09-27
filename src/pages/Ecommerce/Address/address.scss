@@ -3,4 +3,10 @@
         border: 1px var(--primary-color) solid;
         color: var(--primary-color)
     }
+    .btn-default{
+        border: 1px var(--primary-color) solid;
+        &:hover {
+            border: 1px var(--primary-color) solid;
+        }
+    }
 }

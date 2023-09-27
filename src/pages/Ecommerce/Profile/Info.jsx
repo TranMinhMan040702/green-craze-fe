@@ -11,7 +11,7 @@ function Info() {
         });
     }, []);
     return (
-        <div className="xl:p-[7rem] md:p-[5rem] sm:p-[1rem]">
+        <div className="md:p-[5rem] sm:p-[1rem]">
             <Form
                 form={form}
                 name="my-profile"
@@ -31,6 +31,7 @@ function Info() {
                     <Form.Item
                         label="Tên"
                         name="name"
+                        className='text-[1.6rem]'
                         rules={[
                             {
                                 required: true,
@@ -85,12 +86,12 @@ function Info() {
                 </div>
 
                 <Form.Item className="text-center max-md:flex xl:ml-[8rem] mt-2 max-sm:justify-center">
-                    <Button
-                        className="submit-btn text-white text-[1.9rem] w-[11rem] h-[4rem]"
-                        htmlType="submit"
+                    <button
+                        className="submit-btn text-white text-[2rem] w-[11rem] h-[4rem] pb-[0.5rem] rounded-lg"
+                        type="submit"
                     >
                         Lưu
-                    </Button>
+                    </button>
                 </Form.Item>
             </Form>
         </div>

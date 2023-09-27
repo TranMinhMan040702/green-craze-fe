@@ -16,12 +16,13 @@ function FormInput() {
                     remember: true,
                 }}
                 autoComplete="off"
-                className=" w-[44.3%]"
+                className=""
             >
                 <div className="">
                     <Form.Item
                         label="Mật khẩu hiện tại"
                         name="password"
+                        className='text-[1.6rem]'
                         rules={[
                             {
                                 required: true,
@@ -30,13 +31,15 @@ function FormInput() {
                         ]}
                     >
                         <Input.Password
-                            className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none"
+                            className="text-[1.6rem] w-[32.6rem] h-[3.5rem] bg-white rounded-[0.3rem] shadow outline-none"
+                            placeholder='Nhập mật khẩu hiện tại'
                             defaultValue=""
                         />
                     </Form.Item>
                     <Form.Item
                         label="Mật khẩu mới"
                         name="newpassoword"
+                        className=' text-[1.6rem]'
                         rules={[
                             {
                                 required: true,
@@ -45,13 +48,15 @@ function FormInput() {
                         ]}
                     >
                         <Input.Password
-                            className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none"
+                            className="text-[1.6rem] w-[32.6rem] h-[3.5rem] bg-white rounded-[0.3rem] shadow outline-none"
+                            placeholder='Nhập mật khẩu mới'
                             defaultValue=""
                         />
                     </Form.Item>
                     <Form.Item
                         label="Xác nhận mật khẩu"
                         name="confirmpassword"
+                        className='text-[1.6rem]'
                         rules={[
                             {
                                 required: true,
@@ -68,21 +73,22 @@ function FormInput() {
                         ]}
                     >
                         <Input.Password
-                            className="text-black text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow"
+                            className="text-black text-[1.6rem] w-[32.6rem] h-[3.5rem] bg-white rounded-[0.3rem] shadow"
+                            placeholder='Nhập mật khẩu xác nhận'
                             defaultValue={''}
                         />
                     </Form.Item>
                 </div>
-                <Form.Item className="text-center max-xl:flex max-xl:justify-center xl:ml-[8rem] mt-[6rem]">
-                    <Button
-                        className="submit-btn text-white text-[1.9rem] w-[11rem] h-[4rem]"
-                        htmlType="submit"
+                <Form.Item className="text-center max-xl:flex max-xl:justify-center xl:ml-[8rem] md:mt-[6rem]">
+                    <button
+                        className="submit-btn text-white text-[2rem] pb-[0.5rem] w-[16.8rem] h-[4rem] rounded-lg border-none"
+                        type="submit"
                     >
                         Xác nhận
-                    </Button>
+                    </button>
                 </Form.Item>
             </Form>
-            <NavLink className='text-[1.4rem] h-[1.4rem] hover:text-blue-500 text-black xl:ml-[1.8rem] mt-[0.5rem]'>Quên mật khẩu?</NavLink>
+            <NavLink className='text-[1.6rem] h-[1.4rem] hover:text-blue-500 text-black xl:ml-[3rem] mt-[0.5rem]'>Quên mật khẩu?</NavLink>
         </div>
     );
 }

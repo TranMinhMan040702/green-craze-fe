@@ -40,7 +40,7 @@ function OrderStatus({ name = 'Pending' }) {
         setCurrentPercent(getPercent(name));
     }, [name]);
     return (
-        <div className="order-status-container xl:px-[9rem] py-10 bg-white max-w-screen-xl mx-auto my-5">
+        <div className="order-status-container xl:px-[7rem] py-10 bg-white mx-auto my-5">
             <div className="stepper">
                 <div className="stepper__step">
                     <div
@@ -52,7 +52,7 @@ function OrderStatus({ name = 'Pending' }) {
                     >
                         <FontAwesomeIcon icon={faReceipt} />
                     </div>
-                    <div className="stepper__step-text text-[1.4rem]">Đơn hàng đã đặt</div>
+                    <div className="stepper__step-text text-[1.4rem]">Đã đặt</div>
                     <div className="stepper__step-date">{new Date().toLocaleString()}</div>
                 </div>
                 {currentPercent !== CANCELLED ? (
@@ -68,7 +68,7 @@ function OrderStatus({ name = 'Pending' }) {
                                 <FontAwesomeIcon icon={faSpinner} />
                             </div>
                             <div className="stepper__step-text text-[1.4rem]">
-                                Đơn hàng đang xử lý
+                                Đang xử lý
                             </div>
                         </div>
                         <div className="stepper__step">
@@ -83,7 +83,7 @@ function OrderStatus({ name = 'Pending' }) {
                                 <FontAwesomeIcon icon={faTruck} />
                             </div>
                             <div className="stepper__step-text text-[1.4rem]">
-                                Đơn hàng đang giao
+                                Đang giao
                             </div>
                         </div>
                         <div className="stepper__step">
@@ -96,7 +96,7 @@ function OrderStatus({ name = 'Pending' }) {
                             >
                                 <FontAwesomeIcon icon={faDownload} />
                             </div>
-                            <div className="stepper__step-text text-[1.4rem]">Đơn hàng đã giao</div>
+                            <div className="stepper__step-text text-[1.4rem]">Đã giao</div>
                             <div className="stepper__step-date">{new Date().toLocaleString()}</div>
                         </div>
                         <div className="stepper__step">
@@ -124,7 +124,7 @@ function OrderStatus({ name = 'Pending' }) {
                         >
                             <FontAwesomeIcon icon={faCancel} />
                         </div>
-                        <div className="stepper__step-text text-[1.4rem]">Đơn hàng đã huỷ</div>
+                        <div className="stepper__step-text text-[1.4rem]">Đã huỷ</div>
                     </div>
                 )}
                 <div className="stepper__line">
