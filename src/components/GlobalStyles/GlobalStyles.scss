@@ -14,7 +14,7 @@
     --color-icon: #adb5bd;
     --border-form: #ced4da;
     --border-radius-form: 5px;
-    --background-main-color: #537f4426;
+    --background-main-color: #f8f8f8;
     --background-color-content-admin: #f8f9fa;
 }
 * {
@@ -34,4 +34,13 @@ body {
     color: var(--text-color);
     overflow-y: overlay;
     background-color: #ffffff;
+}
+.primary-color {
+    color: var(--primary-color);
+}
+.star-color {
+    color: var(--star-color);
+}
+.price-color {
+    color: var(--price-color);
 }
