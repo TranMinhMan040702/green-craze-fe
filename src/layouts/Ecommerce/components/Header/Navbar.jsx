@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Navbar() {
     return (
         <div className="navbar-container">
-            <div className="max-lg:hidden container w-full h-[50px] flex items-center mx-auto justify-between  text-white text-[1.6rem] uppercase">
+            <div className="max-lg:hidden container w-full h-[50px] flex items-center mx-auto justify-between text-white text-[1.6rem] uppercase">
                 <ul className="w-[670px] h-full flex items-center ml-[3rem]">
                     <li>
                         <Link>Trang chủ</Link>

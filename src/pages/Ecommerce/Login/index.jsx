@@ -32,7 +32,6 @@ function LoginPage() {
                         autoComplete="off"
                     >
                         <Form.Item
-                            className="mt"
                             name="email"
                             rules={[
                                 {
@@ -51,7 +50,6 @@ function LoginPage() {
                             />
                         </Form.Item>
                         <Form.Item
-                            className="mt"
                             name="password"
                             rules={[
                                 {
@@ -61,7 +59,7 @@ function LoginPage() {
                             ]}
                         >
                             <Input.Password
-                                className="password h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none py-[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.4rem]"
+                                className="h-[36px] rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.25)] border-none py-[1rem] px-[1.5rem] text-[1.6rem] placeholder:text-[1.6rem]"
                                 placeholder="Nhập Password . . ."
                             />
                         </Form.Item>

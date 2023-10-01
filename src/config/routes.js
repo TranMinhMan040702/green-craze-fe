@@ -6,6 +6,8 @@ const routes = {
         home: '/home',
         cart: '/cart',
         checkout: '/checkout',
+        shop: 'shop',
+        product_detail: 'product-detail',
         product: '/products',
         profile: '/user/profile',
         address: '/user/address',
