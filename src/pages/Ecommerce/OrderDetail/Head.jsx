@@ -12,7 +12,7 @@ function Head() {
         </NavLink>
         <div className="flex items-center text-[1.6rem]">
             <p className="uppercase">Mã đơn hàng 1</p>
-            <span class="mx-[1.5rem] font-normal block h-[2.5rem] border-l-[0.01rem] border-gray-600"></span>
+            <span className="mx-[1.5rem] font-normal block h-[2.5rem] border-l-[0.01rem] border-gray-600"></span>
             <p className="uppercase text-rose-600">Đã giao</p>
         </div>
     </div>
