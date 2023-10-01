@@ -10,6 +10,8 @@ import OrderDetailPage from '../pages/Ecommerce/OrderDetail';
 import NotificationPage from '../pages/Ecommerce/Notification';
 import LoginPage from '../pages/Ecommerce/Login';
 import RegisterPage from '../pages/Ecommerce/Register';
+import ShopPage from '../pages/Ecommerce/Shop';
+import ProductDetailPage from '../pages/Ecommerce/ProductDetail';
 
 const privateRoutes = [
     {
@@ -81,6 +83,20 @@ const publicRoutes = [
     {
         path: config.routes.web.home,
         component: HomePage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: false,
+    },
+    {
+        path: config.routes.web.product_detail,
+        component: ProductDetailPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: false,
+    },
+    {
+        path: config.routes.web.shop,
+        component: ShopPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: false,

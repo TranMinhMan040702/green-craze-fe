@@ -1,0 +1,85 @@
+.shop-container {
+    .filter {
+        .ant-checkbox-wrapper {
+            &:hover {
+                .ant-checkbox-inner {
+                    border: 1px solid var(--primary-color);
+                }
+            }
+        }
+        .ant-checkbox-inner {
+            width: 20px;
+            height: 20px;
+            &::after {
+                inset-inline-start: 30.5%;
+            }
+        }
+        .ant-checkbox-checked {
+            .ant-checkbox-inner {
+                background-color: var(--primary-color) !important;
+                border: none;
+            }
+        }
+    }
+    .product {
+        .ant-tabs-tab {
+            .ant-tabs-tab-btn {
+                font-size: 1.6rem !important;
+            }
+            &:hover {
+                color: var(--primary-color) !important;
+            }
+        }
+        .ant-tabs-ink-bar {
+            height: 2px;
+            width: 100%;
+            background: var(--primary-color) !important;
+        }
+        .ant-tabs-tab-active {
+            .ant-tabs-tab-btn {
+                color: var(--primary-color) !important;
+            }
+        }
+        .ant-btn {
+            font-size: 1.4rem;
+            height: 34px;
+            &:hover {
+                border-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+        }
+        .ant-pagination {
+            .ant-pagination-item-active {
+                border-color: var(--primary-color);
+                a {
+                    color: var(--primary-color);
+                }
+            }
+            .ant-pagination-options {
+                .ant-select {
+                    &:hover {
+                        .ant-select-selector {
+                            border-color: var(--primary-color);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .slidebar {
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 5px;
+        }
+        .filter {
+            background-color: white;
+        }
+    }
+    input[type='checkbox']#open:checked ~ .slidebar {
+        display: flex !important;
+    }
+}
