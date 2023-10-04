@@ -1,5 +1,5 @@
 import config from '../config';
-import { EcommerceLayout } from '../layouts';
+import { AdminLayout, EcommerceLayout } from '../layouts';
 import AddressPage from '../pages/Ecommerce/Address';
 import ProductFavoritesPage from '../pages/Ecommerce/ProductFavorites';
 import HomePage from '../pages/Ecommerce/Home';
@@ -14,8 +14,19 @@ import CartPage from '../pages/Ecommerce/Cart';
 import CheckoutPage from '../pages/Ecommerce/Checkout';
 import ShopPage from '../pages/Ecommerce/Shop';
 import ProductDetailPage from '../pages/Ecommerce/ProductDetail';
+import Dashboard from '../pages/Admin/Dashboard';
 
 const privateRoutes = [
+    // Admin
+    {
+        path: config.routes.admin.dashboard,
+        component: Dashboard,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+
+    // User
     {
         path: config.routes.web.checkout,
         component: CheckoutPage,

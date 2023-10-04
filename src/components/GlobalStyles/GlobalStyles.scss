@@ -16,6 +16,8 @@
     --border-radius-form: 5px;
     --background-main-color: #f8f8f8;
     --background-color-content-admin: #f8f9fa;
+    --background-item-menu-color: #ecf7ec;
+    --height-header-admin: 56px;
 }
 * {
     margin: 0;
@@ -27,7 +29,7 @@ html {
     font-size: 62.5%;
 }
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 1rem;
     line-height: 1.5;
     text-rendering: optimizespeed;

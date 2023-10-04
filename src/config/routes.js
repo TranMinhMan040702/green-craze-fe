@@ -1,5 +1,7 @@
 const routes = {
-    admin: {},
+    admin: {
+        dashboard: '/admin',
+    },
     web: {
         register: '/register',
         login: '/login',
