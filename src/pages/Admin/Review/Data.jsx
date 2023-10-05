@@ -49,16 +49,6 @@ const baseColumns = [
         },
     },
     {
-        title: 'Tóm lược nội dung',
-        dataIndex: 'content',
-        sorter: {
-            compare: (a, b) => a.content.localeCompare(b.content),
-            multiple: 1,
-        },
-        width: 200,
-        ellipsis: true,
-    },
-    {
         title: 'Trạng thái',
         dataIndex: 'status',
         sorter: {
@@ -84,8 +74,6 @@ function Data() {
             name: 'John Brown',
             product: 'Ly giấy',
             star: <Rate className="text-2xl" disabled defaultValue={4} allowHalf />,
-            content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere felis sed justo finibus, eget maximus diam rhoncu',
             status: <Tag color="green">Đã hiển thị</Tag>,
             action: (
                 <div className="flex gap-3">
@@ -117,8 +105,6 @@ function Data() {
             name: 'NMS',
             product: 'Ly giấy',
             star: <Rate className="text-2xl" disabled defaultValue={2.5} allowHalf />,
-            content:
-                '123 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere felis sed justo finibus, eget maximus diam rhoncu',
             status: <Tag color="red">Đã ẩn</Tag>,
             action: (
                 <div className="flex gap-3">
@@ -174,6 +160,9 @@ function Data() {
                 />
             </div>
             <Table
+                scroll={{
+                    x: 'max-content'
+                }}
                 columns={baseColumns}
                 dataSource={data}
                 rowSelection={{
