@@ -1,0 +1,35 @@
+.sale-container {
+    .ant-input-search-button {
+        background-color: var(--primary-color);
+        &:hover {
+            background-color: var(--primary-color) !important;
+        }
+    }
+}
+.sale-form-container {
+    .ant-tabs{
+        .ant-tabs-tab-btn{
+            color: var(--primary-color) !important;
+        }
+    }
+    form {
+        .ant-form-item-label, .ant-input-number-in-form-item, .ant-picker-range {
+            max-width: 100%;
+            width: 100%;
+        }
+        .ant-input, .ant-input-password, .ant-select-selector, .ant-select-in-form-item{
+            font-size: 1.6rem;
+            border-radius: 0.5rem;
+            border-color: #d9d9d9;
+        }
+        .ant-switch {
+            background-color: gray;
+        }
+        .ant-switch-checked{
+            background-color: var(--primary-color);
+            &:hover {
+                background-color: var(--primary-color) !important;
+            }
+        }
+    }
+}

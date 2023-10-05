@@ -14,6 +14,17 @@ import CartPage from '../pages/Ecommerce/Cart';
 import CheckoutPage from '../pages/Ecommerce/Checkout';
 import ShopPage from '../pages/Ecommerce/Shop';
 import ProductDetailPage from '../pages/Ecommerce/ProductDetail';
+import ReviewPage from '../pages/Admin/Review';
+import AccountPage from '../pages/Admin/Account';
+import EmployeePage from '../pages/Admin/Employee';
+import EmployeeFormPage from '../pages/Admin/Employee/EmployeeForm';
+import SalePage from '../pages/Admin/Sale';
+import SaleFormPage from '../pages/Admin/Sale/SaleForm';
+import DeliveryFormPage from '../pages/Admin/Delivery/DeliveryForm';
+import DeliveryPage from '../pages/Admin/Delivery';
+import TransactionPage from '../pages/Admin/Transaction';
+import PaymentMethodPage from '../pages/Admin/PaymentMethod';
+import PaymentMethodFormPage from '../pages/Admin/PaymentMethod/PaymentMethodForm';
 
 const privateRoutes = [
     {
@@ -77,6 +88,109 @@ const privateRoutes = [
         component: NotificationPage,
         layout: EcommerceLayout,
         roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.review,
+        component: ReviewPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.account,
+        component: AccountPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.employee,
+        component: EmployeePage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.employee_create,
+        component: EmployeeFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.employee_update_id,
+        component: EmployeeFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.sale,
+        component: SalePage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.sale_create,
+        component: SaleFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.sale_update_id,
+        component: SaleFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },{
+        path: config.routes.admin.delivery,
+        component: DeliveryPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.delivery_create,
+        component: DeliveryFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.delivery_update_id,
+        component: DeliveryFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },{
+        path: config.routes.admin.payment_method,
+        component: PaymentMethodPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.payment_method_create,
+        component: PaymentMethodFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.payment_method_update_id,
+        component: PaymentMethodFormPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.transaction,
+        component: TransactionPage,
+        layout: EcommerceLayout,
+        roles: ['ADMIN'],
         private: true,
     },
 ];
