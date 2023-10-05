@@ -1,5 +1,6 @@
 const routes = {
     admin: {
+        dashboard: '/admin',
         review: '/admin/review',
         account: '/admin/account',
         employee: '/admin/employee',
