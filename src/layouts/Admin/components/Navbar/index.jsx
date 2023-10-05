@@ -1,4 +1,5 @@
 import './navbar.scss';
+import config from '../../../../config';
 import React, { useState } from 'react';
 import {
     IconHome2,
@@ -15,6 +16,7 @@ import {
     IconTransfer,
 } from '@tabler/icons-react';
 import { Menu } from 'antd';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -26,7 +28,7 @@ function getItem(label, key, icon, children, type) {
     };
 }
 const items = [
-    getItem('Trang chủ', 'home', <IconHome2 />),
+    getItem('Trang chủ', config.routes.admin.dashboard, <IconHome2 />),
     getItem('Địa chỉ', 'address', <IconAddressBook />, [
         getItem('Điểm nhận hàng', 'delivery-point'),
         getItem('Tỉnh thành', 'province'),
@@ -40,13 +42,14 @@ const items = [
     getItem('Nhân viên', 'employee', <IconBuilding />),
     getItem('Khách hàng', 'customer', <IconUsers />),
     getItem('Sản phẩm', 'product', <IconPackage />, [
-        getItem('Danh mục sản phẩm', 'category'),
+        getItem('Danh sách sản phẩm', config.routes.admin.product),
+        getItem('Danh mục sản phẩm', config.routes.admin.category),
         getItem('Thương hiệu', 'brand'),
         getItem('Đơn vị tính', 'unit'),
     ]),
-    getItem('Kho hàng', 'inventory', <IconBuildingStore />),
+    getItem('Kho hàng', config.routes.admin.inventory, <IconBuildingStore />),
     getItem('Đơn hàng', 'order', <IconClipboardText />, [
-        getItem('Đơn mua hàng', 'list-order'),
+        getItem('Đơn mua hàng', config.routes.admin.order),
         getItem('Lý do hủy đơn hàng', 'reason'),
     ]),
     getItem('Vận chuyển', 'delivery', <IconTruckDelivery />),
@@ -70,6 +73,9 @@ const rootSubmenuKeys = [
     'transaction',
 ];
 function Navbar() {
+    const navigate = useNavigate();
+    let routeKey = useLocation().pathname;
+
     const [openKeys, setOpenKeys] = useState(['home']);
     const onOpenChange = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -79,12 +85,16 @@ function Navbar() {
             setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
         }
     };
+    const onClick = (e) => {
+        navigate(e.key);
+    };
 
     return (
         <div className="navbar-container">
             <Menu
                 mode="inline"
-                defaultSelectedKeys={['home']}
+                onClick={onClick}
+                defaultSelectedKeys={[routeKey]}
                 openKeys={openKeys}
                 onOpenChange={onOpenChange}
                 items={items}

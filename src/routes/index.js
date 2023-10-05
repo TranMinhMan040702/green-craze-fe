@@ -1,5 +1,6 @@
 import config from '../config';
 import { AdminLayout, EcommerceLayout } from '../layouts';
+// page web
 import AddressPage from '../pages/Ecommerce/Address';
 import ProductFavoritesPage from '../pages/Ecommerce/ProductFavorites';
 import HomePage from '../pages/Ecommerce/Home';
@@ -13,14 +14,47 @@ import RegisterPage from '../pages/Ecommerce/Register';
 import CartPage from '../pages/Ecommerce/Cart';
 import CheckoutPage from '../pages/Ecommerce/Checkout';
 import ShopPage from '../pages/Ecommerce/Shop';
+// page admin
+import DashboardPage from '../pages/Admin/Dashboard';
 import ProductDetailPage from '../pages/Ecommerce/ProductDetail';
-import Dashboard from '../pages/Admin/Dashboard';
+import ProductPage from '../pages/Admin/Product';
+import CategoryPage from '../pages/Admin/Category';
+import InventoryPage from '../pages/Admin/Inventory';
+import OrderPages from '../pages/Admin/Order';
 
 const privateRoutes = [
     // Admin
     {
         path: config.routes.admin.dashboard,
-        component: Dashboard,
+        component: DashboardPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.product,
+        component: ProductPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.category,
+        component: CategoryPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.order,
+        component: OrderPages,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.inventory,
+        component: InventoryPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,

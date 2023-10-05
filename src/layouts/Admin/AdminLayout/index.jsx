@@ -11,7 +11,7 @@ function AdminLayout({ children }) {
                     <div className="col-span-2">
                         <Navbar />
                     </div>
-                    <div className="col-span-10 container mx-auto ">{children}</div>
+                    <div className="col-span-10 container mx-auto p-[1.5rem]">{children}</div>
                 </div>
             </div>
         </>

@@ -1,6 +1,10 @@
 const routes = {
     admin: {
         dashboard: '/admin',
+        product: '/admin/products',
+        category: '/admin/categories',
+        inventory: '/admin/inventories',
+        order: '/admin/orders',
     },
     web: {
         register: '/register',
