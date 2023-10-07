@@ -19,6 +19,8 @@ const routes = {
         brand_update: '/admin/brands/update',
         // Inventory
         inventory: '/admin/inventories',
+        inventory_create: '/admin/inventories/create',
+        inventory_update: '/admin/inventories/update',
         // Order
         order: '/admin/orders',
         order_update: '/admin/orders/update',
