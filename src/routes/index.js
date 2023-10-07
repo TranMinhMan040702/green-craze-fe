@@ -33,9 +33,18 @@ import TransactionPage from '../pages/Admin/Transaction';
 import PaymentMethodPage from '../pages/Admin/PaymentMethod';
 import PaymentMethodFormPage from '../pages/Admin/PaymentMethod/PaymentMethodForm';
 import Dashboard from '../pages/Admin/Dashboard';
+import CategoryFormPage from '../pages/Admin/Category/CategoryForm';
+import ProductFormPage from '../pages/Admin/Product/ProductForm';
+import UnitPage from '../pages/Admin/Unit';
+import UnitFormPage from '../pages/Admin/Unit/UnitForm';
+import BrandFormPage from '../pages/Admin/Brand/BrandForm';
+import BrandPage from '../pages/Admin/Brand';
+import OrderFormPage from '../pages/Admin/Order/OrderForm';
+import ReasonCancelPage from '../pages/Admin/ReasonCancel';
+import ReasonCancelFormPage from '../pages/Admin/ReasonCancel/ReasonCancelForm';
 
 const privateRoutes = [
-    // Admin
+    // Admin Layout
     {
         path: config.routes.admin.dashboard,
         component: DashboardPage,
@@ -43,6 +52,7 @@ const privateRoutes = [
         roles: ['ADMIN'],
         private: true,
     },
+    // Product
     {
         path: config.routes.admin.product,
         component: ProductPage,
@@ -51,12 +61,86 @@ const privateRoutes = [
         private: true,
     },
     {
+        path: config.routes.admin.product_create,
+        component: ProductFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.product_update + '/:id',
+        component: ProductFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Category
+    {
         path: config.routes.admin.category,
         component: CategoryPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
+    {
+        path: config.routes.admin.category_create,
+        component: CategoryFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.category_update + '/:id',
+        component: CategoryFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Unit
+    {
+        path: config.routes.admin.unit,
+        component: UnitPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.unit_create,
+        component: UnitFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.unit_update + '/:id',
+        component: UnitFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Brand
+    {
+        path: config.routes.admin.brand,
+        component: BrandPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.brand_create,
+        component: BrandFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.brand_update + '/:id',
+        component: BrandFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Order
     {
         path: config.routes.admin.order,
         component: OrderPages,
@@ -65,14 +149,155 @@ const privateRoutes = [
         private: true,
     },
     {
+        path: config.routes.admin.order_update + '/:id',
+        component: OrderFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.reason_cancel,
+        component: ReasonCancelPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.reason_cancel_create,
+        component: ReasonCancelFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.reason_cancel_update + '/:id',
+        component: ReasonCancelFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Inventory
+    {
         path: config.routes.admin.inventory,
         component: InventoryPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
-
-    // User
+    // Review
+    {
+        path: config.routes.admin.review,
+        component: ReviewPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Account
+    {
+        path: config.routes.admin.account,
+        component: AccountPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Employee
+    {
+        path: config.routes.admin.employee,
+        component: EmployeePage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.employee_create,
+        component: EmployeeFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.employee_update_id,
+        component: EmployeeFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Sale
+    {
+        path: config.routes.admin.sale,
+        component: SalePage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.sale_create,
+        component: SaleFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.sale_update_id,
+        component: SaleFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Delivery
+    {
+        path: config.routes.admin.delivery,
+        component: DeliveryPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.delivery_create,
+        component: DeliveryFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.delivery_update_id,
+        component: DeliveryFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Payment method
+    {
+        path: config.routes.admin.payment_method,
+        component: PaymentMethodPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.payment_method_create,
+        component: PaymentMethodFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.payment_method_update_id,
+        component: PaymentMethodFormPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Transaction
+    {
+        path: config.routes.admin.transaction,
+        component: TransactionPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    //================================================================//
+    // Web Ecommerce Layout
     {
         path: config.routes.web.checkout,
         component: CheckoutPage,
@@ -134,111 +359,6 @@ const privateRoutes = [
         component: NotificationPage,
         layout: EcommerceLayout,
         roles: ['USER'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.review,
-        component: ReviewPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.account,
-        component: AccountPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.employee,
-        component: EmployeePage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.employee_create,
-        component: EmployeeFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.employee_update_id,
-        component: EmployeeFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.sale,
-        component: SalePage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.sale_create,
-        component: SaleFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.sale_update_id,
-        component: SaleFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.delivery,
-        component: DeliveryPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.delivery_create,
-        component: DeliveryFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.delivery_update_id,
-        component: DeliveryFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.payment_method,
-        component: PaymentMethodPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.payment_method_create,
-        component: PaymentMethodFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.payment_method_update_id,
-        component: PaymentMethodFormPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
-        private: true,
-    },
-    {
-        path: config.routes.admin.transaction,
-        component: TransactionPage,
-        layout: AdminLayout,
-        roles: ['ADMIN'],
         private: true,
     },
 ];

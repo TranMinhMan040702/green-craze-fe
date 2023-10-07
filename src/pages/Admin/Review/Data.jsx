@@ -3,9 +3,10 @@ import { faReply, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Rate, Table, Tag } from 'antd';
 import { useState } from 'react';
+import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import ReviewDetail from './ReviewDetail';
 import Reply from './Reply';
-import ConfirmPrompt from '../components/ConfirmPrompt'
+
 const baseColumns = [
     {
         title: 'Id',
@@ -161,7 +162,7 @@ function Data() {
             </div>
             <Table
                 scroll={{
-                    x: 'max-content'
+                    x: 'max-content',
                 }}
                 columns={baseColumns}
                 dataSource={data}

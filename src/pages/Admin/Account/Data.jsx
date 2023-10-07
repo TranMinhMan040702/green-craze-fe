@@ -1,11 +1,11 @@
-import { faEdit, faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Modal, Table, Tag } from 'antd';
+import { Button, Input, Table, Tag } from 'antd';
 import { useState } from 'react';
+import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import Edit from './Edit';
 import AccountDetail from './AccountDetail';
-import ConfirmPrompt from '../components/ConfirmPrompt';
 
 const baseColumns = [
     {

@@ -5,7 +5,7 @@ import { Button, Input, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
-import ConfirmPrompt from '../components/ConfirmPrompt';
+import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import SaleDetail from './SaleDetail';
 
 const baseColumns = [

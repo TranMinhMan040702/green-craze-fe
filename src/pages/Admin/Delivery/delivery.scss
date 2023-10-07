@@ -1,12 +1,12 @@
-.delivery-container {
-    .ant-input-search-button {
-        background-color: var(--primary-color);
-        &:hover {
-            background-color: var(--primary-color) !important;
-        }
-    }
-}
-.delivery-form-container{
+// .delivery-container {
+//     .ant-input-search-button {
+//         background-color: var(--primary-color);
+//         &:hover {
+//             background-color: var(--primary-color) !important;
+//         }
+//     }
+// }
+.delivery-form-container {
     form {
         .ant-form-item-label {
             max-width: 100%;
@@ -17,7 +17,10 @@
                 box-shadow: none;
             }
         }
-        .ant-input, .ant-input-password, .ant-select-selector, .ant-select-in-form-item{
+        .ant-input,
+        .ant-input-password,
+        .ant-select-selector,
+        .ant-select-in-form-item {
             font-size: 1.6rem;
             border-radius: 0.5rem;
             border-color: #d9d9d9;

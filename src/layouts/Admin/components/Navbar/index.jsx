@@ -44,13 +44,13 @@ const items = [
     getItem('Sản phẩm', 'product', <IconPackage />, [
         getItem('Danh sách sản phẩm', config.routes.admin.product),
         getItem('Danh mục sản phẩm', config.routes.admin.category),
-        getItem('Thương hiệu', 'brand'),
-        getItem('Đơn vị tính', 'unit'),
+        getItem('Thương hiệu', config.routes.admin.brand),
+        getItem('Đơn vị tính', config.routes.admin.unit),
     ]),
     getItem('Kho hàng', config.routes.admin.inventory, <IconBuildingStore />),
     getItem('Đơn hàng', 'order', <IconClipboardText />, [
         getItem('Đơn mua hàng', config.routes.admin.order),
-        getItem('Lý do hủy đơn hàng', 'reason'),
+        getItem('Lý do hủy đơn hàng', config.routes.admin.reason_cancel),
     ]),
     getItem('Vận chuyển', 'delivery', <IconTruckDelivery />),
     getItem('Đánh giá', 'review', <IconMessage />),
@@ -90,7 +90,7 @@ function Navbar() {
     };
 
     return (
-        <div className="navbar-container">
+        <div className="navbar-container w-[225px]">
             <Menu
                 mode="inline"
                 onClick={onClick}

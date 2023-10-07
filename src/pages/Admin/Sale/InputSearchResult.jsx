@@ -1,7 +1,7 @@
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function InputSearchResult({itemList, add, chosenList, Item}) {
+function InputSearchResult({ itemList, add, chosenList, Item }) {
     return (
         <div className="bg-white w-full absolute p-3 shadow transition-all">
             {itemList.map((item, idx) => {
@@ -14,7 +14,7 @@ function InputSearchResult({itemList, add, chosenList, Item}) {
                             isChosen ? 'cursor-not-allowed' : 'cursor-pointer'
                         } p-4 flex items-center justify-between hover:bg-gray-100 transition-all rounded-xl`}
                     >
-                        <Item item={item}/>
+                        <Item item={item} />
                         {isChosen && <FontAwesomeIcon className="text-green-500" icon={faCheck} />}
                     </div>
                 );

@@ -1,5 +1,5 @@
-import { Button, Modal, Table, Tag } from 'antd';
-import Detail from '../components/Detail';
+import { Tag } from 'antd';
+import Detail from '../../../layouts/Admin/components/Detail';
 
 const rawData = [
     {

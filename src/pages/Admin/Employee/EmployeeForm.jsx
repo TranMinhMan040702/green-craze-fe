@@ -1,15 +1,16 @@
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import './employee.scss';
-import { faArrowLeft, faChevronLeft, faHashtag } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './employee.scss';
 import config from '../../../config';
+
 function EmployeeFormPage() {
     let { id } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     return (
-        <div className="employee-form-container mx-auto w-[60%] max-xl:w-[80%] py-[5rem]">
+        <div className="form-container w-[60%] max-xl:w-[80%]">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.employee)}
@@ -189,7 +190,9 @@ function EmployeeFormPage() {
                     </Row>
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
-                        <Button className="bg-blue-500 text-white min-w-[10%]">{id ? 'Cập nhật' : 'Thêm mới'}</Button>
+                        <Button className="bg-blue-500 text-white min-w-[10%]">
+                            {id ? 'Cập nhật' : 'Thêm mới'}
+                        </Button>
                     </div>
                 </Form>
             </div>

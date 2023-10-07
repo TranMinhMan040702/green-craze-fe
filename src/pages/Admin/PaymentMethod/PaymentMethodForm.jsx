@@ -1,11 +1,12 @@
 import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import './paymentmethod.scss';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import config from '../../../config';
 import { useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+import './paymentmethod.scss';
+import config from '../../../config';
+
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));

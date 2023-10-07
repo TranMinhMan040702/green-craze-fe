@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import Detail from '../components/Detail';
+import Detail from '../../../layouts/Admin/components/Detail';
 
 const rawData = [
     {

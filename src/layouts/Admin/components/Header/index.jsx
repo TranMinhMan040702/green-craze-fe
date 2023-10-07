@@ -16,7 +16,7 @@ import { Tooltip } from 'antd';
 
 function Header() {
     return (
-        <div className="header-container bg-white border-b-[1px]">
+        <div className="header-container w-screen fixed z-10 bg-white border-b-[1px]">
             <div className="container mx-auto h-[--height-header-admin] flex items-center justify-between">
                 <div className="h-full">
                     <Link>
