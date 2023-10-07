@@ -10,7 +10,7 @@ function EmployeeFormPage() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     return (
-        <div className="form-container w-[60%] max-xl:w-[80%]">
+        <div className="form-container">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.employee)}

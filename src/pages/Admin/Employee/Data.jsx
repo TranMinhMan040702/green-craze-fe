@@ -16,7 +16,6 @@ const baseColumns = [
             compare: (a, b) => a.id.localeCompare(b.id),
             multiple: 4,
         },
-        width: 50,
     },
     {
         title: 'Email',
@@ -25,8 +24,6 @@ const baseColumns = [
             compare: (a, b) => a.email.localeCompare(b.email),
             multiple: 3,
         },
-        ellipsis: true,
-        width: 200,
     },
     {
         title: 'Họ và tên',
@@ -99,7 +96,7 @@ function Data() {
             ),
             staff_type: <Tag className="w-fit uppercase">Mạng xã hội</Tag>,
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -141,7 +138,7 @@ function Data() {
             ),
             staff_type: <Tag className="w-fit uppercase">TMDT</Tag>,
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -183,7 +180,7 @@ function Data() {
     };
     return (
         <div>
-            <div className="p-4 bg-white mb-3 flex items-center rounded-lg">
+            <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
                 <Input.Search
                     className="xl:w-1/4 md:w-1/2"
                     allowClear
@@ -193,6 +190,9 @@ function Data() {
                 />
             </div>
             <Table
+                scroll={{
+                    x: 1300,
+                }}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

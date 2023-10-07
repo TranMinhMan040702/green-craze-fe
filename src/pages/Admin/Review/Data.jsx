@@ -77,7 +77,7 @@ function Data() {
             star: <Rate className="text-2xl" disabled defaultValue={4} allowHalf />,
             status: <Tag color="green">Đã hiển thị</Tag>,
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -108,7 +108,7 @@ function Data() {
             star: <Rate className="text-2xl" disabled defaultValue={2.5} allowHalf />,
             status: <Tag color="red">Đã ẩn</Tag>,
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -151,7 +151,7 @@ function Data() {
 
     return (
         <div>
-            <div className="p-4 bg-white mb-3 flex items-center rounded-lg">
+            <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
                 <Input.Search
                     className="xl:w-1/4 md:w-1/2"
                     allowClear

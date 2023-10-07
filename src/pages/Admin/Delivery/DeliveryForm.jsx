@@ -27,7 +27,7 @@ function DeliveryFormPage() {
         }
     };
     return (
-        <div className="delivery-form-container mx-auto w-[60%] max-xl:w-[80%] py-[5rem]">
+        <div className="form-container">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.delivery)}

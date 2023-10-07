@@ -50,7 +50,7 @@ function SaleFormPage() {
     const [chosenCategoryList, setChosenCategoryList] = useState([]);
     const [chosenProductList, setChosenProductList] = useState([]);
     return (
-        <div className="sale-form-container">
+        <div className="form-container w-full">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.sale)}

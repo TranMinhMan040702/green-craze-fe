@@ -216,7 +216,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.admin.employee_update_id,
+        path: config.routes.admin.employee_update + '/:id',
         component: EmployeeFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
@@ -238,7 +238,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.admin.sale_update_id,
+        path: config.routes.admin.sale_update + '/:id',
         component: SaleFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
@@ -260,7 +260,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.admin.delivery_update_id,
+        path: config.routes.admin.delivery_update + '/:id',
         component: DeliveryFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
@@ -282,7 +282,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.admin.payment_method_update_id,
+        path: config.routes.admin.payment_method_update + '/:id',
         component: PaymentMethodFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],

@@ -19,8 +19,6 @@ const routes = {
         brand_update: '/admin/brands/update',
         // Inventory
         inventory: '/admin/inventories',
-        inventory_create: '/admin/inventories/create',
-        inventory_update: '/admin/inventories/update',
         // Order
         order: '/admin/orders',
         order_update: '/admin/orders/update',
@@ -28,31 +26,27 @@ const routes = {
         reason_cancel_create: '/admin/orders/reasons-cancel/create',
         reason_cancel_update: '/admin/orders/reasons-cancel/update',
         // Review
-        review: '/admin/review',
+        review: '/admin/reviews',
         // Account
-        account: '/admin/account',
+        account: '/admin/accounts',
         // Employee
-        employee: '/admin/employee',
-        employee_create: '/admin/employee/create',
-        employee_update: '/admin/employee/update',
-        employee_update_id: '/admin/employee/update/:id',
+        employee: '/admin/employees',
+        employee_create: '/admin/employees/create',
+        employee_update: '/admin/employees/update',
         // Sale
-        sale: '/admin/sale',
-        sale_create: '/admin/sale/create',
-        sale_update: '/admin/sale/update',
-        sale_update_id: '/admin/sale/update/:id',
+        sale: '/admin/sales',
+        sale_create: '/admin/sales/create',
+        sale_update: '/admin/sales/update',
         // Delivery
-        delivery: '/admin/delivery',
-        delivery_create: '/admin/delivery/create',
-        delivery_update: '/admin/delivery/update',
-        delivery_update_id: '/admin/delivery/update/:id',
+        delivery: '/admin/deliveries',
+        delivery_create: '/admin/deliveries/create',
+        delivery_update: '/admin/deliveries/update',
         // Payment
-        payment_method: '/admin/payment-method',
-        payment_method_create: '/admin/payment-method/create',
-        payment_method_update: '/admin/payment-method/update',
-        payment_method_update_id: '/admin/payment-method/update/:id',
+        payment_method: '/admin/payment-methods',
+        payment_method_create: '/admin/payment-methods/create',
+        payment_method_update: '/admin/payment-methods/update',
         // Transaction
-        transaction: '/admin/transaction',
+        transaction: '/admin/transactions',
     },
     web: {
         register: '/register',
