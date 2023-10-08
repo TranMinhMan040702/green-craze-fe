@@ -193,6 +193,9 @@ function Data() {
                 />
             </div>
             <Table
+                scroll={{
+                    x: 'max-content'
+                }}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

@@ -1,5 +1,5 @@
 import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag } from 'antd';
 import { useState } from 'react';
@@ -176,6 +176,9 @@ function Data() {
                 />
             </div>
             <Table
+                scroll={{
+                    x: 'max-content'
+                }}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

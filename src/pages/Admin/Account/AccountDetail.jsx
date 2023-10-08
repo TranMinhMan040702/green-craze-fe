@@ -44,26 +44,21 @@ const rawData = [
     },
     {
         key: '9',
-        property: 'Tên đường',
-        value: '83027 Ludington Center',
+        property: 'Địa chỉ mặc định',
+        value: '83027 Ludington Center, Bình Lộc, Diên Khánh, Khánh Hoà',
     },
     {
         key: '10',
-        property: 'Tên tỉnh thành',
-        value: 'Khánh Hoà',
+        property: 'Địa chỉ 1',
+        value: '83027 Ludington Center, Bình Lộc, Diên Khánh, Khánh Hoà',
     },
     {
         key: '11',
-        property: 'Tên quận huyện',
-        value: 'Diên Khánh',
+        property: 'Địa chỉ 2',
+        value: '83027 Ludington Center, Bình Lộc, Diên Khánh, Khánh Hoà',
     },
     {
         key: '12',
-        property: 'Tên xã',
-        value: 'Bình Lộc',
-    },
-    {
-        key: '13',
         property: 'Ảnh đại diện',
         value: (
             <img
@@ -73,7 +68,7 @@ const rawData = [
         ),
     },
     {
-        key: '14',
+        key: '13',
         property: 'Trạng thái',
         value: (
             <Tag className="w-fit uppercase" color="green">
@@ -82,7 +77,7 @@ const rawData = [
         ),
     },
     {
-        key: '15',
+        key: '14',
         property: 'Vai trò',
         value: (
             <div className="flex flex-col gap-[1rem]">
