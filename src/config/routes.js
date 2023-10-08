@@ -1,5 +1,53 @@
 const routes = {
-    admin: {},
+    admin: {
+        dashboard: '/admin',
+        // Product
+        product: '/admin/products',
+        product_create: '/admin/products/create',
+        product_update: '/admin/products/update',
+        // Category
+        category: '/admin/categories',
+        category_create: '/admin/categories/create',
+        category_update: '/admin/categories/update',
+        // Unit
+        unit: '/admin/units',
+        unit_create: '/admin/units/create',
+        unit_update: '/admin/units/update',
+        // Brand
+        brand: '/admin/brands',
+        brand_create: '/admin/brands/create',
+        brand_update: '/admin/brands/update',
+        // Inventory
+        inventory: '/admin/inventories',
+        // Order
+        order: '/admin/orders',
+        order_update: '/admin/orders/update',
+        reason_cancel: '/admin/orders/reasons-cancel',
+        reason_cancel_create: '/admin/orders/reasons-cancel/create',
+        reason_cancel_update: '/admin/orders/reasons-cancel/update',
+        // Review
+        review: '/admin/reviews',
+        // Account
+        account: '/admin/accounts',
+        // Employee
+        employee: '/admin/employees',
+        employee_create: '/admin/employees/create',
+        employee_update: '/admin/employees/update',
+        // Sale
+        sale: '/admin/sales',
+        sale_create: '/admin/sales/create',
+        sale_update: '/admin/sales/update',
+        // Delivery
+        delivery: '/admin/deliveries',
+        delivery_create: '/admin/deliveries/create',
+        delivery_update: '/admin/deliveries/update',
+        // Payment
+        payment_method: '/admin/payment-methods',
+        payment_method_create: '/admin/payment-methods/create',
+        payment_method_update: '/admin/payment-methods/update',
+        // Transaction
+        transaction: '/admin/transactions',
+    },
     web: {
         register: '/register',
         login: '/login',
