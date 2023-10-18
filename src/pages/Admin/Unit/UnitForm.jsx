@@ -4,7 +4,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './unit.scss';
 import config from '../../../config';
-import { useCreateUnit, useGetUnit, useUpdateUnit } from '../../../api/units';
+import { useCreateUnit, useGetUnit, useUpdateUnit } from '../../../hooks/api';
 import { useEffect, useState } from 'react';
 
 function UnitFormPage() {
@@ -72,8 +72,9 @@ function UnitFormPage() {
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày tạo</p>
                     <code className="bg-blue-100 p-2">
-                        {data?.data?.createdAt ?
-                            new Date(data?.data?.createdAt).toLocaleString() : '__/__/____'}
+                        {data?.data?.createdAt
+                            ? new Date(data?.data?.createdAt).toLocaleString()
+                            : '__/__/____'}
                     </code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">

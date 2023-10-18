@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import UnitDetail from './UnitDetail';
-import { useDeleteUnit, useGetUnits } from '../../../api/units';
+import { useGetListUnit, useGetUnit, useDeleteListUnit, useDeleteUnit } from '../../../hooks/api';
 
 function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
     return dt?.map((item) => {
@@ -70,7 +70,6 @@ const baseColumns = [
 ];
 
 function Data({ setUnitIds, params, setParams }) {
-    
     const navigate = useNavigate();
 
     const [isDetailOpen, setIsDetailOpen] = useState({
@@ -95,13 +94,13 @@ function Data({ setUnitIds, params, setParams }) {
         },
     });
 
-    const { data, isLoading } = useGetUnits(params);
+    const { data, isLoading } = useGetListUnit(params);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: params.pageIndex,
             pageSize: params.pageSize,
-            total: data?.data?.totalItems
+            total: data?.data?.totalItems,
         },
     });
 
@@ -146,7 +145,7 @@ function Data({ setUnitIds, params, setParams }) {
             isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
     };
-    
+
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">

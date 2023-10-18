@@ -1,23 +1,21 @@
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
-import { useDeleteListUnit } from '../../../api/units';
+import { useDeleteListUnit } from '../../../hooks/api';
 
-function UnitHead({unitIds, params}) {
+function UnitHead({ unitIds, params }) {
     const mutationDelete = useDeleteListUnit({
-        success: () => {
-            
-        },
+        success: () => {},
         error: (err) => {
             console.log(err);
         },
         obj: {
             ids: unitIds,
-            params: params
-        }
+            params: params,
+        },
     });
     const onDisableAll = async () => {
         await mutationDelete.mutateAsync(unitIds);
-    }
+    };
     return (
         <Head
             route={config.routes.admin.unit_create}

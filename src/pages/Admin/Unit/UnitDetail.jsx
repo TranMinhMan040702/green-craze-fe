@@ -1,6 +1,6 @@
 import { Tag } from 'antd';
 import Detail from '../../../layouts/Admin/components/Detail';
-import { useGetUnit } from '../../../api/units';
+import { useGetUnit } from '../../../hooks/api/useUnitApi';
 import { useEffect, useState } from 'react';
 
 function transformData(unit) {

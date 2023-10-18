@@ -7,25 +7,6 @@ const fetcher = async ({ queryKey, pageParam }) => {
     return await api.get(url, { ...params, pageParam });
 };
 
-export const useFetch = ({ url, key, params, config }) => {
-    const context = useQuery([url, key, params], ({ queryKey }) => fetcher({ queryKey }), {
-        enabled: !!url,
-        ...config,
-    });
-
-    return context;
-};
-export const usePrefetch = (url, key, params) => {
-    const queryClient = useQueryClient();
-
-    return () => {
-        if (!url) {
-            return;
-        }
-
-        queryClient.prefetchQuery([url, key, params], ({ queryKey }) => fetcher({ queryKey }));
-    };
-};
 const useGenericMutation = (func, url, updater) => {
     const queryClient = useQueryClient();
 
@@ -51,6 +32,26 @@ const useGenericMutation = (func, url, updater) => {
             updater.error(err);
         },
     });
+};
+
+export const useFetch = ({ url, key, params, config }) => {
+    const context = useQuery([url, key, params], ({ queryKey }) => fetcher({ queryKey }), {
+        enabled: !!url,
+        ...config,
+    });
+
+    return context;
+};
+
+export const usePrefetch = (url, key, params) => {
+    const queryClient = useQueryClient();
+
+    return () => {
+        if (!url) {
+            return;
+        }
+        queryClient.prefetchQuery([url, key, params], ({ queryKey }) => fetcher({ queryKey }));
+    };
 };
 
 export const useDelete = (url, updater) => {
