@@ -10,13 +10,16 @@ const baseColumns = [
     },
 ];
 function Detail({ isDetailOpen, setIsDetailOpen, rawData }) {
+    const onCancel = () => {
+        setIsDetailOpen({ ...isDetailOpen, isOpen: false });
+    };
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Thông tin chi tiết</p>}
-            open={isDetailOpen}
-            onCancel={() => setIsDetailOpen(false)}
+            open={isDetailOpen.isOpen}
+            onCancel={onCancel}
             footer={[
-                <Button type="primary" className="bg-red-500 text-white">
+                <Button onClick={onCancel} type="primary" className="bg-red-500 text-white">
                     OK
                 </Button>,
             ]}

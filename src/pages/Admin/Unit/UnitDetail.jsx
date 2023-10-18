@@ -1,42 +1,51 @@
 import { Tag } from 'antd';
 import Detail from '../../../layouts/Admin/components/Detail';
+import { useGetUnit } from '../../../api/units';
+import { useEffect, useState } from 'react';
 
-const rawData = [
-    {
-        key: '1',
-        property: 'ID',
-        value: '1',
-    },
-    {
-        key: '2',
-        property: 'Ngày tạo',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '3',
-        property: 'Ngày cập nhật',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '4',
-        property: 'Tên đơn vị',
-        value: 'Cái',
-    },
-    {
-        key: '5',
-        property: 'Trạng thái',
-        value: (
-            <Tag className="w-fit uppercase" color="green">
-                Đã kích hoạt
-            </Tag>
-        ),
-    },
-];
-
+function transformData(unit) {
+    return [
+        {
+            key: '1',
+            property: 'ID',
+            value: unit?.id,
+        },
+        {
+            key: '2',
+            property: 'Ngày tạo',
+            value: new Date(unit?.createdAt)?.toLocaleString(),
+        },
+        {
+            key: '3',
+            property: 'Ngày cập nhật',
+            value: unit?.updatedAt && new Date(unit?.updatedAt)?.toLocaleString(),
+        },
+        {
+            key: '4',
+            property: 'Tên đơn vị',
+            value: unit?.name,
+        },
+        {
+            key: '5',
+            property: 'Trạng thái',
+            value: (
+                <Tag className="w-fit uppercase" color={unit?.status ? 'green' : 'red'}>
+                    {unit?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                </Tag>
+            ),
+        },
+    ];
+}
 function UnitDetail({ isDetailOpen, setIsDetailOpen }) {
-    return (
-        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={rawData} />
-    );
+    const { data, isLoading } = useGetUnit(isDetailOpen.id);
+    const [unit, setUnit] = useState([]);
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setUnit(transformData(data?.data));
+    }, [isLoading, data]);
+
+    return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={unit} />;
 }
 
 export default UnitDetail;
