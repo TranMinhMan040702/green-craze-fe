@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-function Head({ route, title, isAdd = true, isDisableAll = true }) {
+function Head({ route, title, isAdd = true, isDisableAll = true, handleDisableAll = () => {} }) {
     const navigate = useNavigate();
     return (
         <div className="flex items-center justify-between">
@@ -27,6 +27,7 @@ function Head({ route, title, isAdd = true, isDisableAll = true }) {
                 )}
                 {isDisableAll && (
                     <Button
+                        onClick={handleDisableAll}
                         className="border border-red-400 text-red-400"
                         icon={<FontAwesomeIcon icon={faTrashCan} />}
                     >

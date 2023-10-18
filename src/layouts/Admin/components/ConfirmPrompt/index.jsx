@@ -1,11 +1,11 @@
 import { Button, Modal } from 'antd';
 
-function ConfirmPrompt({ isDisableOpen, setIsDisableOpen, content }) {
+function ConfirmPrompt({ isDisableOpen, setIsDisableOpen, content, handleConfirm }) {
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Xác nhận</p>}
-            open={isDisableOpen}
-            onCancel={() => setIsDisableOpen(false)}
+            open={isDisableOpen.isOpen}
+            onCancel={() => setIsDisableOpen({...isDisableOpen, isOpen: false})}
             footer={[
                 <Button
                     type="primary"
@@ -14,7 +14,7 @@ function ConfirmPrompt({ isDisableOpen, setIsDisableOpen, content }) {
                 >
                     Huỷ
                 </Button>,
-                <Button type="primary" className="bg-green-500 text-white">
+                <Button onClick={() => handleConfirm(isDisableOpen.id)} type="primary" className="bg-green-500 text-white">
                     Xác nhận
                 </Button>,
             ]}
