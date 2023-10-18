@@ -6,6 +6,9 @@ import { useState } from 'react';
 import ConfirmPrompt from '../components/ConfirmPrompt';
 import AccountDetail from './AccountDetail';
 import Edit from './Edit';
+import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
+import Edit from './Edit';
+import AccountDetail from './AccountDetail';
 
 const baseColumns = [
     {
@@ -24,8 +27,7 @@ const baseColumns = [
             compare: (a, b) => a.email.localeCompare(b.email),
             multiple: 3,
         },
-        ellipsis: true,
-        width: 200,
+        width: 100,
     },
     {
         title: 'Họ và tên',
@@ -81,7 +83,7 @@ function Data() {
         {
             key: '1',
             id: '1',
-            email: 'nguyenminhson102002@gmail.com',
+            email: <p className="break-words">nguyenminhson102002@gmail.com</p>,
             fullname: 'Nguyen Minh Son',
             phone: '0354964840',
             gender: 'Nam',
@@ -103,7 +105,7 @@ function Data() {
                 </div>
             ),
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -149,7 +151,7 @@ function Data() {
                 </div>
             ),
             action: (
-                <div className="flex gap-3">
+                <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
                         onClick={() => setIsDetailOpen(true)}
@@ -191,7 +193,7 @@ function Data() {
     };
     return (
         <div>
-            <div className="p-4 bg-white mb-3 flex items-center rounded-lg">
+            <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
                 <Input.Search
                     className="xl:w-1/4 md:w-1/2"
                     allowClear
@@ -203,6 +205,7 @@ function Data() {
             <Table
                 scroll={{
                     x: 'max-content'
+                    x: 1300,
                 }}
                 rowSelection={{
                     type: 'checkbox',

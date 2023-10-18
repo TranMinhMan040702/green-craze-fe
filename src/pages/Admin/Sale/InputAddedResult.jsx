@@ -10,7 +10,7 @@ function InputAddedResult({ chosenList, remove, Item }) {
                         key={item.id}
                         className="p-4 flex my-2 items-center justify-between bg-gray-100 transition-all rounded-xl"
                     >
-                        <Item item={item}/>
+                        <Item item={item} />
                         <FontAwesomeIcon
                             onClick={() => remove(item)}
                             className="text-red-500 border-red-300 cursor-pointer p-2 rounded-md border-2"

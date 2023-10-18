@@ -1,4 +1,5 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Modal, Select } from 'antd';
+
 const roleOptions = [
     {
         label: 'Quản trị viên',
@@ -23,7 +24,7 @@ const statusOptions = [
         value: 'INACTIVE',
     },
 ];
-function Edit({isEditOpen, setIsEditOpen}) {
+function Edit({ isEditOpen, setIsEditOpen }) {
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Chỉnh sửa vai trò tài khoản</p>}

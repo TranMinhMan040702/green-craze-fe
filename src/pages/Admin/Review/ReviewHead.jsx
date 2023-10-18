@@ -1,6 +1,7 @@
-import Head from '../components/Head'
+import Head from '../../../layouts/Admin/components/Head';
+
 function ReviewHead() {
-    return <Head title='Quản lý đánh giá sản phẩm' isAdd={false}/>
+    return <Head title="Quản lý đánh giá sản phẩm" isAdd={false} />;
 }
 
 export default ReviewHead;

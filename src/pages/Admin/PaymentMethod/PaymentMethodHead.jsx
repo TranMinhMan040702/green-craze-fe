@@ -1,4 +1,4 @@
-import Head from '../components/Head';
+import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 
 function PaymentMethodHead() {

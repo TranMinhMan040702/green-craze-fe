@@ -1,10 +1,10 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import config from '../../../config';
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch, Tabs } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './sale.scss';
 import { useState } from 'react';
+import './sale.scss';
+import config from '../../../config';
 import SearchingInput from './SearchingInput';
 import CategoryItem from './CategoryItem';
 import ProductItem from './ProductItem';
@@ -50,7 +50,7 @@ function SaleFormPage() {
     const [chosenCategoryList, setChosenCategoryList] = useState([]);
     const [chosenProductList, setChosenProductList] = useState([]);
     return (
-        <div className="sale-form-container">
+        <div className="form-container w-full">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.sale)}
@@ -87,7 +87,7 @@ function SaleFormPage() {
                         <div className="bg-white p-5 rounded-xl shadow">
                             <Tabs
                                 type="card"
-                                className=''
+                                className=""
                                 items={[
                                     {
                                         label: 'Danh mục',
@@ -170,12 +170,15 @@ function SaleFormPage() {
                                     <Option value="Vô hiệu lực">Vô hiệu lực</Option>
                                 </Select>
                             </Form.Item>
-                            <Form.Item label='Áp dụng cho tất cả sản phẩm'>
-                                <Switch/>
+                            <Form.Item label="Áp dụng cho tất cả sản phẩm">
+                                <Switch />
                             </Form.Item>
                             <div className="flex items-center justify-between">
-                                <Button className='min-w-[10%]'>Mặc định</Button>
-                                <Button htmlType="submit" className="bg-blue-500 text-white min-w-[10%]">
+                                <Button className="min-w-[10%]">Mặc định</Button>
+                                <Button
+                                    htmlType="submit"
+                                    className="bg-blue-500 text-white min-w-[10%]"
+                                >
                                     {id ? 'Cập nhật' : 'Thêm'}
                                 </Button>
                             </div>

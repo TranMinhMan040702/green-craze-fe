@@ -3,7 +3,7 @@ import { faBox, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Modal, Rate, Tag } from 'antd';
 
-function ReviewDetail({isDetailOpen, setIsDetailOpen}) {
+function ReviewDetail({ isDetailOpen, setIsDetailOpen }) {
     return (
         <Modal
             title={<p className="my-4 font-bold text-[1.6rem]">Chi tiết đánh giá ID 1</p>}

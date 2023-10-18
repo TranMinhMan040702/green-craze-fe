@@ -1,7 +1,5 @@
-
-
-function CategoryItem ({item}){
-    return <p>{item.name}</p>
+function CategoryItem({ item }) {
+    return <p>{item.name}</p>;
 }
 
 export default CategoryItem;

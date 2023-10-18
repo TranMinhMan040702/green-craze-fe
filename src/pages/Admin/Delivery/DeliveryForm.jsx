@@ -1,16 +1,18 @@
 import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import './delivery.scss';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import config from '../../../config';
 import { useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+import './delivery.scss';
+import config from '../../../config';
+
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
 };
+
 function DeliveryFormPage() {
     let { id } = useParams();
     const [form] = Form.useForm();
@@ -25,7 +27,7 @@ function DeliveryFormPage() {
         }
     };
     return (
-        <div className="delivery-form-container mx-auto w-[60%] max-xl:w-[80%] py-[5rem]">
+        <div className="form-container">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
                     onClick={() => navigate(config.routes.admin.delivery)}

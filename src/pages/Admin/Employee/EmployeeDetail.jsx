@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import Detail from '../components/Detail';
+import Detail from '../../../layouts/Admin/components/Detail';
 
 const rawData = [
     {
@@ -102,8 +102,10 @@ const rawData = [
     },
 ];
 
-function EmployeeDetail({isDetailOpen, setIsDetailOpen}) {
-    return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={rawData}/>
+function EmployeeDetail({ isDetailOpen, setIsDetailOpen }) {
+    return (
+        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={rawData} />
+    );
 }
 
 export default EmployeeDetail;

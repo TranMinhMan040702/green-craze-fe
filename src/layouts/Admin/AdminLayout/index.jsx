@@ -6,12 +6,14 @@ function AdminLayout({ children }) {
     return (
         <>
             <Header />
-            <div className="main">
+            <div className="main py-[58px]">
                 <div className="grid grid-cols-12">
                     <div className="col-span-2">
                         <Navbar />
                     </div>
-                    <div className="col-span-10 container mx-auto ">{children}</div>
+                    <div className="w-full min-h-screen col-span-10 container mx-auto p-[1.5rem] bg-[--background-color-content-admin]">
+                        {children}
+                    </div>
                 </div>
             </div>
         </>
