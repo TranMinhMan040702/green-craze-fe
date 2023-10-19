@@ -70,7 +70,7 @@ function Navbar() {
     };
 
     return (
-        <div className="navbar-container w-[225px]">
+        <div className="navbar-admin-container w-[225px]">
             <Menu
                 mode="inline"
                 onClick={onClick}
