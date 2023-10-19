@@ -10,7 +10,8 @@ const apiRoutes = {
         }
     },
     admin: {
-        unit: '/api/units'
+        unit: '/api/units',
+        delivery: '/api/deliveries'
     }
 }
 export default apiRoutes;
