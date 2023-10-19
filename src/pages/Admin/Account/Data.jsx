@@ -3,12 +3,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag } from 'antd';
 import { useState } from 'react';
-import ConfirmPrompt from '../components/ConfirmPrompt';
-import AccountDetail from './AccountDetail';
-import Edit from './Edit';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
-import Edit from './Edit';
 import AccountDetail from './AccountDetail';
+import Edit from './Edit';
 
 const baseColumns = [
     {
@@ -205,7 +202,6 @@ function Data() {
             <Table
                 scroll={{
                     x: 'max-content'
-                    x: 1300,
                 }}
                 rowSelection={{
                     type: 'checkbox',

@@ -42,6 +42,7 @@ import BrandPage from '../pages/Admin/Brand';
 import OrderFormPage from '../pages/Admin/Order/OrderForm';
 import ReasonCancelPage from '../pages/Admin/ReasonCancel';
 import ReasonCancelFormPage from '../pages/Admin/ReasonCancel/ReasonCancelForm';
+import Forbidden from '../components/Forbidden';
 
 const privateRoutes = [
     // Admin Layout
@@ -50,6 +51,13 @@ const privateRoutes = [
         component: DashboardPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.forbidden,
+        component: Forbidden,
+        layout: null,
+        roles: ['USER'],
         private: true,
     },
     // Product

@@ -1,6 +1,6 @@
 import './header.scss';
 import images from '../../../../assets/images';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { faBell, faCommentDots, faMoon, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faTable } from '@fortawesome/free-solid-svg-icons';
@@ -13,8 +13,15 @@ import {
     IconSquareArrowRight,
 } from '@tabler/icons-react';
 import { Tooltip } from 'antd';
+import { clearToken } from '../../../../utils/storage';
+import config from '../../../../config';
 
 function Header() {
+    const navigate = useNavigate();
+    const onLogout = () => {
+        clearToken();
+        navigate(config.routes.web.login)
+    }
     return (
         <div className="header-container w-screen fixed z-10 bg-white border-b-[1px]">
             <div className="container mx-auto h-[--height-header-admin] flex items-center justify-between">
@@ -60,7 +67,7 @@ function Header() {
                         </li>
                         <li className="hover:bg-lime-50">
                             <Tooltip placement="bottom" title="Đăng xuất">
-                                <button className="px-[0.7rem] py-[0.4rem] border-[1px] border-[--primary-color] rounded-[5px] text-center text-[--primary-color]">
+                                <button onClick={onLogout} className="px-[0.7rem] py-[0.4rem] border-[1px] border-[--primary-color] rounded-[5px] text-center text-[--primary-color]">
                                     <IconSquareArrowRight className="h-[1.8rem]" />
                                 </button>
                             </Tooltip>
