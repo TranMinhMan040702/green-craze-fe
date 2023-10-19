@@ -124,6 +124,9 @@ function Data() {
                 />
             </div>
             <Table
+                scroll={{
+                    x: 'max-content'
+                }}
                 columns={baseColumns}
                 dataSource={data}
                 pagination={{

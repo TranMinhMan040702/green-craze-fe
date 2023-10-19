@@ -1,8 +1,51 @@
+import { Navigate, useNavigate } from 'react-router-dom';
 import images from '../../../assets/images';
+import config from '../../../config';
+import { getRoles, isTokenStoraged } from '../../../utils/storage';
 import './register.scss';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
+import { useRegister } from '../../../hooks/api';
+import { hasErrors } from '../../../utils/formValidation';
 
 function RegisterPage() {
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+    const mutationRegister = useRegister({
+        success: (data) => {
+            notification.success({
+                message: 'Đăng ký thành công',
+                description: 'Bạn có thể đăng nhập để tiếp tục',
+            });
+            navigate(config.routes.web.login);
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Đăng ký thất bại',
+                description: err?.response?.data?.detail,
+            });
+        },
+    })
+
+    const onRegister = async () => {
+        const validationErrors = Object.values(form.getFieldsError());
+        if (hasErrors(validationErrors)) return;
+
+        await mutationRegister.mutateAsync({
+            email: form.getFieldValue('email'),
+            password: form.getFieldValue('password'),
+            firstName: form.getFieldValue('firstName'),
+            lastName: form.getFieldValue('lastName'),
+        });
+    };
+
+    if(isTokenStoraged()){
+        let roles = getRoles();
+        let url = config.routes.web.home;
+
+        if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
+
+        return <Navigate to={url} replace/>
+    }
     return (
         <div className="register-container py-[3.6rem] ">
             <div className="w-[400px] max-sm:w-[350px] bg-white rounded-[5px] shadow-[0_2px_6px_0_rgba(0,0,0,0.3)] max-lg:mt-[7rem] mx-auto">
@@ -15,6 +58,7 @@ function RegisterPage() {
                     </div>
                     <div className="h-px bg-stone-600 opacity-[0.3] mt-[3rem] mb-[3.6rem]"></div>
                     <Form
+                        form={form}
                         name="register"
                         labelCol={{
                             span: 0,
@@ -121,6 +165,7 @@ function RegisterPage() {
                         </Form.Item>
                         <Form.Item>
                             <Button
+                                onClick={onRegister}
                                 className="h-[36px] mt-[0.6rem] text-[1.6rem] text-white font-medium border-none hover:border-none"
                                 block
                                 htmlType="submit"

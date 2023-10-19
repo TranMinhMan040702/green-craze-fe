@@ -12,7 +12,7 @@ const useGenericMutation = (func, url, updater) => {
 
     return useMutation(func, {
         onSuccess: (data) => {
-            updater.success();
+            updater.success(data);
             if (updater.obj) {
                 updater.obj.params &&
                     queryClient.invalidateQueries([url, 'getList', updater.obj.params]);

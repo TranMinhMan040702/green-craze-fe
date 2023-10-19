@@ -119,6 +119,13 @@ function Data({ setUnitIds, params, setParams }) {
         if (isLoading || !data) return;
         let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
         setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        })
     }, [isLoading, data]);
 
     const onSearch = (value) => {
