@@ -1,8 +1,9 @@
-import jwtDecode from "jwt-decode";
+import jwtDecode from 'jwt-decode';
 
 export const clearToken = () => {
     localStorage.removeItem('token');
 };
+
 export const isTokenStoraged = () => {
     return !!localStorage.getItem('token');
 };
