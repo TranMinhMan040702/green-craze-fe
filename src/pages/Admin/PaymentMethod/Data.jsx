@@ -1,30 +1,26 @@
 import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { Button, Input, Table, Tag, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import PaymentMethodDetail from './PaymentMethodDetail';
+import { useDeletePaymentMethod, useGetListPaymentMethod } from '../../../hooks/api';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.createdAt.localeCompare(b.createdAt),
-            multiple: 3,
-        },
+        sorter: true,
         ellipsis: true,
         width: 200,
     },
@@ -35,135 +31,158 @@ const baseColumns = [
     {
         title: 'Tên phương thức',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 2,
-        },
+        sorter: true,
     },
     {
         title: 'Mã',
         dataIndex: 'code',
-        sorter: {
-            compare: (a, b) => a.code.localeCompare(b.code),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
         dataIndex: 'action',
     },
 ];
-function Data() {
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const navigate = useNavigate();
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            createdAt: new Date().toLocaleString(),
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
-            name: 'Tiền mặt',
-            code: 'CASH',
+
+function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item?.id,
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            name: item?.name,
+            code: item?.code,
+            image: <img className="w-20 h-20 rounded-xl" src={item?.image} />,
             status: (
-                <Tag className="w-fit uppercase" color="blue">
-                    Có hiệu lực
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
                 </Tag>
             ),
             action: (
                 <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
+                        onClick={() => setIsDetailOpen({ id: item?.id, isOpen: true })}
                     >
                         <FontAwesomeIcon icon={faSearch} />
                     </Button>
                     <Button
                         className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.payment_method_update}/1`)}
+                        onClick={() =>
+                            navigate(`${config.routes.admin.payment_method_update}/${item?.id}`)
+                        }
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                     <Button
                         className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
+                        onClick={() => setIsDisableOpen({ id: item?.id, isOpen: true })}
                     >
-                        <FontAwesomeIcon icon={faEyeSlash} />
+                        <FontAwesomeIcon icon={faTrash} />
                     </Button>
                 </div>
             ),
+        };
+    });
+}
+
+function Data({ params, setParams, setpaymentMethodIds }) {
+    const navigate = useNavigate();
+
+    const [isDetailOpen, setIsDetailOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+    const [isDisableOpen, setIsDisableOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const mutationDelete = useDeletePaymentMethod({
+        success: () => {
+            setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Phương thức thanh toán đã được vô hiệu hoá',
+            });
         },
-        {
-            key: '2',
-            id: '2',
-            createdAt: new Date().toLocaleString(),
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
-            name: 'Paypal',
-            code: 'PAYPAL',
-            status: (
-                <Tag className="w-fit uppercase" color="red">
-                    Vô hiệu lực
-                </Tag>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.payment_method_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                </div>
-            ),
+        error: (err) => {
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá phương thức thanh toán',
+            });
         },
-    ]);
-    const [data, setData] = useState(rawData);
+        obj: {
+            id: isDisableOpen.id,
+            params: params,
+        },
+    });
+
+    const { data, isLoading } = useGetListPaymentMethod(params);
+
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
+
+    const [tdata, setTData] = useState([]);
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setpaymentMethodIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
-    const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
 
-        setData(filterTable);
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
+    const onSearch = (value) => {
+        setParams({
+            ...params,
+            search: value,
+        });
     };
+
+    const onDelete = async (id) => {
+        await mutationDelete.mutateAsync(id);
+    };
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
+    };
+
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
@@ -177,25 +196,28 @@ function Data() {
             </div>
             <Table
                 scroll={{
-                    x: 'max-content'
+                    x: 'max-content',
                 }}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
                 }}
                 columns={baseColumns}
-                dataSource={data}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <PaymentMethodDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn ẩn phương thức thanh toán này ?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <PaymentMethodDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+            {isDisableOpen.id !== 0 && (
+                <ConfirmPrompt
+                    handleConfirm={onDelete}
+                    content="Bạn có muốn vô hiệu hoá đơn vị này ?"
+                    isDisableOpen={isDisableOpen}
+                    setIsDisableOpen={setIsDisableOpen}
+                />
+            )}
         </div>
     );
 }

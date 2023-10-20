@@ -1,7 +1,7 @@
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
+import { Button, Input, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -104,9 +104,16 @@ function Data({ params, setParams, setDeliveryIds }) {
     const mutationDelete = useDeleteDelivery({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Phương thức vận chuyển đã được vô hiệu hoá',
+            });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá phương thức vận chuyển',
+            });
         },
         obj: {
             id: isDisableOpen.id,

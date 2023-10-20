@@ -50,10 +50,10 @@ function DeliveryFormPage() {
                 description: 'Có lỗi xảy ra khi thêm phương thức vận chuyển',
             });
         },
-        onMutate: () => {
+        mutate: () => {
             setProcessing(true);
         },
-        onSettled: () => {
+        settled: () => {
             setProcessing(false);
         },
     });
@@ -71,10 +71,10 @@ function DeliveryFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa phương thức vận chuyển',
             });
         },
-        onMutate: () => {
+        mutate: () => {
             setProcessing(true);
         },
-        onSettled: () => {
+        settled: () => {
             setProcessing(false);
         },
     });

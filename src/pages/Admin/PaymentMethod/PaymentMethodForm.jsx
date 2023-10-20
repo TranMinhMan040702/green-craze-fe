@@ -1,11 +1,17 @@
-import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Upload, notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import './paymentmethod.scss';
 import config from '../../../config';
+import {
+    useCreatePaymentMethod,
+    useUpdatePaymentMethod,
+    useGetPaymentMethod,
+} from '../../../hooks/api';
+import { hasErrors, objectToFormData } from '../../../utils/formValidation';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -14,17 +20,107 @@ const getBase64 = (img, callback) => {
 };
 function PaymentMethodFormPage() {
     let { id } = useParams();
-    const [form] = Form.useForm();
     const navigate = useNavigate();
+
+    const [processing, setProcessing] = useState(false);
+
+    const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState();
     const inputRef = useRef(null);
-    const handleChange = (info) => {
+    const handleUploadChange = (info) => {
         if (info.file) {
+            setImage(info.file);
             getBase64(info.file, (url) => {
                 setImageUrl(url);
             });
         }
     };
+
+    const { data, isLoading } = id ? useGetPaymentMethod(id) : { data: null, isLoading: null };
+    const [form] = Form.useForm();
+    const mutationCreate = useCreatePaymentMethod({
+        success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Phương thức thanh toán đã được thêm',
+            });
+            navigate(config.routes.admin.payment_method);
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm phương thức thanh toán',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+    const mutationUpdate = useUpdatePaymentMethod({
+        success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Phương thức thanh toán đã được chỉnh sửa',
+            });
+            navigate(config.routes.admin.payment_method);
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa phương thức thanh toán',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let paymentMethod = data.data;
+        form.setFieldsValue({
+            name: paymentMethod?.name,
+            code: paymentMethod?.code,
+            status: paymentMethod?.status,
+        });
+        setImageUrl(paymentMethod?.image);
+    }, [isLoading, data]);
+
+    const onAdd = async () => {
+        const validationErrors = Object.values(form.getFieldsError());
+        if (hasErrors(validationErrors) || !image) return;
+        let formDt = objectToFormData({
+            name: form.getFieldValue('name'),
+            code: form.getFieldValue('code'),
+            image: image,
+        });
+
+        await mutationCreate.mutateAsync(formDt);
+    };
+    const onEdit = async () => {
+        const validationErrors = Object.values(form.getFieldsError());
+        if (hasErrors(validationErrors)) return;
+        console.log(form.getFieldValue('status'))
+        let formDt = objectToFormData({
+            name: form.getFieldValue('name'),
+            code: form.getFieldValue('code'),
+            status: form.getFieldValue('status'),
+            image: image,
+        });
+
+        await mutationUpdate.mutateAsync({
+            id: id,
+            body: formDt,
+        });
+    };
+    if (isLoading && id) return <div>Loading...</div>;
+
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
@@ -40,15 +136,23 @@ function PaymentMethodFormPage() {
             <div className="flex items-center justify-start rounded-xl shadow text-[1.6rem] text-black gap-[1rem] bg-white p-7">
                 <div className="flex flex-col gap-[1rem]">
                     <p>ID</p>
-                    <code className="bg-blue-100 p-2">_</code>
+                    <code className="bg-blue-100 p-2">{data?.data?.id || '_'}</code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày tạo</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {data?.data?.createdAt
+                            ? new Date(data?.data?.createdAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày cập nhật</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {data?.data?.updatedAt
+                            ? new Date(data?.data?.updatedAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
             </div>
             <div className="bg-white p-7 mt-5 rounded-xl shadow">
@@ -91,9 +195,12 @@ function PaymentMethodFormPage() {
                         </Col>
                         <Col span={8}>
                             <Form.Item label="Trạng thái" name="status">
-                                <Select defaultValue={'Kích hoạt'}>
-                                    <Option value="Kích hoạt">Kích hoạt</Option>
-                                    <Option value="Vô hiệu hoá">Vô hiệu hoá</Option>
+                                <Select
+                                    onChange={(v) => form.setFieldValue('status', v)}
+                                    defaultValue={true}
+                                >
+                                    <Option value={true}>Kích hoạt</Option>
+                                    <Option value={false}>Vô hiệu hoá</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
@@ -106,7 +213,7 @@ function PaymentMethodFormPage() {
                                 className="avatar-uploader flex justify-center"
                                 showUploadList={false}
                                 beforeUpload={() => false}
-                                onChange={handleChange}
+                                onChange={handleUploadChange}
                             >
                                 {imageUrl ? (
                                     <img
@@ -121,11 +228,21 @@ function PaymentMethodFormPage() {
                                     </div>
                                 )}
                             </Upload>
+                            {!image && !imageUrl && (
+                                <p className="text-center text-[1.6rem] text-[#ff4d4f]">
+                                    Vui lòng chọn ảnh!
+                                </p>
+                            )}
                         </Col>
                     </Row>
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
-                        <Button className="bg-blue-500 text-white min-w-[10%]">
+                        <Button
+                            loading={processing}
+                            htmlType="submit"
+                            onClick={id ? onEdit : onAdd}
+                            className="bg-blue-500 text-white min-w-[10%]"
+                        >
                             {id ? 'Cập nhật' : 'Thêm mới'}
                         </Button>
                     </div>

@@ -16,6 +16,15 @@ export {
     useDeleteListDelivery,
 } from './useDeliveryApi.js';
 
+export {
+    useGetListPaymentMethod,
+    useGetPaymentMethod,
+    useCreatePaymentMethod,
+    useUpdatePaymentMethod,
+    useDeletePaymentMethod,
+    useDeleteListPaymentMethod,
+} from './usePaymentMethodApi.js';
+
 export { useLogin, useRegister } from './useAuthApi.js';
 
 export { useGetMe, useGetUser, useGetListUser } from './useUserApi.js';
