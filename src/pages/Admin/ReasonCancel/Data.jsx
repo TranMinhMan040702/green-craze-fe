@@ -1,46 +1,39 @@
-import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { Button, Input, Table, Tag, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import ReasonCancelDetail from './ReasonCancelDetail';
+import {
+    useDeleteOrderCancellationReason,
+    useGetListOrderCancellationReason,
+} from '../../../hooks/api';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Tên lý do hủy đơn hàng',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
@@ -48,93 +41,136 @@ const baseColumns = [
     },
 ];
 
-function Data() {
+function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item?.id,
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            name: item?.name,
+            status: (
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                </Tag>
+            ),
+            action: (
+                <div className="action-btn flex gap-3">
+                    <Button
+                        className="text-blue-500 border border-blue-500"
+                        onClick={() => setIsDetailOpen({ id: item?.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faSearch} />
+                    </Button>
+                    <Button
+                        className="text-green-500 border border-green-500"
+                        onClick={() =>
+                            navigate(`${config.routes.admin.reason_cancel_update}/${item?.id}`)
+                        }
+                    >
+                        <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button
+                        className="text-red-500 border border-red-500"
+                        onClick={() => setIsDisableOpen({ id: item?.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                </div>
+            ),
+        };
+    });
+}
+
+function Data({ params, setParams, setReasonCancellationIds }) {
     const navigate = useNavigate();
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            createdAt: '05:18:38 26/08/2021',
-            name: 'Nhân viên làm sai',
-            status: (
-                <Tag className="w-fit uppercase" color="green">
-                    Có hiệu lực
-                </Tag>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.reason_cancel_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
+
+    const [isDetailOpen, setIsDetailOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+    const [isDisableOpen, setIsDisableOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const mutationDelete = useDeleteOrderCancellationReason({
+        success: () => {
+            setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Phương thức thanh toán đã được vô hiệu hoá',
+            });
         },
-        {
-            key: '2',
-            id: '2',
-            createdAt: '05:18:38 26/08/2021',
-            name: 'Hết hàng trong kho',
-            status: (
-                <Tag className="w-fit uppercase" color="green">
-                    Có hiệu lực
-                </Tag>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.reason_cancel_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
+        error: (err) => {
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá phương thức thanh toán',
+            });
         },
-    ]);
-    const [data, setData] = useState(rawData);
+        obj: {
+            id: isDisableOpen.id,
+            params: params,
+        },
+    });
+
+    const { data, isLoading } = useGetListOrderCancellationReason(params);
+
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
+
+    const [tdata, setTData] = useState([]);
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setReasonCancellationIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
     const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
-        setData(filterTable);
+        setParams({
+            ...params,
+            search: value,
+        });
+    };
+
+    const onDelete = async (id) => {
+        await mutationDelete.mutateAsync(id);
+    };
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
     };
 
     return (
@@ -154,18 +190,21 @@ function Data() {
                     ...rowSelection,
                 }}
                 columns={baseColumns}
-                dataSource={data}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <ReasonCancelDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn vô hiệu hoá lý do hủy đơn hàng này ?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <ReasonCancelDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+            {isDisableOpen.id !== 0 && (
+                <ConfirmPrompt
+                    handleConfirm={onDelete}
+                    content="Bạn có muốn vô hiệu hoá đơn vị này ?"
+                    isDisableOpen={isDisableOpen}
+                    setIsDisableOpen={setIsDisableOpen}
+                />
+            )}
         </div>
     );
 }

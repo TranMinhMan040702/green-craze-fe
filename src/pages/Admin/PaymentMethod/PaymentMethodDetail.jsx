@@ -1,7 +1,8 @@
 import { Tag } from 'antd';
+import { useEffect, useState } from 'react';
+
 import Detail from '../../../layouts/Admin/components/Detail';
 import { useGetPaymentMethod } from '../../../hooks/api';
-import { useEffect, useState } from 'react';
 
 function transformData(paymentMethod) {
     return [
@@ -33,12 +34,7 @@ function transformData(paymentMethod) {
         {
             key: '6',
             property: 'Ảnh',
-            value: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src={paymentMethod?.image}
-                />
-            ),
+            value: <img className="w-20 h-20 rounded-xl" src={paymentMethod?.image} />,
         },
         {
             key: '7',
@@ -49,7 +45,7 @@ function transformData(paymentMethod) {
                 </Tag>
             ),
         },
-    ]
+    ];
 }
 function PaymentMethodDetail({ isDetailOpen, setIsDetailOpen }) {
     const { data, isLoading } = useGetPaymentMethod(isDetailOpen.id);
@@ -60,7 +56,11 @@ function PaymentMethodDetail({ isDetailOpen, setIsDetailOpen }) {
         setPaymentMethod(transformData(data?.data));
     }, [isLoading, data]);
     return (
-        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={paymentMethod} />
+        <Detail
+            isDetailOpen={isDetailOpen}
+            setIsDetailOpen={setIsDetailOpen}
+            rawData={paymentMethod}
+        />
     );
 }
 

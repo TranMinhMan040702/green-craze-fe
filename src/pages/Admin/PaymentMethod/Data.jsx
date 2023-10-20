@@ -1,4 +1,4 @@
-import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faEdit} from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag, notification } from 'antd';
@@ -91,7 +91,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
     });
 }
 
-function Data({ params, setParams, setpaymentMethodIds }) {
+function Data({ params, setParams, setPaymentMethodIds }) {
     const navigate = useNavigate();
 
     const [isDetailOpen, setIsDetailOpen] = useState({
@@ -138,7 +138,7 @@ function Data({ params, setParams, setpaymentMethodIds }) {
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            setpaymentMethodIds(selectedRows.map((item) => item.id));
+            setPaymentMethodIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,

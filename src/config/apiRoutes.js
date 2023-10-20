@@ -12,7 +12,8 @@ const apiRoutes = {
     admin: {
         unit: '/api/units',
         delivery: '/api/deliveries',
-        paymentMethod: '/api/paymentMethods'
+        paymentMethod: '/api/paymentMethods',
+        orderCancellationReason: '/api/orderCancellationReasons'
     }
 }
 export default apiRoutes;

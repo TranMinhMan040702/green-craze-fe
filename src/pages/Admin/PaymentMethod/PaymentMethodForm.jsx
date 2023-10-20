@@ -4,6 +4,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+
 import './paymentmethod.scss';
 import config from '../../../config';
 import {
@@ -105,8 +106,8 @@ function PaymentMethodFormPage() {
     };
     const onEdit = async () => {
         const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
-        console.log(form.getFieldValue('status'))
+        if (hasErrors(validationErrors)) return; 
+        
         let formDt = objectToFormData({
             name: form.getFieldValue('name'),
             code: form.getFieldValue('code'),
