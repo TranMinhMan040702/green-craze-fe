@@ -36,7 +36,7 @@ function transformData(cancelReason) {
             property: 'Trạng thái',
             value: (
                 <Tag className="w-fit uppercase" color={cancelReason?.status ? 'green' : 'red'}>
-                    {cancelReason?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                    {cancelReason?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
         },

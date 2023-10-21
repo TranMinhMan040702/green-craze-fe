@@ -10,5 +10,13 @@ export const useGetUser = (id) => {
 }
 
 export const useGetListUser = (params) => {
-    return useFetch({ url: apiRoutes.common.user, params, key: 'getList' });
+    return useFetch({ url: apiRoutes.common.user._, params, key: 'getList' });
 }
+
+export const useDeleteListUser = (updater) => {
+    return useDeleteList(apiRoutes.common.user._, updater);
+}
+
+export const useToggleUser = (updater) => {
+    return useDelete(apiRoutes.common.user._, updater);
+};

@@ -36,4 +36,10 @@ export {
 
 export { useLogin, useRegister } from './useAuthApi.js';
 
-export { useGetMe, useGetUser, useGetListUser } from './useUserApi.js';
+export {
+    useGetMe,
+    useGetUser,
+    useGetListUser,
+    useDeleteListUser,
+    useToggleUser,
+} from './useUserApi.js';

@@ -52,7 +52,7 @@ function transformData(delivery) {
             property: 'Trạng thái',
             value: (
                 <Tag className="w-fit uppercase" color={delivery?.status ? 'green' : 'red'}>
-                    {delivery?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                    {delivery?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
         },

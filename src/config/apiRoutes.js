@@ -5,7 +5,7 @@ const apiRoutes = {
             register: '/api/auth/register',
         },
         user: {
-            _: 'api/users',
+            _: '/api/users',
             me: '/api/users/profile/me'
         }
     },

@@ -59,7 +59,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             image: <img className="w-20 h-20 rounded-xl" src={item?.image} />,
             status: (
                 <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
-                    {item?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             action: (

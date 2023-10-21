@@ -41,7 +41,7 @@ function transformData(paymentMethod) {
             property: 'Trạng thái',
             value: (
                 <Tag className="w-fit uppercase" color={paymentMethod?.status ? 'green' : 'red'}>
-                    {paymentMethod?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                    {paymentMethod?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
         },

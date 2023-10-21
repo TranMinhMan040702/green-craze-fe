@@ -50,7 +50,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             name: item?.name,
             status: (
                 <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
-                    {item?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             action: (
@@ -99,13 +99,13 @@ function Data({ params, setParams, setReasonCancellationIds }) {
 
             notification.success({
                 message: 'Vô hiệu hoá thành công',
-                description: 'Phương thức thanh toán đã được vô hiệu hoá',
+                description: 'Lý do huỷ đơn hàng đã được vô hiệu hoá',
             });
         },
         error: (err) => {
             notification.error({
                 message: 'Vô hiệu hoá thất bại',
-                description: 'Có lỗi xảy ra khi vô hiệu hoá phương thức thanh toán',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá lý do huỷ đơn hàng',
             });
         },
         obj: {

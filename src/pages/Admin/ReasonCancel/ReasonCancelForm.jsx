@@ -163,8 +163,8 @@ function ReasonCancelFormPage() {
                                     defaultValue={true}
                                     onChange={(v) => form.setFieldValue('status', v)}
                                 >
-                                    <Option value={false}>Vô hiệu lực </Option>
-                                    <Option value={true}>Có hiệu lực</Option>
+                                    <Option value={true}>Kích hoạt</Option>
+                                    <Option value={false}>Vô hiệu hoá</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
