@@ -10,9 +10,10 @@ import { useEffect, useState } from 'react';
 function UnitFormPage() {
     let { id } = useParams();
     const navigate = useNavigate();
+    const [form] = Form.useForm();
 
     const { data, isLoading } = id ? useGetUnit(id) : { data: null, isLoading: null };
-    const [form] = Form.useForm();
+
     const mutationCreate = useCreateUnit({
         success: () => {
             navigate(config.routes.admin.unit);
@@ -21,6 +22,7 @@ function UnitFormPage() {
             console.log(err);
         },
     });
+
     const mutationUpdate = useUpdateUnit({
         success: () => {
             navigate(config.routes.admin.unit);
@@ -44,6 +46,7 @@ function UnitFormPage() {
             name: form.getFieldValue('name'),
         });
     };
+
     const onEdit = async () => {
         await mutationUpdate.mutateAsync({
             id: id,
@@ -53,7 +56,9 @@ function UnitFormPage() {
             },
         });
     };
+
     if (isLoading && id) return <div>Loading...</div>;
+
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
@@ -88,7 +93,7 @@ function UnitFormPage() {
             </div>
             <div className="bg-white p-7 mt-5 rounded-xl shadow">
                 <Form
-                    name="employee-form"
+                    name="unit-form"
                     layout="vertical"
                     form={form}
                     initialValues={{

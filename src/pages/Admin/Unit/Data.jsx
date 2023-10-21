@@ -71,7 +71,15 @@ const baseColumns = [
 
 function Data({ setUnitIds, params, setParams }) {
     const navigate = useNavigate();
-
+    const { data, isLoading } = useGetListUnit(params);
+    const [tdata, setTData] = useState([]);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
     const [isDetailOpen, setIsDetailOpen] = useState({
         id: 0,
         isOpen: false,
@@ -94,18 +102,6 @@ function Data({ setUnitIds, params, setParams }) {
         },
     });
 
-    const { data, isLoading } = useGetListUnit(params);
-
-    const [tableParams, setTableParams] = useState({
-        pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
-            total: data?.data?.totalItems,
-        },
-    });
-
-    const [tdata, setTData] = useState([]);
-
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setUnitIds(selectedRows.map((item) => item.id));
@@ -125,7 +121,7 @@ function Data({ setUnitIds, params, setParams }) {
                 ...tableParams.pagination,
                 total: data?.data?.totalItems,
             },
-        })
+        });
     }, [isLoading, data]);
 
     const onSearch = (value) => {
@@ -138,6 +134,7 @@ function Data({ setUnitIds, params, setParams }) {
     const onDelete = async (id) => {
         await mutationDelete.mutateAsync(id);
     };
+
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
             ...tableParams,

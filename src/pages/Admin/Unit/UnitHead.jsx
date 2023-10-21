@@ -13,9 +13,11 @@ function UnitHead({ unitIds, params }) {
             params: params,
         },
     });
+
     const onDisableAll = async () => {
         await mutationDelete.mutateAsync(unitIds);
     };
+
     return (
         <Head
             route={config.routes.admin.unit_create}

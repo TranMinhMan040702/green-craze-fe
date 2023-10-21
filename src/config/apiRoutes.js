@@ -6,11 +6,12 @@ const apiRoutes = {
         },
         user: {
             _: 'api/users',
-            me: '/api/users/profile/me'
-        }
+            me: '/api/users/profile/me',
+        },
     },
     admin: {
-        unit: '/api/units'
-    }
-}
+        unit: '/api/units',
+        brand: '/api/brands',
+    },
+};
 export default apiRoutes;
