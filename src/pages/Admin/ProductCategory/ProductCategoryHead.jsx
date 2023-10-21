@@ -1,7 +1,7 @@
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 
-function CategoryHead() {
+function ProductCategoryHead() {
     return (
         <Head
             route={config.routes.admin.category_create}
@@ -11,4 +11,4 @@ function CategoryHead() {
     );
 }
 
-export default CategoryHead;
+export default ProductCategoryHead;

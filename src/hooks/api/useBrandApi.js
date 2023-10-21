@@ -3,9 +3,7 @@ import {
     useDelete,
     useDeleteList,
     useFetch,
-    usePost,
     usePostForm,
-    usePut,
     usePutForm,
 } from '../../utils/reactQuery';
 

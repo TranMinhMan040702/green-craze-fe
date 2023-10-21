@@ -14,6 +14,15 @@ function UnitFormPage() {
 
     const { data, isLoading } = id ? useGetUnit(id) : { data: null, isLoading: null };
 
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let unit = data.data;
+        form.setFieldsValue({
+            name: unit?.name,
+            status: unit?.status,
+        });
+    }, [isLoading, data]);
+
     const mutationCreate = useCreateUnit({
         success: () => {
             navigate(config.routes.admin.unit);
@@ -31,15 +40,6 @@ function UnitFormPage() {
             console.log(err);
         },
     });
-
-    useEffect(() => {
-        if (isLoading || !data) return;
-        let unit = data.data;
-        form.setFieldsValue({
-            name: unit?.name,
-            status: unit?.status,
-        });
-    }, [isLoading, data]);
 
     const onAdd = async () => {
         await mutationCreate.mutateAsync({

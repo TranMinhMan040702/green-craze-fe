@@ -7,9 +7,9 @@ const routes = {
         product_create: '/admin/products/create',
         product_update: '/admin/products/update',
         // Category
-        category: '/admin/categories',
-        category_create: '/admin/categories/create',
-        category_update: '/admin/categories/update',
+        category: '/admin/product-categories',
+        category_create: '/admin/product-categories/create',
+        category_update: '/admin/product-categories/update',
         // Unit
         unit: '/admin/units',
         unit_create: '/admin/units/create',

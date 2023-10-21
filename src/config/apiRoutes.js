@@ -12,6 +12,7 @@ const apiRoutes = {
     admin: {
         unit: '/api/units',
         brand: '/api/brands',
+        product_category: '/api/product-categories',
     },
 };
 export default apiRoutes;

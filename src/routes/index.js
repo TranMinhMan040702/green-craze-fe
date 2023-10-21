@@ -18,7 +18,6 @@ import ShopPage from '../pages/Ecommerce/Shop';
 import DashboardPage from '../pages/Admin/Dashboard';
 import ProductDetailPage from '../pages/Ecommerce/ProductDetail';
 import ProductPage from '../pages/Admin/Product';
-import CategoryPage from '../pages/Admin/Category';
 import InventoryPage from '../pages/Admin/Inventory';
 import OrderPages from '../pages/Admin/Order';
 import ReviewPage from '../pages/Admin/Review';
@@ -33,7 +32,6 @@ import TransactionPage from '../pages/Admin/Transaction';
 import PaymentMethodPage from '../pages/Admin/PaymentMethod';
 import PaymentMethodFormPage from '../pages/Admin/PaymentMethod/PaymentMethodForm';
 import Dashboard from '../pages/Admin/Dashboard';
-import CategoryFormPage from '../pages/Admin/Category/CategoryForm';
 import ProductFormPage from '../pages/Admin/Product/ProductForm';
 import UnitPage from '../pages/Admin/Unit';
 import UnitFormPage from '../pages/Admin/Unit/UnitForm';
@@ -43,6 +41,8 @@ import OrderFormPage from '../pages/Admin/Order/OrderForm';
 import ReasonCancelPage from '../pages/Admin/ReasonCancel';
 import ReasonCancelFormPage from '../pages/Admin/ReasonCancel/ReasonCancelForm';
 import Forbidden from '../components/Forbidden';
+import ProductCategoryPage from '../pages/Admin/ProductCategory';
+import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCategoryForm';
 
 const privateRoutes = [
     // Admin Layout
@@ -85,21 +85,21 @@ const privateRoutes = [
     // Category
     {
         path: config.routes.admin.category,
-        component: CategoryPage,
+        component: ProductCategoryPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
     {
         path: config.routes.admin.category_create,
-        component: CategoryFormPage,
+        component: ProductCategoryFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
     {
         path: config.routes.admin.category_update + '/:id',
-        component: CategoryFormPage,
+        component: ProductCategoryFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,

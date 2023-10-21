@@ -4,9 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
-import './brand.scss';
+import './productCategory.scss';
 import config from '../../../config';
-import { useCreateBrand, useGetBrand, useUpdateBrand } from '../../../hooks/api';
+import {
+    useCreateProductCategory,
+    useGetProductCategory,
+    useUpdateProductCategory,
+} from '../../../hooks/api';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -14,7 +18,7 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 
-function BrandFormPage() {
+function ProductCategoryFormPage() {
     let { id } = useParams();
     const navigate = useNavigate();
     const inputRef = useRef(null);
@@ -22,39 +26,37 @@ function BrandFormPage() {
     const [imageFile, setImageFile] = useState();
     const [form] = Form.useForm();
     const formData = new FormData();
-
-    const { data, isLoading } = id ? useGetBrand(id) : { data: null, isLoading: null };
+    const { data, isLoading } = id ? useGetProductCategory(id) : { isLoading: null, data: null };
 
     useEffect(() => {
         if (isLoading || !data) return;
-        let brand = data?.data;
+        let productCategory = data.data;
         form.setFieldsValue({
-            name: brand?.name,
-            code: brand?.code,
-            description: brand?.description,
-            status: brand?.status,
+            name: productCategory.name,
+            slug: productCategory.slug,
+            status: productCategory.status,
         });
-        setImageUrl(brand.image);
+        setImageUrl(productCategory.image);
         setImageFile(() => {
-            const bits = brand?.image.split('.');
-            return new File([bits[0]], brand?.image, {
+            const bits = productCategory.image.split('.');
+            return new File([bits[0]], productCategory.image, {
                 type: 'text/plain',
             });
         });
     }, [isLoading, data]);
 
-    const mutationCreate = useCreateBrand({
+    const mutationCreate = useCreateProductCategory({
         success: () => {
-            navigate(config.routes.admin.brand);
+            navigate(config.routes.admin.category);
         },
         error: (err) => {
             console.log(err);
         },
     });
 
-    const mutationUpdate = useUpdateBrand({
+    const mutationUpdate = useUpdateProductCategory({
         success: () => {
-            navigate(config.routes.admin.brand);
+            navigate(config.routes.admin.category);
         },
         error: (err) => {
             console.log(err);
@@ -63,16 +65,14 @@ function BrandFormPage() {
 
     const onAdd = async () => {
         formData.append('name', form.getFieldValue('name'));
-        formData.append('code', form.getFieldValue('code'));
-        formData.append('description', form.getFieldValue('description'));
+        formData.append('slug', form.getFieldValue('slug'));
         formData.append('image', imageFile);
         await mutationCreate.mutateAsync(formData);
     };
 
     const onEdit = async () => {
         formData.append('name', form.getFieldValue('name'));
-        formData.append('code', form.getFieldValue('code'));
-        formData.append('description', form.getFieldValue('description'));
+        formData.append('slug', form.getFieldValue('slug'));
         formData.append('status', form.getFieldValue('status'));
         formData.append('image', imageFile);
         await mutationUpdate.mutateAsync({
@@ -90,18 +90,16 @@ function BrandFormPage() {
         setImageFile(info.fileList[0].originFileObj);
     };
 
-    if (isLoading && id) return <div>Loading...</div>;
-
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
-                    onClick={() => navigate(config.routes.admin.brand)}
+                    onClick={() => navigate(config.routes.admin.category)}
                     className="text-[1.6rem] bg-[--primary-color] p-4 rounded-xl text-white cursor-pointer"
                     icon={faChevronLeft}
                 />
                 <h1 className="font-bold">
-                    {id ? 'Cập nhật thông tin' : 'Thêm thương hiệu sản phẩm'}
+                    {id ? 'Cập nhật thông tin' : 'Thêm danh mục sản phẩm'}
                 </h1>
             </div>
             <div className="flex items-center justify-start rounded-xl shadow text-[1.6rem] text-black gap-[1rem] bg-white p-7">
@@ -128,12 +126,9 @@ function BrandFormPage() {
             </div>
             <div className="bg-white p-7 mt-5 rounded-xl shadow">
                 <Form
-                    name="brand-form"
+                    name="employee-form"
                     layout="vertical"
                     form={form}
-                    initialValues={{
-                        remember: true,
-                    }}
                     labelCol={{
                         span: 5,
                     }}
@@ -141,12 +136,12 @@ function BrandFormPage() {
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
-                                label="Tên thương hiệu"
+                                label="Tên danh mục"
                                 name="name"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Nhập tên thương hiệu!',
+                                        message: 'Nhập tên danh mục!',
                                     },
                                 ]}
                             >
@@ -155,12 +150,12 @@ function BrandFormPage() {
                         </Col>
                         <Col span={12}>
                             <Form.Item
-                                label="Code"
-                                name="code"
+                                label="Slug"
+                                name="slug"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Nhập mã code cho thương hiệu!',
+                                        message: 'Nhập slug!',
                                     },
                                 ]}
                             >
@@ -169,30 +164,15 @@ function BrandFormPage() {
                         </Col>
                     </Row>
                     <Row gutter={16}>
-                        <Col span={24}>
-                            <Form.Item
-                                label="Giới thiệu thương hiệu"
-                                name="description"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Nhập giới thiệu về thương hiệu!',
-                                    },
-                                ]}
-                            >
-                                <Input.TextArea
-                                    showCount
-                                    maxLength={1000}
-                                    style={{
-                                        height: 150,
-                                        resize: 'none',
-                                    }}
-                                    placeholder="Giới thiệu về thương hiệu . . . ."
-                                />
-                            </Form.Item>
+                        <Col span={12}>
+                            {/* <Form.Item label="Danh mục cha" name="parentName">
+                                <Select defaultValue={0} showSearch>
+                                    <Option value={0}>Không có</Option>
+                                    <Option value={1}>Ly Giấy</Option>
+                                    <Option value={2}>Hộp giấy</Option>
+                                </Select>
+                            </Form.Item> */}
                         </Col>
-                    </Row>
-                    <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item label="Trạng thái" name="status">
                                 <Select
@@ -208,11 +188,11 @@ function BrandFormPage() {
                     </Row>
                     <Row gutter={16}>
                         <Col span={24}>
-                            <Form.Item label="Hình ảnh thương hiệu" name="image">
+                            <Form.Item label="Hình ảnh" name="image">
                                 <Upload
                                     name="image"
                                     listType="picture-circle"
-                                    className="flex justify-center"
+                                    className="avatar-uploader flex justify-center"
                                     showUploadList={false}
                                     beforeUpload={() => false}
                                     onChange={handleChange}
@@ -248,4 +228,4 @@ function BrandFormPage() {
     );
 }
 
-export default BrandFormPage;
+export default ProductCategoryFormPage;

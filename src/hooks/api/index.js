@@ -11,9 +11,19 @@ export {
     useGetListBrand,
     useGetBrand,
     useCreateBrand,
+    useUpdateBrand,
     useDeleteBrand,
     useDeleteListBrand,
 } from './useBrandApi.js';
+
+export {
+    useGetListProductCategory,
+    useGetProductCategory,
+    useCreateProductCategory,
+    useUpdateProductCategory,
+    useDeleteProductCategory,
+    useDeleteListProductCategory,
+} from './useProductCategoryApi.js';
 
 export { useLogin, useRegister } from './useAuthApi.js';
 
