@@ -34,6 +34,16 @@ export {
     useDeleteListOrderCancellationReason,
 } from './useOrderCancellationReasonApi.js';
 
+
+export {
+    useGetListEmployee,
+    useGetEmployee,
+    useCreateEmployee,
+    useUpdateEmployee,
+    useDeleteEmployee,
+    useDeleteListEmployee,
+} from './useEmployeeApi.js';
+
 export { useLogin, useRegister } from './useAuthApi.js';
 
 export {

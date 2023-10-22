@@ -31,7 +31,6 @@ const baseColumns = [
         title: 'Email',
         dataIndex: 'email',
         sorter: true,
-        width: 100,
     },
     {
         title: 'Họ',

@@ -77,8 +77,11 @@ function ReasonCancelFormPage() {
     }, [isLoading, data]);
 
     const onAdd = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
 
         await mutationCreate.mutateAsync({
             name: form.getFieldValue('name'),
@@ -86,8 +89,11 @@ function ReasonCancelFormPage() {
         });
     };
     const onEdit = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
 
         await mutationUpdate.mutateAsync({
             id: id,
@@ -135,7 +141,7 @@ function ReasonCancelFormPage() {
             </div>
             <div className="bg-white p-7 mt-5 rounded-xl shadow">
                 <Form
-                    name="employee-form"
+                    name="reason-cancel-form"
                     layout="vertical"
                     form={form}
                     labelCol={{

@@ -1,12 +1,20 @@
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 import { useDeleteListPaymentMethod } from '../../../hooks/api';
+import { notification } from 'antd';
 
 function PaymentMethodHead({paymentMethodIds, params}) {
     const mutationDelete = useDeleteListPaymentMethod({
-        success: () => {},
+        success: () => {
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Các phương thức thanh toán đã được vô hiệu hoá',
+            });},
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá các phương thức thanh toán',
+            });
         },
         obj: {
             ids: paymentMethodIds,

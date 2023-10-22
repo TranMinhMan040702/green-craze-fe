@@ -92,8 +92,12 @@ function DeliveryFormPage() {
     }, [isLoading, data]);
 
     const onAdd = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors) || !image) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
+        if (!image) return;
         let formDt = objectToFormData({
             name: form.getFieldValue('name'),
             description: form.getFieldValue('description'),
@@ -103,8 +107,11 @@ function DeliveryFormPage() {
         await mutationCreate.mutateAsync(formDt);
     };
     const onEdit = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
 
         let formDt = objectToFormData({
             name: form.getFieldValue('name'),
@@ -187,11 +194,11 @@ function DeliveryFormPage() {
                                     {
                                         required: true,
                                         message: 'Nhập giá tiền!',
-                                    }
+                                    },
                                 ]}
                             >
                                 <InputNumber
-                                    className='w-full'
+                                    className="w-full"
                                     formatter={(value) => {
                                         return `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                                     }}
@@ -253,7 +260,9 @@ function DeliveryFormPage() {
                                 )}
                             </Upload>
                             {!image && !imageUrl && (
-                                <p className="text-center text-[1.6rem] text-[#ff4d4f]">Vui lòng chọn ảnh!</p>
+                                <p className="text-center text-[1.6rem] text-[#ff4d4f]">
+                                    Vui lòng chọn ảnh!
+                                </p>
                             )}
                         </Col>
                     </Row>

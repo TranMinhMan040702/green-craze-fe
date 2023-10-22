@@ -1,12 +1,20 @@
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 import { useDeleteListOrderCancellationReason } from '../../../hooks/api';
+import { notification } from 'antd';
 
 function ReasonCancelHead({ params, reasonCancellationIds }) {
     const mutationDelete = useDeleteListOrderCancellationReason({
-        success: () => {},
+        success: () => {
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Các lý do huỷ đơn hàng đã được vô hiệu hoá',
+            });},
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá các lý do huỷ đơn hàng',
+            });
         },
         obj: {
             ids: reasonCancellationIds,

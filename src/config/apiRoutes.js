@@ -7,13 +7,15 @@ const apiRoutes = {
         user: {
             _: '/api/users',
             me: '/api/users/profile/me'
-        }
+        },
+        address: '/api/addresses',
     },
     admin: {
         unit: '/api/units',
         delivery: '/api/deliveries',
         paymentMethod: '/api/paymentMethods',
-        orderCancellationReason: '/api/orderCancellationReasons'
+        orderCancellationReason: '/api/orderCancellationReasons',
+        employee: '/api/staffs',
     }
 }
 export default apiRoutes;

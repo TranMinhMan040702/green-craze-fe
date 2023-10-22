@@ -1,110 +1,122 @@
 import { Tag } from 'antd';
 import Detail from '../../../layouts/Admin/components/Detail';
-
-const rawData = [
-    {
-        key: '1',
-        property: 'ID',
-        value: '1',
-    },
-    {
-        key: '2',
-        property: 'Ngày tạo',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '3',
-        property: 'Ngày cập nhật',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '4',
-        property: 'Email',
-        value: 'nguyenminhson10102002@gmail.com',
-    },
-    {
-        key: '5',
-        property: 'Họ',
-        value: 'Nguyễn',
-    },
-    {
-        key: '6',
-        property: 'Tên',
-        value: 'Minh Sơn',
-    },
-    {
-        key: '7',
-        property: 'Số điện thoại',
-        value: '0354964840',
-    },
-    {
-        key: '8',
-        property: 'Giới tính',
-        value: 'Nam',
-    },
-    {
-        key: '9',
-        property: 'Tên đường',
-        value: '83027 Ludington Center',
-    },
-    {
-        key: '10',
-        property: 'Tên tỉnh thành',
-        value: 'Khánh Hoà',
-    },
-    {
-        key: '11',
-        property: 'Tên quận huyện',
-        value: 'Diên Khánh',
-    },
-    {
-        key: '12',
-        property: 'Tên xã',
-        value: 'Bình Lộc',
-    },
-    {
-        key: '13',
-        property: 'Ảnh đại diện',
-        value: (
-            <img
-                className="w-20 h-20 rounded-xl"
-                src="https://dummyimage.com/138x100.png/dddddd/000000"
-            />
-        ),
-    },
-    {
-        key: '14',
-        property: 'Trạng thái',
-        value: (
-            <Tag className="w-fit uppercase" color="green">
-                Đã kích hoạt
-            </Tag>
-        ),
-    },
-    {
-        key: '15',
-        property: 'Loại nhân viên',
-        value: (
-            <Tag className="w-fit uppercase" color="green">
-                Mạng xã hội
-            </Tag>
-        ),
-    },
-    {
-        key: '16',
-        property: 'Vai trò',
-        value: (
-            <div className="flex flex-col gap-[1rem]">
-                <Tag className="w-fit uppercase">Quản trị viên</Tag>
-                <Tag className="w-fit uppercase">Người dùng</Tag>
-            </div>
-        ),
-    },
-];
+import { useGetEmployee } from '../../../hooks/api';
+import { useEffect, useState } from 'react';
+function transformData(employee) {
+    let address = employee?.user?.addresses.find((a) => a.isDefault);
+    return [
+        {
+            key: '1',
+            property: 'ID',
+            value: employee?.id,
+        },
+        {
+            key: '2',
+            property: 'Ngày tạo',
+            value: new Date(employee?.createdAt)?.toLocaleString(),
+        },
+        {
+            key: '3',
+            property: 'Ngày cập nhật',
+            value: employee?.updatedAt && new Date(employee?.updatedAt)?.toLocaleString(),
+        },
+        {
+            key: '4',
+            property: 'Email',
+            value: employee?.user?.email,
+        },
+        {
+            key: '5',
+            property: 'Họ',
+            value: employee?.user?.firstName,
+        },
+        {
+            key: '6',
+            property: 'Tên',
+            value: employee?.user?.lastName,
+        },
+        {
+            key: '7',
+            property: 'Số điện thoại',
+            value: employee?.user?.phone,
+        },
+        {
+            key: '8',
+            property: 'Giới tính',
+            value: employee?.user?.gender,
+        },
+        {
+            key: '9',
+            property: 'Ngày sinh',
+            value: employee?.user?.dob && new Date(employee?.user?.dob).toLocaleDateString(),
+        },
+        {
+            key: '10',
+            property: 'Tên đường',
+            value: address?.street,
+        },
+        {
+            key: '11',
+            property: 'Tên tỉnh thành',
+            value: address?.province?.name,
+        },
+        {
+            key: '12',
+            property: 'Tên quận huyện',
+            value: address?.district?.name,
+        },
+        {
+            key: '13',
+            property: 'Tên xã',
+            value: address?.ward?.name,
+        },
+        {
+            key: '14',
+            property: 'Ảnh đại diện',
+            value: <img className="w-20 h-20 rounded-xl" src={employee?.user?.avatar} />,
+        },
+        {
+            key: '15',
+            property: 'Trạng thái',
+            value: (
+                <Tag className="w-fit uppercase" color={employee?.user?.status ? 'green' : 'red'}>
+                    {employee?.user?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                </Tag>
+            ),
+        },
+        {
+            key: '16',
+            property: 'Loại nhân viên',
+            value: (
+                <Tag className="w-fit uppercase" color="green">
+                    {employee?.type}
+                </Tag>
+            ),
+        },
+        {
+            key: '17',
+            property: 'Vai trò',
+            value: (
+                <div className="flex flex-col gap-[1rem]">
+                    {employee?.user?.roles.map((r) => (
+                        <Tag className="w-fit uppercase">{r}</Tag>
+                    ))}
+                </div>
+            ),
+        },
+    ];
+}
 
 function EmployeeDetail({ isDetailOpen, setIsDetailOpen }) {
+    const { data, isLoading } = useGetEmployee(isDetailOpen.id);
+    const [employee, setEmployee] = useState([]);
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setEmployee(transformData(data?.data));
+    }, [isLoading, data]);
     return (
-        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={rawData} />
+        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={employee} />
     );
 }
 

@@ -94,8 +94,12 @@ function PaymentMethodFormPage() {
     }, [isLoading, data]);
 
     const onAdd = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors) || !image) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
+        if (!image) return;
         let formDt = objectToFormData({
             name: form.getFieldValue('name'),
             code: form.getFieldValue('code'),
@@ -105,9 +109,12 @@ function PaymentMethodFormPage() {
         await mutationCreate.mutateAsync(formDt);
     };
     const onEdit = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return; 
-        
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
+
         let formDt = objectToFormData({
             name: form.getFieldValue('name'),
             code: form.getFieldValue('code'),
@@ -173,7 +180,7 @@ function PaymentMethodFormPage() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Nhập tên!',
+                                        message: 'Nhập tên phương thức thanh toán!',
                                     },
                                 ]}
                             >
@@ -187,7 +194,7 @@ function PaymentMethodFormPage() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Nhập mã phương thức!',
+                                        message: 'Nhập mã phương thức thanh toán!',
                                     },
                                 ]}
                             >
