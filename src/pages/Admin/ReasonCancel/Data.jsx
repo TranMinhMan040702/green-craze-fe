@@ -185,6 +185,7 @@ function Data({ params, setParams, setReasonCancellationIds }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

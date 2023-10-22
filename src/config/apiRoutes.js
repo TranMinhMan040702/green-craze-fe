@@ -16,6 +16,7 @@ const apiRoutes = {
         paymentMethod: '/api/paymentMethods',
         orderCancellationReason: '/api/orderCancellationReasons',
         employee: '/api/staffs',
+        role: '/api/roles',
     }
 }
 export default apiRoutes;

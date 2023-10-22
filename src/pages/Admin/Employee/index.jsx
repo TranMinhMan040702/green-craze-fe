@@ -13,8 +13,8 @@ function EmployeePage() {
     });
     return (
         <div className="employee-container">
-            <EmployeeHead employeeIds={employeeIds} params={params}/>
-            <Data  params={params} setParams={setParams} setEmployeeIds={setEmployeeIds}/>
+            <EmployeeHead employeeIds={employeeIds} params={params} />
+            <Data params={params} setParams={setParams} setEmployeeIds={setEmployeeIds} />
         </div>
     );
 }

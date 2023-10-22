@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+
 import config from '../../../config';
 import { useDeleteListEmployee } from '../../../hooks/api';
 import Head from '../../../layouts/Admin/components/Head';
@@ -9,7 +10,8 @@ function EmployeeHead({ params, employeeIds }) {
             notification.success({
                 message: 'Vô hiệu hoá thành công',
                 description: 'Các nhân viên đã được vô hiệu hoá',
-            });},
+            });
+        },
         error: (err) => {
             notification.error({
                 message: 'Vô hiệu hoá thất bại',

@@ -53,3 +53,8 @@ export {
     useDeleteListUser,
     useToggleUser,
 } from './useUserApi.js';
+
+export {
+    useGetRole,
+    useGetListRole,
+} from './useRoleApi.js';

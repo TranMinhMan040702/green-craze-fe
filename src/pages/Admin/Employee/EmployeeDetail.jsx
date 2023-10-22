@@ -1,7 +1,9 @@
 import { Tag } from 'antd';
+import { useEffect, useState } from 'react';
+
 import Detail from '../../../layouts/Admin/components/Detail';
 import { useGetEmployee } from '../../../hooks/api';
-import { useEffect, useState } from 'react';
+
 function transformData(employee) {
     let address = employee?.user?.addresses.find((a) => a.isDefault);
     return [

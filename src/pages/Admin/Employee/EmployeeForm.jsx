@@ -320,9 +320,9 @@ function EmployeeFormPage() {
                                 <Select
                                     onChange={(id) => {
                                         setChosenProvince(id);
-                                        form.setFieldValue('province', id)
-                                        form.setFieldValue('district','')
-                                        form.setFieldValue('ward','')
+                                        form.setFieldValue('province', id);
+                                        form.setFieldValue('district', '');
+                                        form.setFieldValue('ward', '');
                                     }}
                                     showSearch
                                     filterOption={(input, option) =>
@@ -353,8 +353,8 @@ function EmployeeFormPage() {
                                 <Select
                                     onChange={(id) => {
                                         setChosenDistrict(id);
-                                        form.setFieldValue('district', id)
-                                        form.setFieldValue('ward','')
+                                        form.setFieldValue('district', id);
+                                        form.setFieldValue('ward', '');
                                     }}
                                     showSearch
                                     filterOption={(input, option) =>
@@ -372,16 +372,19 @@ function EmployeeFormPage() {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Phường/Xã" name="ward"
+                            <Form.Item
+                                label="Phường/Xã"
+                                name="ward"
                                 rules={[
                                     {
                                         required: true,
                                         message: 'Chọn xã phường của bạn!',
                                     },
-                                ]}>
+                                ]}
+                            >
                                 <Select
                                     onChange={(id) => {
-                                        form.setFieldValue('ward', id)
+                                        form.setFieldValue('ward', id);
                                     }}
                                     showSearch
                                     filterOption={(input, option) =>

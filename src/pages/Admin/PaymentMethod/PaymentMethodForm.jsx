@@ -12,7 +12,7 @@ import {
     useUpdatePaymentMethod,
     useGetPaymentMethod,
 } from '../../../hooks/api';
-import { hasErrors, objectToFormData } from '../../../utils/formValidation';
+import { objectToFormData } from '../../../utils/formValidation';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();

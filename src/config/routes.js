@@ -30,6 +30,7 @@ const routes = {
         review: '/admin/reviews',
         // Account
         account: '/admin/accounts',
+        role: '/admin/roles',
         // Employee
         employee: '/admin/employees',
         employee_create: '/admin/employees/create',

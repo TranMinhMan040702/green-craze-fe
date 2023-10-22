@@ -11,7 +11,6 @@ import {
     useGetOrderCancellationReason,
     useUpdateOrderCancellationReason,
 } from '../../../hooks/api';
-import { hasErrors } from '../../../utils/formValidation';
 
 function ReasonCancelFormPage() {
     let { id } = useParams();

@@ -4,19 +4,19 @@ import { useEffect, useState } from 'react';
 import Detail from '../../../layouts/Admin/components/Detail';
 import { useGetUser } from '../../../hooks/api';
 
-function transformData(user) { 
+function transformData(user) {
     let key = 13;
     let addressArr = user?.addresses?.map((a, idx) => {
         let title = 'Địa chỉ ' + (idx + 1);
-        if(a.isDefault){
-            title = 'Địa chỉ mặc định'
+        if (a.isDefault) {
+            title = 'Địa chỉ mặc định';
         }
         return {
             key: key++,
             property: title,
             value: `${a.street}, ${a.ward.name}, ${a.district.name}, ${a.province.name}`,
-        }
-    })
+        };
+    });
     return [
         {
             key: '1',
@@ -66,12 +66,7 @@ function transformData(user) {
         {
             key: '10',
             property: 'Ảnh đại diện',
-            value: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src={user?.avatar}
-                />
-            ),
+            value: <img className="w-20 h-20 rounded-xl" src={user?.avatar} />,
         },
         {
             key: '11',
@@ -93,9 +88,9 @@ function transformData(user) {
                 </div>
             ),
         },
-        ...addressArr
+        ...addressArr,
     ];
-}   
+}
 function AccountDetail({ isDetailOpen, setIsDetailOpen }) {
     const { data, isLoading } = useGetUser(isDetailOpen.id);
     const [user, setUser] = useState([]);
@@ -104,9 +99,7 @@ function AccountDetail({ isDetailOpen, setIsDetailOpen }) {
         if (isLoading || !data) return;
         setUser(transformData(data?.data));
     }, [isLoading, data]);
-    return (
-        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={user} />
-    );
+    return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={user} />;
 }
 
 export default AccountDetail;

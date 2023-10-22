@@ -1,7 +1,8 @@
+import { notification } from 'antd';
+
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 import { useDeleteListPaymentMethod } from '../../../hooks/api';
-import { notification } from 'antd';
 
 function PaymentMethodHead({paymentMethodIds, params}) {
     const mutationDelete = useDeleteListPaymentMethod({
