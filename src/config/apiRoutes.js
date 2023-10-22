@@ -17,6 +17,7 @@ const apiRoutes = {
         orderCancellationReason: '/api/orderCancellationReasons',
         employee: '/api/staffs',
         role: '/api/roles',
+        transaction: '/api/transactions',
     }
 }
 export default apiRoutes;

@@ -1,11 +1,11 @@
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Button, Form, Input, notification } from 'antd';
+
 import images from '../../../assets/images';
 import config from '../../../config';
 import { getRoles, isTokenStoraged } from '../../../utils/storage';
 import './register.scss';
-import { Button, Form, Input, notification } from 'antd';
 import { useRegister } from '../../../hooks/api';
-import { hasErrors } from '../../../utils/formValidation';
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -27,8 +27,11 @@ function RegisterPage() {
     })
 
     const onRegister = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
 
         await mutationRegister.mutateAsync({
             email: form.getFieldValue('email'),

@@ -10,7 +10,7 @@ function RolePage() {
     });
     return (
         <div className="Role-container">
-            <RoleHead params={params}/>
+            <RoleHead />
             <Data params={params} setParams={setParams}/>
         </div>
     );

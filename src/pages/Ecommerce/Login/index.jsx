@@ -1,11 +1,11 @@
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Button, Form, Input, notification } from 'antd';
+
 import images from '../../../assets/images';
 import './login.scss';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Alert, Button, Form, Input, notification } from 'antd';
 import { useLogin } from '../../../hooks/api';
 import config from '../../../config';
 import { getRoles, isTokenStoraged, saveToken } from '../../../utils/storage';
-import { hasErrors } from '../../../utils/formValidation';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -32,8 +32,11 @@ function LoginPage() {
         },
     });
     const onLogin = async () => {
-        const validationErrors = Object.values(form.getFieldsError());
-        if (hasErrors(validationErrors)) return;
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
 
         await mutationLogin.mutateAsync({
             email: form.getFieldValue('email'),
