@@ -106,6 +106,11 @@ function transformData(employee) {
                 </div>
             ),
         },
+        {
+            key: '18',
+            property: 'Mã',
+            value: employee?.code,
+        },
     ];
 }
 
