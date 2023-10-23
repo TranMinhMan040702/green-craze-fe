@@ -43,6 +43,8 @@ import ReasonCancelFormPage from '../pages/Admin/ReasonCancel/ReasonCancelForm';
 import Forbidden from '../components/Forbidden';
 import ProductCategoryPage from '../pages/Admin/ProductCategory';
 import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCategoryForm';
+import VariantPage from '../pages/Admin/Variant';
+import ProductImagePage from '../pages/Admin/ProductImage';
 
 const privateRoutes = [
     // Admin Layout
@@ -82,23 +84,39 @@ const privateRoutes = [
         roles: ['ADMIN'],
         private: true,
     },
+    // ProductImage
+    {
+        path: config.routes.admin.product_image + '/:productId',
+        component: ProductImagePage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    // Variant
+    {
+        path: config.routes.admin.product_variant + '/:productId',
+        component: VariantPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
     // Category
     {
-        path: config.routes.admin.category,
+        path: config.routes.admin.product_category,
         component: ProductCategoryPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
     {
-        path: config.routes.admin.category_create,
+        path: config.routes.admin.product_category_create,
         component: ProductCategoryFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
     },
     {
-        path: config.routes.admin.category_update + '/:id',
+        path: config.routes.admin.product_category_update + '/:id',
         component: ProductCategoryFormPage,
         layout: AdminLayout,
         roles: ['ADMIN'],

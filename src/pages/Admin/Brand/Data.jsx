@@ -1,57 +1,13 @@
 import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
+import { Button, Image, Input, Table, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import BrandDetail from './BrandDetail';
 import { useDeleteBrand, useGetListBrand } from '../../../hooks/api';
-
-function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
-    return dt?.map((item) => {
-        return {
-            key: item.id,
-            id: item.id,
-            name: item.name,
-            code: item.code,
-            image: <img className="w-20 h-20 rounded-xl" src={item.image} />,
-            status: (
-                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
-                    {item?.status ? 'Đã kích hoạt' : 'Đã vô hiệu hóa'}
-                </Tag>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen({ id: item.id, isOpen: true })}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.brand_update}/${item.id}`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className={
-                            item.status
-                                ? 'text-red-500 border border-red-500'
-                                : 'text-yellow-500 border '
-                        }
-                        disabled={!item.status}
-                        onClick={() => setIsDisableOpen({ id: item.id, isOpen: true })}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
-        };
-    });
-}
 
 const baseColumns = [
     {
@@ -99,6 +55,50 @@ const baseColumns = [
     },
 ];
 
+function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item.id,
+            id: item.id,
+            name: item.name,
+            code: item.code,
+            image: <Image width={80} src={item.image} />,
+            status: (
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                </Tag>
+            ),
+            action: (
+                <div className="action-btn flex gap-3">
+                    <Button
+                        className="text-blue-500 border border-blue-500"
+                        onClick={() => setIsDetailOpen({ id: item.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faSearch} />
+                    </Button>
+                    <Button
+                        className="text-green-500 border border-green-500"
+                        onClick={() => navigate(`${config.routes.admin.brand_update}/${item.id}`)}
+                    >
+                        <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button
+                        className={
+                            item.status
+                                ? 'text-red-500 border border-red-500'
+                                : 'text-yellow-500 border '
+                        }
+                        disabled={!item.status}
+                        onClick={() => setIsDisableOpen({ id: item.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                    </Button>
+                </div>
+            ),
+        };
+    });
+}
+
 function Data({ params, setParams, setBrandIds }) {
     const navigate = useNavigate();
     const { data, isLoading } = useGetListBrand(params);
@@ -110,14 +110,8 @@ function Data({ params, setParams, setBrandIds }) {
             total: data?.data?.totalItems,
         },
     });
-    const [isDetailOpen, setIsDetailOpen] = useState({
-        id: 0,
-        isOpen: false,
-    });
-    const [isDisableOpen, setIsDisableOpen] = useState({
-        id: 0,
-        isOpen: false,
-    });
+    const [isDetailOpen, setIsDetailOpen] = useState({ id: 0, isOpen: false });
+    const [isDisableOpen, setIsDisableOpen] = useState({ id: 0, isOpen: false });
 
     useEffect(() => {
         if (isLoading || !data) return;

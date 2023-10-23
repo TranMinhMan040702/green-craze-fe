@@ -5,7 +5,7 @@ function ConfirmPrompt({ isDisableOpen, setIsDisableOpen, content, handleConfirm
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Xác nhận</p>}
             open={isDisableOpen.isOpen}
-            onCancel={() => setIsDisableOpen({...isDisableOpen, isOpen: false})}
+            onCancel={() => setIsDisableOpen({ ...isDisableOpen, isOpen: false })}
             footer={[
                 <Button
                     type="primary"
@@ -14,12 +14,16 @@ function ConfirmPrompt({ isDisableOpen, setIsDisableOpen, content, handleConfirm
                 >
                     Huỷ
                 </Button>,
-                <Button onClick={() => handleConfirm(isDisableOpen.id)} type="primary" className="bg-green-500 text-white">
+                <Button
+                    onClick={() => handleConfirm(isDisableOpen.id)}
+                    type="primary"
+                    className="bg-green-500 text-white"
+                >
                     Xác nhận
                 </Button>,
             ]}
         >
-            <p className="text-[1.6rem]">{content}</p>
+            <p className="text-[1.6rem] border-b-[1px] border-t-[1px] py-[2rem]">{content}</p>
         </Modal>
     );
 }

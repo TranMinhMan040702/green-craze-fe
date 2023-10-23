@@ -38,7 +38,17 @@ function transformData(productCategory) {
         {
             key: '7',
             property: 'Tên danh mục cha',
-            value: 'không có',
+            value: (
+                <>
+                    {productCategory.parentName ? (
+                        <Tag className="w-fit uppercase" color="magenta">
+                            {productCategory.parentName}
+                        </Tag>
+                    ) : (
+                        <span className="italic">Không có</span>
+                    )}
+                </>
+            ),
         },
         {
             key: '8',

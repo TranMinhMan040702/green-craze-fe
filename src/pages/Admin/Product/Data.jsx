@@ -1,12 +1,13 @@
-import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Button, Input, Table, Tag, Dropdown, Image } from 'antd';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
-import CategoryDetail from './ProductDetail';
+import { useDeleteProduct, useGetListProduct } from '../../../hooks/api';
+import ProductDetail from './ProductDetail';
 
 const baseColumns = [
     {
@@ -70,129 +71,177 @@ const baseColumns = [
     },
 ];
 
-function Data() {
+function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item.id,
+            id: item.id,
+            name: item.name,
+            code: item.code,
+            image: (
+                <>
+                    <Image
+                        width={80}
+                        src={item.images.filter((image) => image.isDefault === true)[0].image}
+                    />
+                </>
+            ),
+            category: item.category.name,
+            status: (
+                <Tag
+                    className="w-fit uppercase"
+                    color={
+                        item.status === 'ACTIVE'
+                            ? 'green'
+                            : item.status === 'INACTIVE'
+                            ? 'red'
+                            : 'yellow'
+                    }
+                >
+                    {item.status === 'ACTIVE'
+                        ? 'Kích hoạt'
+                        : item.status === 'INACTIVE'
+                        ? 'Vô hiệu hóa'
+                        : 'Hết hàng'}
+                </Tag>
+            ),
+            variant: (
+                <div className="flex flex-col gap-[1rem]">
+                    {item.variants.map(
+                        (variant) =>
+                            variant.status === 'ACTIVE' && (
+                                <Tag className="w-fit uppercase" color="magenta">
+                                    {variant.name} - {variant.quantity} {item.unit.name}
+                                </Tag>
+                            ),
+                    )}
+                </div>
+            ),
+            action: (
+                <div className="action-btn flex gap-3">
+                    <Button
+                        className="text-blue-500 border border-blue-500"
+                        onClick={() => setIsDetailOpen({ id: item.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faSearch} />
+                    </Button>
+                    <Dropdown
+                        menu={{
+                            items: [
+                                {
+                                    key: '1',
+                                    label: (
+                                        <Link
+                                            to={`${config.routes.admin.product_update}/${item.id}`}
+                                        >
+                                            Thông tin cơ bản
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    key: '2',
+                                    label: (
+                                        <Link
+                                            to={`${config.routes.admin.product_variant}/${item.id}`}
+                                        >
+                                            Dạng bán ra
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    key: '3',
+                                    label: (
+                                        <Link
+                                            to={`${config.routes.admin.product_image}/${item.id}`}
+                                        >
+                                            Hình ảnh
+                                        </Link>
+                                    ),
+                                },
+                            ],
+                        }}
+                        placement="bottom"
+                        arrow
+                    >
+                        <Button className="text-green-500 border border-green-500">
+                            <FontAwesomeIcon icon={faEdit} />
+                        </Button>
+                    </Dropdown>
+                    <Button
+                        className={
+                            item.status === 'ACTIVE'
+                                ? 'text-red-500 border border-red-500'
+                                : 'text-yellow-500 border '
+                        }
+                        disabled={item.status !== 'ACTIVE'}
+                        onClick={() => setIsDisableOpen({ id: item.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                    </Button>
+                </div>
+            ),
+        };
+    });
+}
+
+function Data({ setProductIds, params, setParams }) {
+    const { isLoading, data } = useGetListProduct(params);
     const navigate = useNavigate();
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            name: 'Ly giấy 120ml - 4oz (Sampling)',
-            code: 'UPC335',
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
-            category: 'Ly giấy',
-            status: (
-                <Tag className="w-fit uppercase" color="green">
-                    Đã kích hoạt
-                </Tag>
-            ),
-            variant: (
-                <div className="flex flex-col gap-[1rem]">
-                    <Tag className="w-fit uppercase" color="magenta">
-                        Lốc - 50 cái
-                    </Tag>
-                    <Tag className="w-fit uppercase" color="magenta">
-                        Thùng - 1000 cái
-                    </Tag>
-                </div>
-            ),
-
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.product_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
+    const [tdata, setTData] = useState([]);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
         },
-        {
-            key: '2',
-            id: '2',
-            name: 'Ly giấy 120ml - 4oz (Sampling)',
-            code: 'UPC335',
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
-            category: 'Ly giấy',
-            status: (
-                <Tag className="w-fit uppercase" color="green">
-                    Đã kích hoạt
-                </Tag>
-            ),
-            variant: (
-                <div className="flex flex-col gap-[1rem]">
-                    <Tag className="w-fit uppercase" color="magenta">
-                        Lốc - 50 cái
-                    </Tag>
-                    <Tag className="w-fit uppercase" color="magenta">
-                        Thùng - 1000 cái
-                    </Tag>
-                </div>
-            ),
+    });
+    const [isDetailOpen, setIsDetailOpen] = useState({ id: 0, isOpen: false });
+    const [isDisableOpen, setIsDisableOpen] = useState({ id: 0, isOpen: false });
 
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.category_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
-        },
-    ]);
-    const [data, setData] = useState(rawData);
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    });
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setProductIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
+
     const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
-        setData(filterTable);
+        setParams({
+            ...params,
+            search: value,
+        });
+    };
+
+    const mutationDelete = useDeleteProduct({
+        success: () => {
+            setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+        },
+        error: (err) => {
+            console.log(err);
+        },
+        obj: {
+            id: isDisableOpen.id,
+            params: params,
+        },
+    });
+
+    const onDelete = async (id) => {
+        await mutationDelete.mutateAsync(id);
     };
 
     return (
@@ -212,18 +261,23 @@ function Data() {
                     ...rowSelection,
                 }}
                 columns={baseColumns}
-                dataSource={data}
+                dataSource={tdata}
                 pagination={{
                     defaultPageSize: 10,
                     showSizeChanger: true,
                 }}
             />
-            <CategoryDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn vô hiệu hoá sản phẩm này ?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <ProductDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+            {isDisableOpen.id !== 0 && (
+                <ConfirmPrompt
+                    handleConfirm={onDelete}
+                    content="Bạn có muốn vô hiệu hoá sản phẩm này ?"
+                    isDisableOpen={isDisableOpen}
+                    setIsDisableOpen={setIsDisableOpen}
+                />
+            )}
         </div>
     );
 }

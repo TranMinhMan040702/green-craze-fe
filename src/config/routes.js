@@ -7,9 +7,13 @@ const routes = {
         product_create: '/admin/products/create',
         product_update: '/admin/products/update',
         // Category
-        category: '/admin/product-categories',
-        category_create: '/admin/product-categories/create',
-        category_update: '/admin/product-categories/update',
+        product_category: '/admin/product-categories',
+        product_category_create: '/admin/product-categories/create',
+        product_category_update: '/admin/product-categories/update',
+        // Product Image
+        product_image: '/admin/product-images',
+        // Variant
+        product_variant: '/admin/product-variants',
         // Unit
         unit: '/admin/units',
         unit_create: '/admin/units/create',

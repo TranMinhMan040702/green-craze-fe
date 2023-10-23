@@ -75,8 +75,8 @@ const baseColumns = [
 ];
 
 function Data({ setUnitIds, params, setParams }) {
-    const navigate = useNavigate();
     const { data, isLoading } = useGetListUnit(params);
+    const navigate = useNavigate();
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({
         pagination: {

@@ -8,6 +8,7 @@ import './productCategory.scss';
 import config from '../../../config';
 import {
     useCreateProductCategory,
+    useGetListProductCategory,
     useGetProductCategory,
     useUpdateProductCategory,
 } from '../../../hooks/api';
@@ -19,35 +20,41 @@ const getBase64 = (img, callback) => {
 };
 
 function ProductCategoryFormPage() {
-    let { id } = useParams();
     const navigate = useNavigate();
     const inputRef = useRef(null);
+    let { id } = useParams();
+    const { isLoading: isLoadingCategory, data: category } = id
+        ? useGetProductCategory(id)
+        : { isLoading: null, data: null };
+    const { isLoading: isLoadingCategories, data: categories } = useGetListProductCategory(null);
+    const [listCategory, setListCategory] = useState([]);
     const [imageUrl, setImageUrl] = useState();
-    const [imageFile, setImageFile] = useState();
+    const [imageFile, setImageFile] = useState(null);
     const [form] = Form.useForm();
     const formData = new FormData();
-    const { data, isLoading } = id ? useGetProductCategory(id) : { isLoading: null, data: null };
 
     useEffect(() => {
-        if (isLoading || !data) return;
-        let productCategory = data.data;
-        form.setFieldsValue({
-            name: productCategory.name,
-            slug: productCategory.slug,
-            status: productCategory.status,
-        });
-        setImageUrl(productCategory.image);
-        setImageFile(() => {
-            const bits = productCategory.image.split('.');
-            return new File([bits[0]], productCategory.image, {
-                type: 'text/plain',
+        if (isLoadingCategory || isLoadingCategories || !categories) return;
+        if (category?.data) {
+            let productCategory = category.data;
+            form.setFieldsValue({
+                name: productCategory.name,
+                slug: productCategory.slug,
+                parentId: productCategory.parentId,
+                status: productCategory.status,
             });
-        });
-    }, [isLoading, data]);
+            setImageUrl(productCategory.image);
+            setListCategory(
+                categories?.data?.items.filter((item) => item.id !== productCategory.id),
+            );
+        } else {
+            setListCategory(categories?.data?.items);
+        }
+    }, [isLoadingCategory, isLoadingCategories]);
 
     const mutationCreate = useCreateProductCategory({
         success: () => {
-            navigate(config.routes.admin.category);
+            navigate(config.routes.admin.product_category);
         },
         error: (err) => {
             console.log(err);
@@ -56,7 +63,7 @@ function ProductCategoryFormPage() {
 
     const mutationUpdate = useUpdateProductCategory({
         success: () => {
-            navigate(config.routes.admin.category);
+            navigate(config.routes.admin.product_category);
         },
         error: (err) => {
             console.log(err);
@@ -66,6 +73,7 @@ function ProductCategoryFormPage() {
     const onAdd = async () => {
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
+        formData.append('parentId', form.getFieldValue('parentId'));
         formData.append('image', imageFile);
         await mutationCreate.mutateAsync(formData);
     };
@@ -73,6 +81,7 @@ function ProductCategoryFormPage() {
     const onEdit = async () => {
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
+        formData.append('parentId', form.getFieldValue('parentId'));
         formData.append('status', form.getFieldValue('status'));
         formData.append('image', imageFile);
         await mutationUpdate.mutateAsync({
@@ -83,18 +92,18 @@ function ProductCategoryFormPage() {
 
     const handleChange = (info) => {
         if (info.file) {
+            setImageFile(info.file);
             getBase64(info.file, (url) => {
                 setImageUrl(url);
             });
         }
-        setImageFile(info.fileList[0].originFileObj);
     };
 
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
                 <FontAwesomeIcon
-                    onClick={() => navigate(config.routes.admin.category)}
+                    onClick={() => navigate(config.routes.admin.product_category)}
                     className="text-[1.6rem] bg-[--primary-color] p-4 rounded-xl text-white cursor-pointer"
                     icon={faChevronLeft}
                 />
@@ -105,21 +114,21 @@ function ProductCategoryFormPage() {
             <div className="flex items-center justify-start rounded-xl shadow text-[1.6rem] text-black gap-[1rem] bg-white p-7">
                 <div className="flex flex-col gap-[1rem]">
                     <p>ID</p>
-                    <code className="bg-blue-100 p-2">{data?.data?.id || '_'}</code>
+                    <code className="bg-blue-100 p-2">{category?.data?.id || '_'}</code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày tạo</p>
                     <code className="bg-blue-100 p-2">
-                        {data?.data?.createdAt
-                            ? new Date(data?.data?.createdAt).toLocaleString()
+                        {category?.data?.createdAt
+                            ? new Date(category?.data?.createdAt).toLocaleString()
                             : '__/__/____'}
                     </code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày cập nhật</p>
                     <code className="bg-blue-100 p-2">
-                        {data?.data?.updatedAt
-                            ? new Date(data?.data?.updatedAt).toLocaleString()
+                        {category?.data?.updatedAt
+                            ? new Date(category?.data?.updatedAt).toLocaleString()
                             : '__/__/____'}
                     </code>
                 </div>
@@ -165,23 +174,30 @@ function ProductCategoryFormPage() {
                     </Row>
                     <Row gutter={16}>
                         <Col span={12}>
-                            {/* <Form.Item label="Danh mục cha" name="parentName">
-                                <Select defaultValue={0} showSearch>
-                                    <Option value={0}>Không có</Option>
-                                    <Option value={1}>Ly Giấy</Option>
-                                    <Option value={2}>Hộp giấy</Option>
+                            <Form.Item label="Danh mục cha" name="parentId">
+                                <Select
+                                    onChange={(v) => form.setFieldValue('parentId', v)}
+                                    placeholder="--"
+                                    showSearch
+                                >
+                                    {listCategory &&
+                                        listCategory.map((c, i) => (
+                                            <Option key={i} value={c.id}>
+                                                {c.name}
+                                            </Option>
+                                        ))}
                                 </Select>
-                            </Form.Item> */}
+                            </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item label="Trạng thái" name="status">
                                 <Select
                                     onChange={(v) => form.setFieldValue('status', v)}
-                                    defaultValue={true}
+                                    placeholder="--"
                                     showSearch
                                 >
-                                    <Option value={false}>Vô hiệu lực </Option>
-                                    <Option value={true}>Có hiệu lực</Option>
+                                    <Option value={true}>Kích hoạt</Option>
+                                    <Option value={false}>Vô hiệu lực</Option>
                                 </Select>
                             </Form.Item>
                         </Col>

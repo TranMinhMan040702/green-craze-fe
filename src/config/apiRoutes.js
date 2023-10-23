@@ -13,6 +13,9 @@ const apiRoutes = {
         unit: '/api/units',
         brand: '/api/brands',
         product_category: '/api/product-categories',
+        product: '/api/products',
+        product_image: '/api/products/images',
+        variant: '/api/variants',
     },
 };
 export default apiRoutes;

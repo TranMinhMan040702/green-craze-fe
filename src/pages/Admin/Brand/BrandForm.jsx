@@ -19,7 +19,7 @@ function BrandFormPage() {
     const navigate = useNavigate();
     const inputRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
-    const [imageFile, setImageFile] = useState();
+    const [imageFile, setImageFile] = useState(null);
     const [form] = Form.useForm();
     const formData = new FormData();
 
@@ -35,12 +35,6 @@ function BrandFormPage() {
             status: brand?.status,
         });
         setImageUrl(brand.image);
-        setImageFile(() => {
-            const bits = brand?.image.split('.');
-            return new File([bits[0]], brand?.image, {
-                type: 'text/plain',
-            });
-        });
     }, [isLoading, data]);
 
     const mutationCreate = useCreateBrand({
@@ -83,11 +77,11 @@ function BrandFormPage() {
 
     const handleChange = (info) => {
         if (info.file) {
+            setImageFile(info.file);
             getBase64(info.file, (url) => {
                 setImageUrl(url);
             });
         }
-        setImageFile(info.fileList[0].originFileObj);
     };
 
     if (isLoading && id) return <div>Loading...</div>;
@@ -197,11 +191,11 @@ function BrandFormPage() {
                             <Form.Item label="Trạng thái" name="status">
                                 <Select
                                     onChange={(v) => form.setFieldValue('status', v)}
-                                    defaultValue={true}
+                                    placeholder="--"
                                     showSearch
                                 >
                                     <Option value={false}>Vô hiệu lực </Option>
-                                    <Option value={true}>Có hiệu lực</Option>
+                                    <Option value={true}>Kích hoạt</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
