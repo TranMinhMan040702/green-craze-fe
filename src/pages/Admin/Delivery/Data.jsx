@@ -1,50 +1,46 @@
-import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { Button, Input, Table, Tag, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import DeliveryDetail from './DeliveryDetail';
+import { useDeleteDelivery, useGetListDelivery } from '../../../hooks/api';
+import { numberFormatter } from '../../../utils/formatter';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
-        title: 'Tên',
-        dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
-    },
-    {
-        title: 'Giá',
-        dataIndex: 'price',
-        sorter: {
-            compare: (a, b) => a.price.localeCompare(b.price),
-            multiple: 2,
-        },
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        sorter: true,
     },
     {
         title: 'Ảnh',
         dataIndex: 'image',
     },
     {
+        title: 'Tên',
+        dataIndex: 'name',
+        sorter: true,
+    },
+    {
+        title: 'Giá',
+        dataIndex: 'price',
+        sorter: true,
+    },
+    {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
@@ -52,107 +48,138 @@ const baseColumns = [
     },
 ];
 
-function Data() {
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const navigate = useNavigate();
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            name: 'Vận chuyển nhanh',
-            price: '10000đ',
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
+function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item?.id,
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            name: item?.name,
+            price: numberFormatter(item?.price),
+            image: <img className="w-20 h-20 rounded-xl" src={item?.image} />,
             status: (
-                <Tag className="w-fit uppercase" color="green">
-                    Đã kích hoạt
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             action: (
                 <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
+                        onClick={() => setIsDetailOpen({ id: item?.id, isOpen: true })}
                     >
                         <FontAwesomeIcon icon={faSearch} />
                     </Button>
                     <Button
                         className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.delivery_update}/1`)}
+                        onClick={() =>
+                            navigate(`${config.routes.admin.delivery_update}/${item?.id}`)
+                        }
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                     <Button
                         className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
+                        onClick={() => setIsDisableOpen({ id: item?.id, isOpen: true })}
                     >
-                        <FontAwesomeIcon icon={faEyeSlash} />
+                        <FontAwesomeIcon icon={faTrash} />
                     </Button>
                 </div>
             ),
+        };
+    });
+}
+function Data({ params, setParams, setDeliveryIds }) {
+    const navigate = useNavigate();
+
+    const [isDetailOpen, setIsDetailOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+    const [isDisableOpen, setIsDisableOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const mutationDelete = useDeleteDelivery({
+        success: () => {
+            setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Phương thức vận chuyển đã được vô hiệu hoá',
+            });
         },
-        {
-            key: '2',
-            id: '2',
-            name: 'Vận chuyển hoả tốc',
-            price: '20000đ',
-            image: (
-                <img
-                    className="w-20 h-20 rounded-xl"
-                    src="https://dummyimage.com/138x100.png/dddddd/000000"
-                />
-            ),
-            status: (
-                <Tag className="w-fit uppercase" color="red">
-                    Chưa kích hoạt
-                </Tag>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.delivery_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                </div>
-            ),
+        error: (err) => {
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá phương thức vận chuyển',
+            });
         },
-    ]);
-    const [data, setData] = useState(rawData);
+        obj: {
+            id: isDisableOpen.id,
+            params: params,
+        },
+    });
+
+    const { data, isLoading } = useGetListDelivery(params);
+
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
+
+    const [tdata, setTData] = useState([]);
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setDeliveryIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
-    const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
 
-        setData(filterTable);
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
+    const onSearch = (value) => {
+        setParams({
+            ...params,
+            search: value,
+        });
     };
+
+    const onDelete = async (id) => {
+        await mutationDelete.mutateAsync(id);
+    };
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
+    };
+
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
@@ -165,26 +192,30 @@ function Data() {
                 />
             </div>
             <Table
+                loading={isLoading}
                 scroll={{
-                    x: 'max-content'
+                    x: 'max-content',
                 }}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
                 }}
                 columns={baseColumns}
-                dataSource={data}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <DeliveryDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn vô hiệu hoá phương thức vận chuyển này ?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <DeliveryDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+            {isDisableOpen.id !== 0 && (
+                <ConfirmPrompt
+                    handleConfirm={onDelete}
+                    content="Bạn có muốn vô hiệu hoá đơn vị này ?"
+                    isDisableOpen={isDisableOpen}
+                    setIsDisableOpen={setIsDisableOpen}
+                />
+            )}
         </div>
     );
 }

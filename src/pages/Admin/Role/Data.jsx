@@ -3,39 +3,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
-import TransactionDetail from './TransactionDetail';
-import { useGetListTransaction } from '../../../hooks/api';
+import { useGetListRole } from '../../../hooks/api';
+import RoleDetail from './RoleDetail';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
         sorter: true,
-        width: 50,
+        width: 400,
     },
     {
-        title: 'Mã đơn hàng',
-        dataIndex: 'code',
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
         sorter: true,
+        ellipsis: true,
+        width: 400,
     },
     {
-        title: 'Ngày hoàn tất',
-        dataIndex: 'completeAt',
-        sorter: true,
-    },
-    {
-        title: 'Ngày thanh toán',
-        dataIndex: 'paidAt',
-        sorter: true,
-    },
-    {
-        title: 'Phương thức thanh toán',
-        dataIndex: 'paymentMethod',
-        sorter: true,
-    },
-    {
-        title: 'Tổng tiền',
-        dataIndex: 'totalPay',
+        title: 'Tên',
+        dataIndex: 'name',
         sorter: true,
     },
     {
@@ -48,12 +35,8 @@ function transformData(dt, setIsDetailOpen) {
         return {
             key: item?.id,
             id: item?.id,
-            code: item?.code,
             createdAt: new Date(item?.createdAt)?.toLocaleString(),
-            paidAt: new Date(item?.paidAt)?.toLocaleString(),
-            completeAt: new Date(item?.completeAt)?.toLocaleString(),
-            paymentMethod: item?.paymentMethod,
-            totalPay: item?.totalPay,
+            name: item?.name,
             action: (
                 <div className="action-btn flex gap-3">
                     <Button
@@ -67,13 +50,14 @@ function transformData(dt, setIsDetailOpen) {
         };
     });
 }
-function Data({params, setParams}) {
+function Data({ params, setParams }) {
+
     const [isDetailOpen, setIsDetailOpen] = useState({
         id: 0,
         isOpen: false,
     });
 
-    const { data, isLoading } = useGetListTransaction(params);
+    const { data, isLoading } = useGetListRole(params);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -119,7 +103,6 @@ function Data({params, setParams}) {
             isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
     };
-
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
@@ -142,7 +125,7 @@ function Data({params, setParams}) {
                 onChange={handleTableChange}
             />
             {isDetailOpen.id !== 0 && (
-                <TransactionDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+                <RoleDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
             )}
         </div>
     );

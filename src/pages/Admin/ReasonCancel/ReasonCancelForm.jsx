@@ -1,15 +1,109 @@
-import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
+import { Button, Col, Form, Input, Row, Select, notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+
 import './reasonCancel.scss';
 import config from '../../../config';
+import {
+    useCreateOrderCancellationReason,
+    useGetOrderCancellationReason,
+    useUpdateOrderCancellationReason,
+} from '../../../hooks/api';
 
 function ReasonCancelFormPage() {
     let { id } = useParams();
-    const [form] = Form.useForm();
     const navigate = useNavigate();
 
+    const [processing, setProcessing] = useState(false);
+    const { data, isLoading } = id
+        ? useGetOrderCancellationReason(id)
+        : { data: null, isLoading: null };
+    const [form] = Form.useForm();
+    const mutationCreate = useCreateOrderCancellationReason({
+        success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Lý do huỷ đơn hàng đã được thêm',
+            });
+            navigate(config.routes.admin.reason_cancel);
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm lý do huỷ đơn hàng',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+    const mutationUpdate = useUpdateOrderCancellationReason({
+        success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Lý do huỷ đơn hàng đã được chỉnh sửa',
+            });
+            navigate(config.routes.admin.reason_cancel);
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa lý do huỷ đơn hàng',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let cancelReason = data.data;
+
+        form.setFieldsValue({
+            name: cancelReason?.name,
+            note: cancelReason?.note,
+            status: cancelReason?.status,
+        });
+    }, [isLoading, data]);
+
+    const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
+
+        await mutationCreate.mutateAsync({
+            name: form.getFieldValue('name'),
+            note: form.getFieldValue('note'),
+        });
+    };
+    const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
+
+        await mutationUpdate.mutateAsync({
+            id: id,
+            body: {
+                name: form.getFieldValue('name'),
+                note: form.getFieldValue('note'),
+                status: form.getFieldValue('status'),
+            },
+        });
+    };
+    if (isLoading && id) return <div>Loading...</div>;
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
@@ -25,20 +119,28 @@ function ReasonCancelFormPage() {
             <div className="flex items-center justify-start rounded-xl shadow text-[1.6rem] text-black gap-[1rem] bg-white p-7">
                 <div className="flex flex-col gap-[1rem]">
                     <p>ID</p>
-                    <code className="bg-blue-100 p-2">_</code>
+                    <code className="bg-blue-100 p-2">{data?.data?.id || '_'}</code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày tạo</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {data?.data?.createdAt
+                            ? new Date(data?.data?.createdAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày cập nhật</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {data?.data?.updatedAt
+                            ? new Date(data?.data?.updatedAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
             </div>
             <div className="bg-white p-7 mt-5 rounded-xl shadow">
                 <Form
-                    name="employee-form"
+                    name="reason-cancel-form"
                     layout="vertical"
                     form={form}
                     labelCol={{
@@ -62,9 +164,12 @@ function ReasonCancelFormPage() {
                         </Col>
                         <Col span={12}>
                             <Form.Item label="Trạng thái" name="status">
-                                <Select defaultValue={1} showSearch>
-                                    <Option value={0}>Vô hiệu lực </Option>
-                                    <Option value={1}>Có hiệu lực</Option>
+                                <Select
+                                    defaultValue={true}
+                                    onChange={(v) => form.setFieldValue('status', v)}
+                                >
+                                    <Option value={true}>Kích hoạt</Option>
+                                    <Option value={false}>Vô hiệu hoá</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
@@ -85,7 +190,12 @@ function ReasonCancelFormPage() {
                     </Row>
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
-                        <Button className="bg-blue-500 text-white min-w-[10%]">
+                        <Button
+                            loading={processing}
+                            htmlType="submit"
+                            onClick={id ? onEdit : onAdd}
+                            className="bg-blue-500 text-white min-w-[10%]"
+                        >
                             {id ? 'Cập nhật' : 'Thêm mới'}
                         </Button>
                     </div>

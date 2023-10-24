@@ -41,6 +41,7 @@ import OrderFormPage from '../pages/Admin/Order/OrderForm';
 import ReasonCancelPage from '../pages/Admin/ReasonCancel';
 import ReasonCancelFormPage from '../pages/Admin/ReasonCancel/ReasonCancelForm';
 import Forbidden from '../components/Forbidden';
+import RolePage from '../pages/Admin/Role';
 import ProductCategoryPage from '../pages/Admin/ProductCategory';
 import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCategoryForm';
 import VariantPage from '../pages/Admin/Variant';
@@ -222,6 +223,13 @@ const privateRoutes = [
     {
         path: config.routes.admin.account,
         component: AccountPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.role,
+        component: RolePage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,

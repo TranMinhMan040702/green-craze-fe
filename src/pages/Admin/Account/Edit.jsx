@@ -28,7 +28,7 @@ function Edit({ isEditOpen, setIsEditOpen }) {
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Chỉnh sửa vai trò tài khoản</p>}
-            open={isEditOpen}
+            open={isEditOpen.open}
             onCancel={() => setIsEditOpen(false)}
             footer={[
                 <Button type="primary" className="bg-red-500 text-white">

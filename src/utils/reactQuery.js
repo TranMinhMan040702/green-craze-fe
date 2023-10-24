@@ -12,7 +12,7 @@ const useGenericMutation = (func, url, updater) => {
 
     return useMutation(func, {
         onSuccess: (data) => {
-            updater.success(data);
+            updater?.success && updater.success(data);
             if (updater.obj) {
                 updater.obj.params &&
                     queryClient.invalidateQueries([url, 'getList', updater.obj.params]);
@@ -29,7 +29,13 @@ const useGenericMutation = (func, url, updater) => {
             }
         },
         onError: (err, _, context) => {
-            updater.error(err);
+            updater?.error && updater.error(err);
+        },
+        onMutate: (data) => {
+            updater?.mutate && updater.mutate(data);
+        },
+        onSettled: (data, error, variables, context) => {
+            updater?.settled && updater.settled({data, error, variables, context});
         },
     });
 };

@@ -21,7 +21,7 @@ const items = [
     getItem('Trang chủ', config.routes.admin.dashboard, <IconHome2 />),
     getItem('Người dùng', 'user', <IconFingerprint />, [
         getItem('Tài khoản', config.routes.admin.account),
-        getItem('Quyền', 'role'),
+        getItem('Vai trò', config.routes.admin.role),
     ]),
     getItem('Nhân viên', config.routes.admin.employee, <IconBuilding />),
     getItem('Sản phẩm', 'product', <IconPackage />, [
