@@ -1,4 +1,4 @@
-import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Image, Input, Table, Tag } from 'antd';
@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
-import BrandDetail from './BrandDetail';
-import { useDeleteBrand, useGetListBrand } from '../../../hooks/api';
+import ProductCategoryDetail from './ProductCategoryDetail';
+import { useDeleteProductCategory, useGetListProductCategory } from '../../../hooks/api';
 
 const baseColumns = [
     {
@@ -20,7 +20,7 @@ const baseColumns = [
         width: 50,
     },
     {
-        title: 'Tên thương hiệu',
+        title: 'Tên danh mục',
         dataIndex: 'name',
         sorter: {
             compare: (a, b) => a.name.localeCompare(b.name),
@@ -30,8 +30,8 @@ const baseColumns = [
         width: 200,
     },
     {
-        title: 'Code',
-        dataIndex: 'code',
+        title: 'Slug',
+        dataIndex: 'slug',
         sorter: {
             compare: (a, b) => a.slug.localeCompare(b.slug),
             multiple: 2,
@@ -40,6 +40,14 @@ const baseColumns = [
     {
         title: 'Hình đại diện',
         dataIndex: 'image',
+    },
+    {
+        title: 'Tên danh mục cha',
+        dataIndex: 'parentName',
+        sorter: {
+            compare: (a, b) => a.parentName.localeCompare(b.parentName),
+            multiple: 1,
+        },
     },
     {
         title: 'Trạng thái',
@@ -61,11 +69,22 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             key: item.id,
             id: item.id,
             name: item.name,
-            code: item.code,
+            slug: item.slug,
             image: <Image width={80} src={item.image} />,
+            parentName: (
+                <>
+                    {item.parentName ? (
+                        <Tag className="w-fit uppercase" color="magenta">
+                            {item.parentName}
+                        </Tag>
+                    ) : (
+                        <span className="italic">Không có</span>
+                    )}
+                </>
+            ),
             status: (
                 <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
-                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                    {item?.status ? 'Đã kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             action: (
@@ -78,7 +97,9 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     </Button>
                     <Button
                         className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.brand_update}/${item.id}`)}
+                        onClick={() =>
+                            navigate(`${config.routes.admin.product_category_update}/${item.id}`)
+                        }
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
@@ -99,9 +120,9 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
     });
 }
 
-function Data({ params, setParams, setBrandIds }) {
+function Data({ setProductCategoryIds, params, setParams }) {
     const navigate = useNavigate();
-    const { data, isLoading } = useGetListBrand(params);
+    const { data, isLoading } = useGetListProductCategory(params);
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -117,7 +138,7 @@ function Data({ params, setParams, setBrandIds }) {
         if (isLoading || !data) return;
         let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
         setTData(dt);
-        setTableParams({
+        setParams({
             ...tableParams,
             pagination: {
                 ...tableParams.pagination,
@@ -128,7 +149,7 @@ function Data({ params, setParams, setBrandIds }) {
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            setBrandIds(selectedRows.map((item) => item.id));
+            setProductCategoryIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
@@ -157,7 +178,7 @@ function Data({ params, setParams, setBrandIds }) {
         });
     };
 
-    const mutationDelete = useDeleteBrand({
+    const mutationDelete = useDeleteProductCategory({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
         },
@@ -195,14 +216,16 @@ function Data({ params, setParams, setBrandIds }) {
                 pagination={{ ...tableParams.pagination, showSizeChanger: true }}
                 onChange={handleTableChange}
             />
-
             {isDetailOpen.id !== 0 && (
-                <BrandDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+                <ProductCategoryDetail
+                    isDetailOpen={isDetailOpen}
+                    setIsDetailOpen={setIsDetailOpen}
+                />
             )}
             {isDisableOpen.id !== 0 && (
                 <ConfirmPrompt
                     handleConfirm={onDelete}
-                    content="Bạn có muốn vô hiệu hoá thương hiệu này ?"
+                    content="Bạn có muốn vô hiệu hoá danh mục này ?"
                     isDisableOpen={isDisableOpen}
                     setIsDisableOpen={setIsDisableOpen}
                 />

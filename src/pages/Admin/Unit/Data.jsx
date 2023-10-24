@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import UnitDetail from './UnitDetail';
-import { useGetListUnit, useGetUnit, useDeleteListUnit, useDeleteUnit } from '../../../hooks/api';
+import { useGetListUnit, useDeleteUnit } from '../../../hooks/api';
 
 function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
     return dt?.map((item) => {
@@ -35,10 +35,15 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                     <Button
-                        className="text-red-500 border border-red-500"
+                        className={
+                            item.status
+                                ? 'text-red-500 border border-red-500'
+                                : 'text-yellow-500 border '
+                        }
+                        disabled={!item.status}
                         onClick={() => setIsDisableOpen({ id: item.id, isOpen: true })}
                     >
-                        <FontAwesomeIcon icon={faTrash} />
+                        <FontAwesomeIcon icon={faEyeSlash} />
                     </Button>
                 </div>
             ),
@@ -70,8 +75,16 @@ const baseColumns = [
 ];
 
 function Data({ setUnitIds, params, setParams }) {
+    const { data, isLoading } = useGetListUnit(params);
     const navigate = useNavigate();
-
+    const [tdata, setTData] = useState([]);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
     const [isDetailOpen, setIsDetailOpen] = useState({
         id: 0,
         isOpen: false,
@@ -80,6 +93,50 @@ function Data({ setUnitIds, params, setParams }) {
         id: 0,
         isOpen: false,
     });
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            setUnitIds(selectedRows.map((item) => item.id));
+        },
+        getCheckboxProps: (record) => ({
+            name: record.name,
+        }),
+    };
+
+    const onSearch = (value) => {
+        setParams({
+            ...params,
+            search: value,
+        });
+    };
+
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
+    };
 
     const mutationDelete = useDeleteUnit({
         success: () => {
@@ -94,63 +151,8 @@ function Data({ setUnitIds, params, setParams }) {
         },
     });
 
-    const { data, isLoading } = useGetListUnit(params);
-
-    const [tableParams, setTableParams] = useState({
-        pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
-            total: data?.data?.totalItems,
-        },
-    });
-
-    const [tdata, setTData] = useState([]);
-
-    const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-            setUnitIds(selectedRows.map((item) => item.id));
-        },
-        getCheckboxProps: (record) => ({
-            name: record.name,
-        }),
-    };
-
-    useEffect(() => {
-        if (isLoading || !data) return;
-        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
-        setTData(dt);
-        setTableParams({
-            ...tableParams,
-            pagination: {
-                ...tableParams.pagination,
-                total: data?.data?.totalItems,
-            },
-        })
-    }, [isLoading, data]);
-
-    const onSearch = (value) => {
-        setParams({
-            ...params,
-            search: value,
-        });
-    };
-
     const onDelete = async (id) => {
         await mutationDelete.mutateAsync(id);
-    };
-    const handleTableChange = (pagination, filters, sorter) => {
-        setTableParams({
-            ...tableParams,
-            pagination,
-            ...sorter,
-        });
-        setParams({
-            ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
-            columnName: !sorter.column ? 'id' : sorter.field,
-            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
-        });
     };
 
     return (

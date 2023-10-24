@@ -17,15 +17,6 @@ import {
 import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
 const items = [
     getItem('Trang chủ', config.routes.admin.dashboard, <IconHome2 />),
     getItem('Người dùng', 'user', <IconFingerprint />, [
@@ -35,7 +26,7 @@ const items = [
     getItem('Nhân viên', config.routes.admin.employee, <IconBuilding />),
     getItem('Sản phẩm', 'product', <IconPackage />, [
         getItem('Danh sách sản phẩm', config.routes.admin.product),
-        getItem('Danh mục sản phẩm', config.routes.admin.category),
+        getItem('Danh mục sản phẩm', config.routes.admin.product_category),
         getItem('Thương hiệu', config.routes.admin.brand),
         getItem('Đơn vị tính', config.routes.admin.unit),
     ]),
@@ -52,6 +43,17 @@ const items = [
 ];
 
 const rootSubmenuKeys = ['user', 'product', 'order'];
+
+function getItem(label, key, icon, children, type) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    };
+}
+
 function Navbar() {
     const navigate = useNavigate();
     let routeKey = useLocation().pathname;

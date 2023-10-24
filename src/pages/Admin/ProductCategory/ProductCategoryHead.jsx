@@ -1,14 +1,14 @@
 import Head from '../../../layouts/Admin/components/Head';
 import config from '../../../config';
 
-function CategoryHead() {
+function ProductCategoryHead() {
     return (
         <Head
-            route={config.routes.admin.category_create}
+            route={config.routes.admin.product_category_create}
             title={'Quản lý danh mục sản phẩm'}
             isAdd={true}
         />
     );
 }
 
-export default CategoryHead;
+export default ProductCategoryHead;

@@ -39,7 +39,6 @@ export const useFetch = ({ url, key, params, config }) => {
         enabled: !!url,
         ...config,
     });
-
     return context;
 };
 
@@ -80,4 +79,16 @@ export const usePut = (url, updater) => {
 
 export const usePutForm = (url, updater) => {
     return useGenericMutation((data) => api.putForm(`${url}/${data.id}`, data.body), url, updater);
+};
+
+export const usePatch = (url, updater) => {
+    return useGenericMutation((data) => api.patch(`${url}/${data.id}`, data.body), url, updater);
+};
+
+export const usePatchForm = (url, updater) => {
+    return useGenericMutation(
+        (data) => api.patchForm(`${url}/${data.id}`, data.body),
+        url,
+        updater,
+    );
 };

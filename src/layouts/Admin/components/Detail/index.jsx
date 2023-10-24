@@ -1,4 +1,5 @@
 import { Button, Modal, Table } from 'antd';
+
 const baseColumns = [
     {
         title: 'Thuộc tính',
@@ -9,10 +10,12 @@ const baseColumns = [
         dataIndex: 'value',
     },
 ];
+
 function Detail({ isDetailOpen, setIsDetailOpen, rawData }) {
     const onCancel = () => {
         setIsDetailOpen({ ...isDetailOpen, isOpen: false });
     };
+
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Thông tin chi tiết</p>}

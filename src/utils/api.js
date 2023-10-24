@@ -23,6 +23,14 @@ export const api = {
         let resp = await axiosInstance.putForm(url, formData);
         return resp.data;
     },
+    async patch(url, obj) {
+        let resp = await axiosInstance.patch(url, { ...obj });
+        return resp.data;
+    },
+    async patchForm(url, formData) {
+        let resp = await axiosInstance.patchForm(url, formData);
+        return resp.data;
+    },
     async delete(url) {
         let resp = await axiosInstance.delete(url);
         return resp.data;
