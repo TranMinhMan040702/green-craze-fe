@@ -26,7 +26,6 @@ const baseColumns = [
             compare: (a, b) => a.name.localeCompare(b.name),
             multiple: 3,
         },
-        width: 200,
     },
     {
         title: 'Mã sản phẩm',
@@ -35,7 +34,6 @@ const baseColumns = [
             compare: (a, b) => a.slug.localeCompare(b.slug),
             multiple: 2,
         },
-        width: 100,
     },
     {
         title: 'Hình đại diện',
@@ -49,7 +47,6 @@ const baseColumns = [
             compare: (a, b) => a.parentName.localeCompare(b.parentName),
             multiple: 1,
         },
-        width: 150,
     },
     {
         title: 'Trạng thái',
@@ -58,12 +55,10 @@ const baseColumns = [
             compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
             multiple: 1,
         },
-        width: 150,
     },
     {
         title: 'Dạng bán ra',
         dataIndex: 'variant',
-        width: 150,
     },
     {
         title: 'Thao tác',
