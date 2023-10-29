@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import Data from './Data';
 import InventoryHead from './UnitHead';
+import './inventory.scss';
 
 function InventoryPage() {
+    const [params, setParams] = useState({
+        pageIndex: 1,
+        pageSize: 10,
+    });
+
     return (
-        <div className="unit-container">
+        <div className="inventory-container">
             <InventoryHead />
-            <Data />
+            <Data params={params} setParams={setParams} />
         </div>
     );
 }

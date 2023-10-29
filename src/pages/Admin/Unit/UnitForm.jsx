@@ -126,7 +126,7 @@ function UnitFormPage() {
                                     showSearch
                                 >
                                     <Option value={false}>Vô hiệu lực </Option>
-                                    <Option value={true}>Có hiệu lực</Option>
+                                    <Option value={true}>Kích hoạt</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
