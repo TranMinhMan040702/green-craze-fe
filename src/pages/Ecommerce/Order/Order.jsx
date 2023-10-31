@@ -9,19 +9,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderItem from './OrderItem';
 import { NavLink } from 'react-router-dom';
 import config from '../../../config';
+import { getOrderStatus } from '../../../utils/constants';
+import { numberFormatter } from '../../../utils/formatter';
 
-function Order({ isLastItem = false }) {
+function Order({ order, isLastItem = false }) {
     return (
         <>
             <div className="border shadow">
-                <div className="flex justify-end items-center border-b-[0.1rem] text-amber-500 text-[1.6rem] mx-[2.2rem] py-[1rem]">
-                    <FontAwesomeIcon icon={faTruck} className="mr-[0.7rem]" />
-                    <p className="mb-0">Đơn hàng chưa được xử lý</p>
+                <div
+                    style={{
+                        color: getOrderStatus(order?.status).color,
+                    }}
+                    className={`flex justify-end items-center border-b-[0.1rem] text-[1.6rem] mx-[2.2rem] py-[1rem]`}
+                >
+                    <FontAwesomeIcon
+                        icon={getOrderStatus(order?.status).icon}
+                        className="mr-[0.7rem]"
+                    />
+                    <p className="mb-0">{getOrderStatus(order?.status).title}</p>
                 </div>
-                <NavLink to={config.routes.web.order + '/1'} className="border-b-[0.16rem] border-b-gray-300 cursor-pointer">
-                    <OrderItem />
-                    <OrderItem />
-                    <OrderItem />
+                <NavLink
+                    to={config.routes.web.order + '/' + order?.code}
+                    className="border-b-[0.16rem] border-b-gray-300 cursor-pointer"
+                >
+                    {order?.items?.map((item, index) => {
+                        return (
+                            <OrderItem
+                                key={item?.id}
+                                item={item}
+                                isLastItem={index === order?.items?.length - 1}
+                            />
+                        );
+                    })}
                 </NavLink>
                 <div className="bg-stone-100">
                     <div className="flex justify-end px-[2.2rem] py-[1.5rem]">
@@ -29,7 +48,9 @@ function Order({ isLastItem = false }) {
                             <FontAwesomeIcon icon={faCoins} />
                             <p className="ml-[.5rem]">Thành tiền: </p>
                         </div>
-                        <span className="text-rose-600 font-medium text-[1.8rem] ml-[3.1rem]">75.000đ</span>
+                        <span className="text-rose-600 font-medium text-[1.8rem] ml-[3.1rem]">
+                            {numberFormatter(order?.totalAmount)}
+                        </span>
                     </div>
                 </div>
             </div>

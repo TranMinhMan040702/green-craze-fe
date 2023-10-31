@@ -382,7 +382,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.web.order_detail,
+        path: config.routes.web.order + '/:code',
         component: OrderDetailPage,
         layout: EcommerceLayout,
         roles: ['USER'],
@@ -420,7 +420,7 @@ const publicRoutes = [
         private: false,
     },
     {
-        path: config.routes.web.product_detail,
+        path: config.routes.web.product_detail + '/:slug',
         component: ProductDetailPage,
         layout: EcommerceLayout,
         roles: ['USER'],

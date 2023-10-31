@@ -1,12 +1,19 @@
-.address-container{
-    .address-default{
+.address-container {
+    .address-default {
         border: 1px var(--primary-color) solid;
-        color: var(--primary-color)
+        color: var(--primary-color);
     }
-    .btn-default{
+    .btn-default {
         border: 1px var(--primary-color) solid;
         &:hover {
             border: 1px var(--primary-color) solid;
+        }
+    }
+}
+.ant-modal-content {
+    .ant-select-selection-search-input {
+        &:focus {
+            box-shadow: none !important;
         }
     }
 }

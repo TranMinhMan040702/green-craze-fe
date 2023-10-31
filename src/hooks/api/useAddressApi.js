@@ -27,12 +27,20 @@ export const useGetAddress = (id) => {
     return useFetch({ url: `${apiRoutes.common.address}/${id}`, key: 'getById' });
 };
 
+export const useGetDefaultAddress = () => {
+    return useFetch({ url: `${apiRoutes.common.address}/default`});
+};
+
 export const useCreateAddress = (updater) => {
     return usePost(apiRoutes.common.address, updater);
 };
 
 export const useUpdateAddress = (updater) => {
     return usePut(apiRoutes.common.address, updater);
+};
+
+export const useSetDefaultAddress = (updater) => {
+    return usePut(apiRoutes.common.address + '/set-default', updater);
 };
 
 export const useDeleteAddress = (updater) => {

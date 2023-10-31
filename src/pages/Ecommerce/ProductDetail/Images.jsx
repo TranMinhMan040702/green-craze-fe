@@ -1,4 +1,3 @@
-import images from '../../../assets/images';
 import { Carousel, Image } from 'antd';
 
 const contentStyle = {
@@ -12,25 +11,20 @@ const contentStyle = {
     // background: '#f8f8f8',
 };
 
-function Images() {
+function Images({ productImages }) {
     const onChange = (currentSlide) => {
         console.log(currentSlide);
     };
     return (
         <div className="images-product">
             <Carousel afterChange={onChange}>
-                <div>
-                    <Image style={contentStyle} src={images.banner.main} alt="" />
-                </div>
-                <div>
-                    <Image style={contentStyle} src={images.banner.slide1} alt="" />
-                </div>
-                <div>
-                    <Image style={contentStyle} src={images.banner.slide2} alt="" />
-                </div>
-                <div>
-                    <Image style={contentStyle} src={images.banner.slide3} alt="" />
-                </div>
+                {productImages?.map((v) => {
+                    return (
+                        <div key={v.id}>
+                            <Image style={contentStyle} src={v.image} alt="" />
+                        </div>
+                    );
+                })}
             </Carousel>
         </div>
     );
