@@ -2,69 +2,50 @@ import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
-import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
+import { numberFormatter } from '../../../utils/formatter';
 import OrderDetail from './OrderDetail';
+import { useGetListOrder } from '../../../hooks/api';
+import { getOrderStatus } from '../../../utils/constants';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Ngày đặt hàng',
         dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Mã đơn hàng',
         dataIndex: 'code',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
-        title: 'Người đặt',
-        dataIndex: 'user',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        title: 'Phương thức',
+        dataIndex: 'paymentMethod',
+        sorter: true,
     },
     {
-        title: 'Thông tin nhận hàng',
-        dataIndex: 'address',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
-    },
-    {
-        title: 'Tổng tiền',
-        dataIndex: 'totalAmount',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        title: 'Thanh toán',
+        dataIndex: 'paymentStatus',
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
+    },
+    {
+        title: 'Tổng tiền',
+        dataIndex: 'totalAmount',
+        sorter: true,
     },
     {
         title: 'Thao tác',
@@ -72,34 +53,32 @@ const baseColumns = [
     },
 ];
 
-function Data() {
-    const navigate = useNavigate();
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const [rawData, setRawData] = useState([
-        {
+function transformData(dt, navigate, setIsDetailOpen) {
+    return dt?.map((item) => {
+        return {
             key: '1',
-            id: '1',
-            createdAt: '23:20:36 02/05/2022',
-            code: '36987-166',
-            user: 'Danila Treat',
-            address: (
-                <div>
-                    <p>do mixi</p>
-                    <p>0909998877</p>
-                    <p className="opacity-[0.6]">
-                        Streaming house Phường 14, Quận 10 TP Hồ Chí Minh
-                    </p>
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            code: item?.code,
+            paymentStatus: (
+                <Tag className="w-fit uppercase" color={`${item?.paymentStatus ? 'green' : 'red'}`}>
+                    {item?.paymentStatus ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                </Tag>
+            ),
+            paymentMethod: (
+                <div className="flex justify-center">
+                    <Tag className="w-fit uppercase" color="green">
+                        {item?.transaction?.paymentMethod}
+                    </Tag>
                 </div>
             ),
-            totalAmount: <div className="font-bold">700.000 ₫</div>,
+            totalAmount: (
+                <div className="font-bold text-red-500">{numberFormatter(item?.totalAmount)}</div>
+            ),
             status: (
-                <div className="flex flex-col gap-[1rem]">
-                    <Tag className="w-fit uppercase" color="blue">
-                        Đang xử lý
-                    </Tag>
-                    <Tag className="w-fit uppercase" color="green">
-                        Đang giao
+                <div className="flex justify-center">
+                    <Tag className="w-fit uppercase" color={getOrderStatus(item?.status)?.color}>
+                        {getOrderStatus(item?.status)?.title}
                     </Tag>
                 </div>
             ),
@@ -107,90 +86,79 @@ function Data() {
                 <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
+                        onClick={() => setIsDetailOpen({
+                            id: item?.id,
+                            isOpen: true,
+                        })}
                     >
                         <FontAwesomeIcon icon={faSearch} />
                     </Button>
                     <Button
                         className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.order_update}/1`)}
+                        onClick={() => navigate(`${config.routes.admin.order_update}/${item?.id}`)}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
                 </div>
             ),
+        };
+    });
+}
+
+function Data() {
+    const [params, setParams] = useState({
+        pageIndex: 1,
+        pageSize: 5,
+    });
+    const [tdata, setTData] = useState([]);
+    const navigate = useNavigate();
+    const [isDetailOpen, setIsDetailOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const { data, isLoading } = useGetListOrder(params);
+
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
         },
-        {
-            key: '2',
-            id: '2',
-            createdAt: '23:20:36 02/05/2022',
-            code: '36987-166',
-            user: 'Danila Treat',
-            address: (
-                <div>
-                    <p>do mixi</p>
-                    <p>0909998877</p>
-                    <p className="opacity-[0.6]">
-                        Streaming house Phường 14, Quận 10 TP Hồ Chí Minh
-                    </p>
-                </div>
-            ),
-            totalAmount: <div className="font-bold">700.000 ₫</div>,
-            status: (
-                <div className="flex flex-col gap-[1rem]">
-                    <Tag className="w-fit uppercase" color="blue">
-                        Đang xử lý
-                    </Tag>
-                    <Tag className="w-fit uppercase" color="green">
-                        Đang giao
-                    </Tag>
-                </div>
-            ),
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.order_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
-        },
-    ]);
-    const [data, setData] = useState(rawData);
-    const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: (record) => ({
-            name: record.name,
-        }),
-    };
+    });
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(data?.data?.items, navigate, setIsDetailOpen);
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
     const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
-        setData(filterTable);
+        setParams({
+            ...params,
+            search: value,
+        });
+    };
+
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
     };
 
     return (
@@ -200,28 +168,23 @@ function Data() {
                     className="xl:w-1/4 md:w-1/2"
                     allowClear
                     enterButton
-                    placeholder="Nhập từ khoá tìm kiếm"
+                    placeholder="Nhập mã đơn hàng để tìm kiếm"
                     onSearch={onSearch}
                 />
             </div>
             <Table
-                rowSelection={{
-                    type: 'checkbox',
-                    ...rowSelection,
+                loading={isLoading}
+                scroll={{
+                    x: 'max-content',
                 }}
                 columns={baseColumns}
-                dataSource={data}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <OrderDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn vô hiệu hoá đơn hàng này?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <OrderDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
         </div>
     );
 }

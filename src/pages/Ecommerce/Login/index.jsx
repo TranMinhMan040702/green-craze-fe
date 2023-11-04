@@ -3,32 +3,78 @@ import { Button, Form, Input, notification } from 'antd';
 
 import images from '../../../assets/images';
 import './login.scss';
-import { useLogin } from '../../../hooks/api';
+import { useLogin, useLoginByGoogle } from '../../../hooks/api';
 import config from '../../../config';
 import { getRoles, isTokenStoraged, saveToken } from '../../../utils/storage';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useState } from 'react';
 
 function LoginPage() {
     const navigate = useNavigate();
+    const [processing, setProcessing] = useState(false);
+    const handleToken = (token) => {
+        saveToken(token);
+        let roles = getRoles();
+        let url = config.routes.web.home;
+
+        if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
+        notification.success({
+            message: 'Đăng nhập thành công',
+            description: 'Chào mừng bạn đến với hệ thống của chúng tôi',
+        });
+        navigate(url);
+    };
+
+    const mutateGoogleLogin = useLoginByGoogle({
+        success: (data) => {
+            handleToken(data?.data);
+        },
+        error: (err) => {},
+        mutate: (data) => {
+            setProcessing(true);
+        },
+        settled: (data) => {
+            setProcessing(false);
+        },
+    });
+
     const [form] = Form.useForm();
-    
+
     const mutationLogin = useLogin({
         success: (data) => {
-            saveToken(data?.data);
-            let roles = getRoles();
-            let url = config.routes.web.home;
-
-            if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
-            notification.success({
-                message: 'Đăng nhập thành công',
-                description: 'Chào mừng bạn đến với hệ thống của chúng tôi',
-            });
-            navigate(url);
+            handleToken(data?.data);
         },
         error: (err) => {
+            let description = 'Không thể đăng nhập, vui lòng liên hệ Quản trị viên';
+            let detail = err?.response?.data?.detail?.toLowerCase();
+            let isOtpVerify = false;
+            if (detail?.includes('email')) {
+                description = 'Địa chỉ email không tồn tại';
+            } else if (detail?.includes('password')) {
+                description = 'Mật khẩu không đúng';
+            } else if (detail?.includes('banned')) {
+                description = 'Tài khoản của bạn đã bị vô hiệu hoá';
+            } else if (detail?.includes('confirmed')) {
+                description = 'Tài khoản của bạn chưa được xác thực, vui lòng xác thực';
+                isOtpVerify = true;
+            } else if (detail?.includes('lockout')) {
+                description =
+                    'Tài khoản của bạn đã tạm khoá do đăng nhập sai nhiều lần, vui lòng thử lại sau';
+            }
+
             notification.error({
                 message: 'Đăng nhập thất bại',
-                description: err?.response?.data?.detail,
+                description: description,
             });
+            if (isOtpVerify) {
+                navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
+            }
+        },
+        mutate: (data) => {
+            setProcessing(true);
+        },
+        settled: (data) => {
+            setProcessing(false);
         },
     });
     const onLogin = async () => {
@@ -116,6 +162,7 @@ function LoginPage() {
                             </Form.Item>
                             <Form.Item>
                                 <Button
+                                    loading={processing}
                                     onClick={onLogin}
                                     className="h-[36px] mt-[0.6rem] text-[1.6rem] text-white font-medium border-none hover:border-none"
                                     block
@@ -125,30 +172,25 @@ function LoginPage() {
                                 </Button>
                             </Form.Item>
                         </Form>
-                        <div class="h-[15px] relative flex items-center justify-between">
+                        <div class="h-[1.5rem] relative flex items-center justify-between">
                             <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
                             <div class="text-center text-black text-opacity-40 text-[1.3rem]">
                                 HOẶC
                             </div>
                             <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
                         </div>
-                        <div className="h-[34px] my-[3rem] flex justify-between">
-                            <div className="w-[45%] h-[34px] bg-white rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.4)] flex items-center justify-center">
-                                <div className="w-[20px] h-[20px]">
-                                    <img className="" src={images.facebook} />
-                                </div>
-                                <div className="ml-[1rem] text-center text-black text-opacity-70 text-[1.4rem]">
-                                    Facebook
-                                </div>
-                            </div>
-                            <div className="w-[45%] h-[34px] bg-white rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.4)] flex items-center justify-center">
-                                <div className="w-[20px] h-[20px]">
-                                    <img className="" src={images.google} />
-                                </div>
-                                <div className="ml-[1rem] text-center text-black text-opacity-70 text-[1.4rem]">
-                                    Google
-                                </div>
-                            </div>
+                        <div className="google-login-container h-[34px] my-[3rem] flex justify-between relative">
+                            <GoogleLogin
+                                onSuccess={async (credentialResponse) => {
+                                    await mutateGoogleLogin.mutateAsync({
+                                        googleToken: credentialResponse?.credential,
+                                    });
+                                }}
+                                onError={() => {
+                                    console.log('Login Failed');
+                                }}
+                                useOneTap
+                            />
                         </div>
                         <div className="text-center text-[1.2rem]">
                             <span className="text-black text-opacity-60">

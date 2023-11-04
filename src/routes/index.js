@@ -46,6 +46,7 @@ import ProductCategoryPage from '../pages/Admin/ProductCategory';
 import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCategoryForm';
 import VariantPage from '../pages/Admin/Variant';
 import ProductImagePage from '../pages/Admin/ProductImage';
+import PaypalPaymentPage from '../pages/Ecommerce/Checkout/PaypalPayment';
 
 const privateRoutes = [
     // Admin Layout
@@ -340,6 +341,13 @@ const privateRoutes = [
         private: true,
     },
     {
+        path: config.routes.web.checkout + '/payment/:code',
+        component: PaypalPaymentPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
         path: config.routes.web.cart,
         component: CartPage,
         layout: EcommerceLayout,
@@ -382,7 +390,7 @@ const privateRoutes = [
         private: true,
     },
     {
-        path: config.routes.web.order_detail,
+        path: config.routes.web.order + '/:code',
         component: OrderDetailPage,
         layout: EcommerceLayout,
         roles: ['USER'],
@@ -420,7 +428,7 @@ const publicRoutes = [
         private: false,
     },
     {
-        path: config.routes.web.product_detail,
+        path: config.routes.web.product_detail + '/:slug',
         component: ProductDetailPage,
         layout: EcommerceLayout,
         roles: ['USER'],

@@ -4,7 +4,7 @@ import Head from './Head';
 import Wrapper from './Wrapper';
 
 function ProductFavoritesPage() {
-    return <AccountLayout routeKey={config.routes.web.favorites}>
+    return <AccountLayout routeKey={config.routes.web.favorites} isSetMinHeight={false}>
         <div className="favorites-container">
                 <Head />
                 <Wrapper />

@@ -1,5 +1,5 @@
 import apiRoutes from '../../config/apiRoutes';
-import { useDelete, useDeleteList, useFetch, usePost, usePut } from '../../utils/reactQuery';
+import { useDelete, useDeleteList, useFetch, usePost, usePut, usePutWithoutId } from '../../utils/reactQuery';
 
 export const useGetMe = () => {
     return useFetch({ url: apiRoutes.common.user.me, key: 'getMe' });
@@ -20,3 +20,7 @@ export const useDeleteListUser = (updater) => {
 export const useToggleUser = (updater) => {
     return useDelete(apiRoutes.common.user._, updater);
 };
+
+export const useChangePassword = (updater) => {
+    return usePutWithoutId(apiRoutes.common.user._ + '/change-password', updater);
+}

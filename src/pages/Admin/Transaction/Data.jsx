@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import TransactionDetail from './TransactionDetail';
 import { useGetListTransaction } from '../../../hooks/api';
+import { numberFormatter } from '../../../utils/formatter';
 
 const baseColumns = [
     {
@@ -20,7 +21,7 @@ const baseColumns = [
     },
     {
         title: 'Ngày hoàn tất',
-        dataIndex: 'completeAt',
+        dataIndex: 'completedAt',
         sorter: true,
     },
     {
@@ -48,12 +49,12 @@ function transformData(dt, setIsDetailOpen) {
         return {
             key: item?.id,
             id: item?.id,
-            code: item?.code,
+            code: item?.orderCode,
             createdAt: new Date(item?.createdAt)?.toLocaleString(),
-            paidAt: new Date(item?.paidAt)?.toLocaleString(),
-            completeAt: new Date(item?.completeAt)?.toLocaleString(),
+            paidAt: item?.paidAt && new Date(item?.paidAt)?.toLocaleString(),
+            completedAt: item?.completedAt && new Date(item?.completedAt)?.toLocaleString(),
             paymentMethod: item?.paymentMethod,
-            totalPay: item?.totalPay,
+            totalPay: numberFormatter(item?.totalPay),
             action: (
                 <div className="action-btn flex gap-3">
                     <Button

@@ -25,12 +25,12 @@ function transformData(transaction) {
         {
             key: '4',
             property: 'Mã đơn hàng',
-            value: transaction?.code,
+            value: transaction?.orderCode,
         },
         {
             key: '5',
             property: 'Ngày hoàn tất giao dịch',
-            value: transaction?.completeAt && new Date(transaction?.completeAt)?.toLocaleString(),
+            value: transaction?.completedAt && new Date(transaction?.completedAt)?.toLocaleString(),
         },
         {
             key: '6',
@@ -49,19 +49,19 @@ function transformData(transaction) {
         },
         {
             key: '9',
-            property: 'Trạng thái thanh toán',
+            property: 'Trạng thái giao dịch',
             value: (
-                <Tag className="w-fit uppercase" color="green">
-                    Đã thanh toán
+                <Tag className="w-fit uppercase" color={transaction?.paidAt ? 'green' : 'red'}>
+                    {transaction?.completedAt ? 'Hoàn tất' : 'Chưa hoàn tất'}
                 </Tag>
             ),
         },
         {
             key: '10',
-            property: 'Trạng thái giao dịch',
-            value: transaction?.paidAt && (
-                <Tag className="w-fit uppercase" color="green">
-                    Đã hoàn tất
+            property: 'Trạng thái thanh toán',
+            value: (
+                <Tag className="w-fit uppercase" color={transaction?.paidAt ? 'green' : 'red'}>
+                    {transaction?.paidAt ? 'Đã thanh toán' : 'Chưa thanh toán'}
                 </Tag>
             ),
         },

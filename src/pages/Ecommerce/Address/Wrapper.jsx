@@ -1,12 +1,35 @@
-import Item from "./Item";
-
+import { useState } from 'react';
+import { useGetListAddress } from '../../../hooks/api';
+import AddressForm from './AddressForm';
+import Item from './Item';
 
 function Wrapper() {
-    return <div>
-        <Item isDefault/>
-        <Item />
-        <Item isLastItem={true}/>
-    </div>
+    const addressAPI = useGetListAddress({
+        status: true,
+    });
+    const [isFormOpen, setIsFormOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+    return (
+        <div>
+            {addressAPI?.data?.data?.items?.map((v, idx) => {
+                return (
+                    <Item
+                        addressApi={addressAPI}
+                        setIsFormOpen={setIsFormOpen}
+                        key={v.id}
+                        address={v}
+                        isDefault={v?.isDefault}
+                        isLastItem={idx === addressAPI?.data?.data?.items?.length - 1}
+                    />
+                );
+            })}
+            {isFormOpen.id !== 0 && (
+                <AddressForm isFormOpen={isFormOpen} setIsFormOpen={setIsFormOpen} />
+            )}
+        </div>
+    );
 }
 
 export default Wrapper;

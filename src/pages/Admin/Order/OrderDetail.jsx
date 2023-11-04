@@ -1,102 +1,150 @@
 import { Tag } from 'antd';
 import Detail from '../../../layouts/Admin/components/Detail';
+import { useGetOrder } from '../../../hooks/api/useOrderApi';
+import { useEffect, useState } from 'react';
+import { getOrderStatus } from '../../../utils/constants';
+import { numberFormatter } from '../../../utils/formatter';
 
-const rawData = [
-    {
-        key: '1',
-        property: 'ID',
-        value: '1',
-    },
-    {
-        key: '2',
-        property: 'Ngày tạo',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '3',
-        property: 'Ngày cập nhật',
-        value: new Date().toLocaleString(),
-    },
-    {
-        key: '4',
-        property: 'Mã đơn hàng',
-        value: '36987-166',
-    },
-    {
-        key: '5',
-        property: 'Trạng thái',
-        value: (
-            <Tag className="w-fit uppercase" color="green">
-                Đang giao hàng
-            </Tag>
-        ),
-    },
-    {
-        key: '6',
-        property: 'Lý do hủy đơn hàng',
-        value: '',
-    },
-    {
-        key: '7',
-        property: 'Ghi chú đơn hàng',
-        value: '',
-    },
-    {
-        key: '8',
-        property: 'Người đặt',
-        value: 'Danila Treat',
-    },
-    {
-        key: '9',
-        property: 'Thông tin nhận hàng',
-        value: (
-            <div>
-                <p>do mixi</p>
-                <p>0909998877</p>
-                <p className="opacity-[0.6]">Streaming house Phường 14, Quận 10 TP Hồ Chí Minh</p>
-            </div>
-        ),
-    },
-    {
-        key: '10',
-        property: 'Tổng tiền',
-        value: <div className="font-bold">600.000 ₫</div>,
-    },
-    {
-        key: '11',
-        property: 'Thuế',
-        value: '10%',
-    },
-    {
-        key: '12',
-        property: 'Phí vận chuyển',
-        value: <div className="font-bold">40.000 ₫</div>,
-    },
-    {
-        key: '13',
-        property: 'Tổng phí phải trả',
-        value: <div className="font-bold">700.000 ₫</div>,
-    },
-    {
-        key: '14',
-        property: 'Hình thức thanh toán',
-        value: 'Paypal',
-    },
-    {
-        key: '15',
-        property: 'Trạng thái thanh toán',
-        value: (
-            <Tag className="w-fit uppercase" color="green">
-                Đã thanh toán
-            </Tag>
-        ),
-    },
-];
-
-function UnitDetail({ isDetailOpen, setIsDetailOpen }) {
-    return (
-        <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={rawData} />
-    );
+function transformData(item) {
+    return [
+        {
+            key: '1',
+            property: 'ID',
+            value: item?.id,
+        },
+        {
+            key: '2',
+            property: 'Ngày tạo',
+            value: new Date(item?.createdAt)?.toLocaleString(),
+        },
+        {
+            key: '3',
+            property: 'Ngày cập nhật',
+            value: item?.updatedAt && new Date(item?.updatedAt)?.toLocaleString(),
+        },
+        {
+            key: '4',
+            property: 'Mã đơn hàng',
+            value: item?.code,
+        },
+        {
+            key: '5',
+            property: 'Trạng thái',
+            value: (
+                <Tag className="w-fit uppercase" color={getOrderStatus(item?.status)?.color}>
+                    {getOrderStatus(item?.status)?.title}
+                </Tag>
+            ),
+        },
+        {
+            key: '6',
+            property: 'Lý do hủy đơn hàng',
+            value: item?.otherCancelReason || item?.cancelReason?.name,
+        },
+        {
+            key: '7',
+            property: 'Ghi chú đơn hàng',
+            value: item?.note,
+        },
+        {
+            key: '8',
+            property: 'Thông tin đặt hàng',
+            value: (
+                <div>
+                    <p>{item?.user?.firstName + ' ' + item?.user?.lastName}</p>
+                    <p>{item?.user?.email}</p>
+                </div>
+            ),
+        },
+        {
+            key: '9',
+            property: 'Thông tin nhận hàng',
+            value: (
+                <div>
+                    <p>{item?.address?.receiver}</p>
+                    <p>{item?.address?.phone}</p>
+                    <p className="opacity-[0.6]">
+                        {item?.address?.street}, {item?.address?.ward?.name},{' '}
+                        {item?.address?.district?.name}, {item?.address?.province?.name}
+                    </p>
+                </div>
+            ),
+        },
+        {
+            key: '10',
+            property: 'Tổng tiền',
+            value: (
+                <div className=" text-red-500">
+                    {numberFormatter(item?.items?.reduce((acc, val) => acc + val.totalPrice, 0))}
+                </div>
+            ),
+        },
+        {
+            key: '11',
+            property: 'Thuế',
+            value: (
+                <div className=" text-red-500">
+                    {numberFormatter(
+                        ((item?.totalAmount - item?.shippingCost) * item?.tax) / (1 + item?.tax),
+                    )}
+                </div>
+            ),
+        },
+        {
+            key: '12',
+            property: 'Phương thức vận chuyển',
+            value: (
+                <Tag className="w-fit uppercase" color="green">
+                    {item?.deliveryMethod}
+                </Tag>
+            ),
+        },
+        {
+            key: '13',
+            property: 'Phí vận chuyển',
+            value: <div className="text-red-500">{numberFormatter(item?.shippingCost)}</div>,
+        },
+        {
+            key: '14',
+            property: 'Tổng phí phải trả',
+            value: (
+                <div className="font-bold text-red-500 text-[2rem]">
+                    {numberFormatter(item?.totalAmount)}
+                </div>
+            ),
+        },
+        {
+            key: '15',
+            property: 'Hình thức thanh toán',
+            value: (
+                <Tag className="w-fit uppercase" color="green">
+                    {item?.transaction?.paymentMethod}
+                </Tag>
+            ),
+        },
+        {
+            key: '16',
+            property: 'Trạng thái thanh toán',
+            value: (
+                <Tag className="w-fit uppercase" color={`${item?.paymentStatus ? 'green' : 'red'}`}>
+                    {item?.paymentStatus ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                </Tag>
+            ),
+        },
+    ];
 }
 
-export default UnitDetail;
+function OrderDetail({ isDetailOpen, setIsDetailOpen }) {
+    const { data, isLoading } = useGetOrder(isDetailOpen?.id);
+
+    const [order, setOrder] = useState([]);
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setOrder(transformData(data?.data));
+    }, [isLoading, data]);
+
+    return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={order} />;
+}
+
+export default OrderDetail;

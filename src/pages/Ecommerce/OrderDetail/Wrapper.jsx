@@ -1,11 +1,20 @@
-import Item from "./Item";
+import Item from './Item';
 
-
-function Wrapper() {
-    return <div>
-        <Item />
-        <Item isLastItem={true}/>
-    </div>
+function Wrapper({ orderItems, status }) {
+    return (
+        <div>
+            {orderItems?.map((item, index) => {
+                return (
+                    <Item
+                        key={index}
+                        status={status}
+                        item={item}
+                        isLastItem={index === orderItems?.length - 1}
+                    />
+                );
+            })}
+        </div>
+    );
 }
 
 export default Wrapper;

@@ -2,13 +2,16 @@ const apiRoutes = {
     common: {
         auth: {
             login: '/api/auth/login',
+            google_login: '/api/auth/google-login',
             register: '/api/auth/register',
+            refresh_token: '/api/auth/refresh-token',
         },
         user: {
             _: '/api/users',
             me: '/api/users/profile/me',
         },
         address: '/api/addresses',
+        order: '/api/orders',
     },
     admin: {
         unit: '/api/units',
@@ -26,5 +29,11 @@ const apiRoutes = {
         inventory: '/api/inventories',
         sale: '/api/sales',
     },
+    web: {
+        product: '/api/products',
+        cart: 'api/carts',
+        follow_product: 'api/user-follow-products',
+    }
 };
+
 export default apiRoutes;

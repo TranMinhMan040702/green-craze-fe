@@ -15,6 +15,10 @@ export const useGetProduct = (id) => {
     return useFetch({ url: `${apiRoutes.admin.product}/${id}`, key: 'getById' });
 };
 
+export const useGetProductBySlug = (slug) => {
+    return useFetch({ url: `${apiRoutes.web.product}/detail/${slug}`, key: 'getBySlug' });
+};
+
 export const useCreateProduct = (updater) => {
     return usePostForm(apiRoutes.admin.product, updater);
 };

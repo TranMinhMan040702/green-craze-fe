@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../config';
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -33,10 +34,15 @@ const refreshToken = async (originalRequest) => {
 
     try {
         const token = localStorage.getItem('token');
-        const response = await axiosInstance.post('/api/refresh-token', {
+        const response = await axiosInstance.post(config.apiRoutes.common.auth.refresh_token, {
             refreshToken: token?.refreshToken,
             accessToken: token?.accessToken,
         });
+        if (!response) {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+            return;
+        }
         const { refreshToken, accessToken } = response.data;
         localStorage.setItem('token', { refreshToken, accessToken });
         originalRequest.headers.Authorization = `Bearer ${token?.accessToken}`;

@@ -1,39 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs } from 'antd';
-const onChange = (key) => {
-    console.log(key);
-};
+import { getAllOrderStatusSelect } from '../../../utils/constants';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 const items = [
     {
-        key: 'all',
         label: 'Tất cả',
+        key: null,
     },
-    {
-        key: 'no-processing',
-        label: 'Chưa xử lý',
-    },
-    {
-        key: 'processing',
-        label: 'Đang xử lý',
-    },
-    {
-        key: 'on-the-way',
-        label: 'Đang giao',
-    },
-    {
-        key: 'delivered',
-        label: 'Hoàn thành',
-    },
-    {
-        key: 'cancelled',
-        label: 'Đã huỷ',
-    },
+    ...getAllOrderStatusSelect()?.map((item) => ({
+        label: item?.label,
+        key: item?.value,
+    })),
 ];
 
-function OrderStateTab() {
+function OrderStateTab({ setChosenStatus }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const onChange = (key) => {
+        navigate('?type=' + (key?.toLowerCase() || 'all'))
+        setChosenStatus(key);
+    };
+    useEffect(() => {
+        const type = searchParams.get('type')?.toUpperCase();
+        setChosenStatus(type);
+    }, []);
     return (
-        <div>
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <div className='bg-white'>
+            <Tabs defaultActiveKey={searchParams.get('type')?.toUpperCase()} items={items} onChange={onChange} />
         </div>
     );
 }
