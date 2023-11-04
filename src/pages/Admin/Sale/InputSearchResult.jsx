@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function InputSearchResult({ itemList, add, chosenList, Item }) {
     return (
-        <div className="bg-white w-full absolute p-3 shadow transition-all">
+        <div className="bg-white max-h-[250px] overflow-y-auto w-full absolute p-3 shadow transition-all">
             {itemList.map((item, idx) => {
                 let isChosen = chosenList.some((x) => x.id === item.id);
                 return (

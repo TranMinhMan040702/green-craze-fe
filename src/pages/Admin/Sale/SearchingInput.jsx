@@ -7,7 +7,9 @@ import InputSearchResult from './InputSearchResult';
 
 function SearchingInput({ itemList, ItemComponent, placeholder, chosenList, setChosenList }) {
     const [showSearch, setShowSearch] = useState(false);
+    const [searchResult, setSearchResult] = useState([]);
     const searchRef = useRef();
+
     useEffect(() => {
         document.addEventListener('click', (event) => {
             const { target } = event;
@@ -15,19 +17,32 @@ function SearchingInput({ itemList, ItemComponent, placeholder, chosenList, setC
                 setShowSearch(false);
             }
         });
-    }, []);
+        setSearchResult(itemList);
+    }, [itemList]);
+
     const add = (item) => {
         if (chosenList.some((x) => x.id === item.id)) return;
         setChosenList([...chosenList, item]);
     };
+
     const remove = (item) => {
         let newList = chosenList.filter((x) => x.id !== item.id);
         setChosenList(newList);
     };
+
+    const handlSearch = (e) => {
+        setSearchResult(
+            itemList.filter((item) =>
+                item.name.toLowerCase().includes(e.target.value.toLowerCase()),
+            ),
+        );
+    };
+
     return (
         <div className="w-full relative ">
             <div ref={searchRef}>
                 <Input
+                    onChange={(e) => handlSearch(e)}
                     placeholder={placeholder}
                     onFocus={() => {
                         setShowSearch(true);
@@ -38,7 +53,7 @@ function SearchingInput({ itemList, ItemComponent, placeholder, chosenList, setC
                     <InputSearchResult
                         Item={ItemComponent}
                         chosenList={chosenList}
-                        itemList={itemList}
+                        itemList={searchResult}
                         add={add}
                     />
                 )}

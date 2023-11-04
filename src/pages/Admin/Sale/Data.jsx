@@ -1,12 +1,13 @@
 import { faEdit, faEye } from '@fortawesome/free-regular-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import SaleDetail from './SaleDetail';
+import { useApplySale, useCancelSale, useGetListSale } from '../../../hooks/api';
 
 const baseColumns = [
     {
@@ -19,16 +20,8 @@ const baseColumns = [
         width: 50,
     },
     {
-        title: 'Ngày tạo',
-        dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.createdAt.localeCompare(b.createdAt),
-            multiple: 3,
-        },
-    },
-    {
         title: 'Tên khuyến mãi',
-        dataIndex: 'salename',
+        dataIndex: 'name',
         sorter: {
             compare: (a, b) => a.salename.localeCompare(b.salename),
             multiple: 2,
@@ -52,7 +45,7 @@ const baseColumns = [
     },
     {
         title: 'Phần trăm giảm giá',
-        dataIndex: 'percent',
+        dataIndex: 'promotionalPercent',
         sorter: {
             compare: (a, b) => a.percent.localeCompare(b.percent),
             multiple: 1,
@@ -67,115 +60,154 @@ const baseColumns = [
         },
     },
     {
-        title: 'Số sản phẩm',
-        dataIndex: 'count',
-        sorter: {
-            compare: (a, b) => a.count.localeCompare(b.count),
-            multiple: 1,
-        },
-    },
-    {
         title: 'Thao tác',
         dataIndex: 'action',
     },
 ];
-function Data() {
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
+
+function transformData(dt, navigate, setIsDetailOpen, onApply, onCancel) {
+    return dt?.map((item) => {
+        return {
+            key: item.id,
+            id: item.id,
+            name: item.name,
+            starDate: new Date(item.startDate).toLocaleString(),
+            endDate: new Date(item.endDate).toLocaleString(),
+            promotionalPercent: item.promotionalPercent + '%',
+            status: (
+                <Tag
+                    className="w-fit uppercase"
+                    color={`${
+                        item.status === 'ACTIVE'
+                            ? 'green'
+                            : item.status === 'INACTIVE'
+                            ? 'red'
+                            : 'yellow'
+                    }`}
+                >
+                    {item.status === 'ACTIVE'
+                        ? 'Đang áp dụng'
+                        : item.status === 'INACTIVE'
+                        ? 'Vô hiệu lực'
+                        : 'Hết hạn'}
+                </Tag>
+            ),
+            action: (
+                <div className="action-btn flex gap-3">
+                    <Button
+                        className="text-blue-500 border border-blue-500"
+                        onClick={() => setIsDetailOpen({ id: item.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faEye} />
+                    </Button>
+                    <Button
+                        className="text-green-500 border border-green-500"
+                        onClick={() => navigate(`${config.routes.admin.sale_update}/${item.id}`)}
+                    >
+                        <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button
+                        className="text-yellow-500 border border-yellow-500"
+                        onClick={() => onApply(item.id)}
+                    >
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                    </Button>
+                    <Button
+                        className="text-red-500 border border-red-500"
+                        disabled={item.status !== 'ACTIVE'}
+                        onClick={() => onCancel(item.id)}
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                </div>
+            ),
+        };
+    });
+}
+
+function Data({ params, setParams }) {
     const navigate = useNavigate();
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            createdAt: new Date().toLocaleString(),
-            salename: 'Khuyến mãi tháng 10',
-            starDate: new Date().toLocaleString(),
-            endDate: new Date().toLocaleString(),
-            percent: '10%',
-            status: (
-                <Tag className="w-fit uppercase" color="blue">
-                    Có hiệu lực
-                </Tag>
-            ),
-            count: '1 sản phẩm',
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.sale_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                </div>
-            ),
+    const { isLoading, data, refetch } = useGetListSale(params);
+    const [tdata, setTData] = useState([]);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
         },
-        {
-            key: '2',
-            id: '2',
-            createdAt: new Date().toLocaleString(),
-            salename: 'Khuyến mãi tháng 11',
-            starDate: new Date().toLocaleString(),
-            endDate: new Date().toLocaleString(),
-            percent: '20%',
-            status: (
-                <Tag className="w-fit uppercase" color="red">
-                    Vô hiệu lực
-                </Tag>
-            ),
-            count: '6 sản phẩm',
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.sale_update}/1`)}
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                </div>
-            ),
+    });
+    const [isDetailOpen, setIsDetailOpen] = useState({ id: 0, isOpen: false });
+    const [isDisableOpen, setIsDisableOpen] = useState(false);
+
+    const mutationApply = useApplySale({
+        success: () => {
+            refetch();
         },
-    ]);
-    const [data, setData] = useState(rawData);
+        error: (err) => {
+            console.log(err);
+        },
+    });
+
+    const mutationCancel = useCancelSale({
+        success: () => {
+            refetch();
+        },
+        error: (err) => {
+            console.log(err);
+        },
+    });
+
+    const onApply = async (id) => {
+        await mutationApply.mutateAsync({ id });
+    };
+
+    const onCancel = async (id) => {
+        await mutationCancel.mutateAsync({ id });
+    };
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setTData(transformData(data?.data?.items, navigate, setIsDetailOpen, onApply, onCancel));
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
+    };
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setUnitIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
-    const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
 
-        setData(filterTable);
+    const onSearch = (value) => {
+        setParams({
+            ...params,
+            search: value,
+        });
     };
+
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
@@ -196,13 +228,14 @@ function Data() {
                     ...rowSelection,
                 }}
                 columns={baseColumns}
-                dataSource={data}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <SaleDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            {isDetailOpen.id !== 0 && (
+                <SaleDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+
             <ConfirmPrompt
                 content="Bạn có muốn ẩn đợt khuyến mãi này ?"
                 isDisableOpen={isDisableOpen}

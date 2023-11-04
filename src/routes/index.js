@@ -427,7 +427,7 @@ const publicRoutes = [
         private: false,
     },
     {
-        path: config.routes.web.shop,
+        path: config.routes.web.home + '/:productCategory',
         component: ShopPage,
         layout: EcommerceLayout,
         roles: ['USER'],

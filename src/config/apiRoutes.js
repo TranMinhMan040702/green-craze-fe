@@ -24,6 +24,7 @@ const apiRoutes = {
         product_image: '/api/products/images',
         variant: '/api/variants',
         inventory: '/api/inventories',
+        sale: '/api/sales',
     },
 };
 export default apiRoutes;
