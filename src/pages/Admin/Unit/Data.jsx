@@ -9,6 +9,29 @@ import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import UnitDetail from './UnitDetail';
 import { useGetListUnit, useDeleteUnit } from '../../../hooks/api';
 
+const baseColumns = [
+    {
+        title: 'Id',
+        dataIndex: 'id',
+        sorter: true,
+        width: 50,
+    },
+    {
+        title: 'Tên đơn vị',
+        dataIndex: 'name',
+        sorter: true,
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'status',
+        sorter: true,
+    },
+    {
+        title: 'Thao tác',
+        dataIndex: 'action',
+    },
+];
+
 function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
     return dt?.map((item) => {
         return {
@@ -50,29 +73,6 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
         };
     });
 }
-
-const baseColumns = [
-    {
-        title: 'Id',
-        dataIndex: 'id',
-        sorter: true,
-        width: 50,
-    },
-    {
-        title: 'Tên đơn vị',
-        dataIndex: 'name',
-        sorter: true,
-    },
-    {
-        title: 'Trạng thái',
-        dataIndex: 'status',
-        sorter: true,
-    },
-    {
-        title: 'Thao tác',
-        dataIndex: 'action',
-    },
-];
 
 function Data({ setUnitIds, params, setParams }) {
     const { data, isLoading } = useGetListUnit(params);

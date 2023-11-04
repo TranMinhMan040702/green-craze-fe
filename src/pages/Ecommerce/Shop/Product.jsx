@@ -5,12 +5,27 @@ import SortProductTab from './SortProductTab';
 import { Pagination } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { useGetListProduct } from '../../../hooks/api';
+import { useEffect, useState } from 'react';
 
-const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-};
+function Product({ params, setParams }) {
+    const { isLoading, data } = useGetListProduct(params);
+    const [products, setProducts] = useState([]);
 
-function Product() {
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setProducts(data?.data?.items.filter((item) => item.status === 'ACTIVE'));
+        setParams({ ...params, total: data?.data?.totalItems });
+    }, [isLoading, data]);
+
+    const handlePagingChange = (page, pageSize) => {
+        setParams({
+            ...params,
+            pageIndex: page,
+            pageSize: pageSize,
+        });
+    };
+
     return (
         <div className="product py-[1rem] px-[2.6rem]">
             <div className="banner h-[320px] rounded-[5px] shadow-[2px_2px_6px_0_rgba(0,0,0,0.4)]">
@@ -36,21 +51,16 @@ function Product() {
             </div>
             <div className="product-list">
                 <div className="grid grid-cols-4 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[2rem]">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
+                    {products.length > 0 &&
+                        products.map((item, index) => <CardProduct key={index} product={item} />)}
                 </div>
             </div>
             <div className="mt-[4rem] text-center">
                 <Pagination
                     showSizeChanger
-                    onShowSizeChange={onShowSizeChange}
-                    defaultCurrent={3}
-                    total={500}
+                    onChange={handlePagingChange}
+                    defaultCurrent={params.pageIndex}
+                    total={params.total}
                 />
             </div>
         </div>

@@ -70,8 +70,21 @@ function transformData(product) {
             key: '12',
             property: 'Trạng thái',
             value: (
-                <Tag className="w-fit uppercase" color={product.status ? 'green' : 'red'}>
-                    {product.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                <Tag
+                    className="w-fit uppercase"
+                    color={
+                        product.status === 'ACTIVE'
+                            ? 'green'
+                            : product.status === 'INACTIVE'
+                            ? 'red'
+                            : 'yellow'
+                    }
+                >
+                    {product.status === 'ACTIVE'
+                        ? 'Kích hoạt'
+                        : product.status === 'INACTIVE'
+                        ? 'Vô hiệu hóa'
+                        : 'Hết hàng'}
                 </Tag>
             ),
         },
