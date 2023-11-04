@@ -1,4 +1,5 @@
 import images from '../../../../assets/images';
+import config from '../../../../config';
 import { Link } from 'react-router-dom';
 import {
     faBars,
@@ -15,7 +16,7 @@ function Head() {
                 <label for="active" className="lg:hidden col-span-4 text-[2.4rem] cursor-pointer">
                     <FontAwesomeIcon icon={faBars} />
                 </label>
-                <Link className="lg:col-span-2 col-span-4">
+                <Link to={config.routes.web.home} className="lg:col-span-2 col-span-4">
                     <div className="logo md:w-[110px] md:h-[68px] mx-auto">
                         <img src={images.logo} alt="logo" />
                     </div>

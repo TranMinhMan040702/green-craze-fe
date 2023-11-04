@@ -1,5 +1,6 @@
-import images from '../../../../assets/images';
 import { Link } from 'react-router-dom';
+import images from '../../../../assets/images';
+import config from '../../../../config';
 
 function Navbar() {
     return (
@@ -7,7 +8,7 @@ function Navbar() {
             <div className="max-lg:hidden container w-full h-[50px] flex items-center mx-auto justify-between text-white text-[1.6rem] uppercase">
                 <ul className="w-[670px] h-full flex items-center ml-[3rem]">
                     <li>
-                        <Link>Trang chủ</Link>
+                        <Link to={config.routes.web.home}>Trang chủ</Link>
                     </li>
                     <li>
                         <Link>Sản phẩm</Link>

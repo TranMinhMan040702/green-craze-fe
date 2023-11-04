@@ -1,54 +1,138 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch, Tabs } from 'antd';
+import {
+    Button,
+    Col,
+    DatePicker,
+    Form,
+    Input,
+    InputNumber,
+    Row,
+    Select,
+    Switch,
+    Tabs,
+    Upload,
+} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './sale.scss';
 import config from '../../../config';
 import SearchingInput from './SearchingInput';
 import CategoryItem from './CategoryItem';
-import ProductItem from './ProductItem';
+import dayjs from 'dayjs';
+import {
+    useCreateSale,
+    useGetListProductCategory,
+    useGetSale,
+    useUpdateSale,
+} from '../../../hooks/api';
+
+const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+};
+
+const dateFormat = 'MM/DD/YYYY, HH:mm:ss';
 
 function SaleFormPage() {
-    let { id } = useParams();
-    const [form] = Form.useForm();
     const navigate = useNavigate();
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            name: 'Ly giấy',
-        },
-        {
-            id: 2,
-            name: 'Ly nhựa',
-        },
-        {
-            id: 3,
-            name: 'Hộp nhựa',
-        },
-    ]);
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: 'Ly giấy 123ml',
-            code: 'prod-1',
-            category: 'Ly giấy',
-        },
-        {
-            id: 2,
-            name: 'Ly nhựa 500ml',
-            code: 'prod-2',
-            category: 'Ly nhựa',
-        },
-        {
-            id: 3,
-            name: 'Hộp nhựa vl',
-            code: 'prod-3',
-            category: 'Hộp nhựa',
-        },
-    ]);
+    let { id } = useParams();
+    const { isLoading: isLoadingSale, data: dSale } = id
+        ? useGetSale(id)
+        : { isLoading: null, data: null };
+    const { isLoading: isLoadingProductCategory, data: dProductCategory } =
+        useGetListProductCategory(null);
+    const [form] = Form.useForm();
+    const formData = new FormData();
+    const [imageUrl, setImageUrl] = useState();
+    const [imageFile, setImageFile] = useState(null);
+    const [checked, setChecked] = useState(false);
+    const [daterange, setDaterange] = useState([dayjs(new Date()), dayjs(new Date())]);
+    const [categories, setCategories] = useState([]);
     const [chosenCategoryList, setChosenCategoryList] = useState([]);
-    const [chosenProductList, setChosenProductList] = useState([]);
+
+    useEffect(() => {
+        if (isLoadingProductCategory || isLoadingSale) return;
+        if (dSale) {
+            let sale = dSale?.data;
+            form.setFieldsValue({
+                name: sale.name,
+                slug: sale.slug,
+                promotionalPercent: sale.promotionalPercent,
+                description: sale.description,
+            });
+            setChecked(sale.all);
+            setImageUrl(sale.image);
+            setDaterange([dayjs(sale.startDate), dayjs(sale.endDate)]);
+            setChosenCategoryList(sale.productCategories);
+        }
+        setCategories(dProductCategory?.data?.items);
+    }, [isLoadingProductCategory, isLoadingSale]);
+
+    const handleChange = (info) => {
+        if (info.file) {
+            setImageFile(info.file);
+            getBase64(info.file, (url) => {
+                setImageUrl(url);
+            });
+        }
+    };
+
+    const mutationCreate = useCreateSale({
+        success: () => {
+            navigate(config.routes.admin.sale);
+        },
+        error: (err) => {
+            console.log(err);
+        },
+    });
+
+    const mutationEdit = useUpdateSale({
+        success: () => {
+            navigate(config.routes.admin.sale);
+        },
+        error: (err) => {
+            console.log(err);
+        },
+    });
+
+    const onAdd = () => {
+        const daterange = form.getFieldValue('daterange');
+        formData.append('name', form.getFieldValue('name'));
+        formData.append('description', form.getFieldValue('description'));
+        formData.append('image', imageFile);
+        formData.append('startDate', daterange[0].$d.toLocaleString());
+        formData.append('endDate', daterange[1].$d.toLocaleString());
+        formData.append('promotionalPercent', form.getFieldValue('promotionalPercent'));
+        formData.append('slug', form.getFieldValue('slug'));
+        formData.append('all', !!form.getFieldValue('all'));
+        chosenCategoryList
+            .map((item) => item.id)
+            .forEach((id) => formData.append('categoryIds', id));
+        mutationCreate.mutateAsync(formData);
+    };
+
+    const onEdit = () => {
+        const daterange = form.getFieldValue('daterange');
+        formData.append('name', form.getFieldValue('name'));
+        formData.append('description', form.getFieldValue('description'));
+        formData.append('image', imageFile);
+        formData.append('startDate', daterange[0].$d.toLocaleString());
+        formData.append('endDate', daterange[1].$d.toLocaleString());
+        formData.append('promotionalPercent', form.getFieldValue('promotionalPercent'));
+        formData.append('slug', form.getFieldValue('slug'));
+        formData.append('all', !!form.getFieldValue('all'));
+        chosenCategoryList
+            .map((item) => item.id)
+            .forEach((id) => formData.append('categoryIds', id));
+        mutationEdit.mutateAsync({
+            id: id,
+            body: formData,
+        });
+    };
+
     return (
         <div className="form-container w-full">
             <div className="flex items-center gap-[1rem]">
@@ -62,15 +146,23 @@ function SaleFormPage() {
             <div className="flex items-center justify-start rounded-xl shadow text-[1.6rem] text-black gap-[1rem] bg-white p-7">
                 <div className="flex flex-col gap-[1rem]">
                     <p>ID</p>
-                    <code className="bg-blue-100 p-2">_</code>
+                    <code className="bg-blue-100 p-2">{dSale?.data?.id || '_'}</code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày tạo</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {dSale?.data?.createdAt
+                            ? new Date(dSale?.data?.createdAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
                 <div className="flex flex-col gap-[1rem]">
                     <p>Ngày cập nhật</p>
-                    <code className="bg-blue-100 p-2">__/__/____</code>
+                    <code className="bg-blue-100 p-2">
+                        {dSale?.data?.updatedAt
+                            ? new Date(dSale?.data?.updatedAt).toLocaleString()
+                            : '__/__/____'}
+                    </code>
                 </div>
             </div>
             <Form
@@ -83,7 +175,7 @@ function SaleFormPage() {
                 }}
             >
                 <Row gutter={16}>
-                    <Col span={16}>
+                    <Col span={14}>
                         <div className="bg-white p-5 rounded-xl shadow">
                             <Tabs
                                 type="card"
@@ -107,30 +199,15 @@ function SaleFormPage() {
                                             </Form.Item>
                                         ),
                                     },
-                                    {
-                                        label: 'Sản phẩm',
-                                        key: 2,
-                                        children: (
-                                            <Form.Item label="Thêm sản phẩm" name="product">
-                                                <SearchingInput
-                                                    setChosenList={setChosenProductList}
-                                                    chosenList={chosenProductList}
-                                                    itemList={products}
-                                                    placeholder={'Nhập sản phẩm'}
-                                                    ItemComponent={ProductItem}
-                                                />
-                                            </Form.Item>
-                                        ),
-                                    },
                                 ]}
                             />
                         </div>
                     </Col>
-                    <Col span={8}>
+                    <Col span={10}>
                         <div className="bg-white p-5 rounded-xl shadow">
                             <Form.Item
                                 label="Tên khuyến mãi"
-                                name="salename"
+                                name="name"
                                 rules={[
                                     {
                                         required: true,
@@ -141,8 +218,8 @@ function SaleFormPage() {
                                 <Input />
                             </Form.Item>
                             <Form.Item
-                                label="Khoảng thời gian"
-                                name="daterange"
+                                label="Slug"
+                                name="slug"
                                 rules={[
                                     {
                                         required: true,
@@ -150,11 +227,11 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <DatePicker.RangePicker showTime />
+                                <Input />
                             </Form.Item>
                             <Form.Item
                                 label="Phần trăm giảm giá"
-                                name="percent"
+                                name="promotionalPercent"
                                 rules={[
                                     {
                                         required: true,
@@ -164,20 +241,86 @@ function SaleFormPage() {
                             >
                                 <InputNumber />
                             </Form.Item>
-                            <Form.Item label="Trạng thái khuyến mãi">
-                                <Select defaultValue={'Có hiệu lực'}>
-                                    <Option value="Có hiệu lực">Có hiệu lực</Option>
-                                    <Option value="Vô hiệu lực">Vô hiệu lực</Option>
+                            <Form.Item
+                                label="Khoảng thời gian"
+                                name="daterange"
+                                initialValue={daterange}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Nhập giá trị!',
+                                    },
+                                ]}
+                            >
+                                <DatePicker.RangePicker
+                                    showTime
+                                    defaultValue={daterange}
+                                    format="YYYY-MM-DD HH:mm:ss"
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                label="Mô tả"
+                                name="description"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Nhập giá trị!',
+                                    },
+                                ]}
+                            >
+                                <Input.TextArea
+                                    showCount
+                                    maxLength={1000}
+                                    style={{
+                                        height: 150,
+                                        resize: 'none',
+                                    }}
+                                    placeholder="Mô tả"
+                                />
+                            </Form.Item>
+                            {/* <Form.Item label="Trạng thái khuyến mãi" name="status">
+                                <Select defaultValue="INACTIVE">
+                                    <Option value="ACTIVE">Kích hoạt</Option>
+                                    <Option value="INACTIVE">Vô hiệu lực</Option>
                                 </Select>
+                            </Form.Item> */}
+                            <Form.Item label="Áp dụng cho tất cả sản phẩm" name="all">
+                                <Switch
+                                    checked={checked}
+                                    onChange={() =>
+                                        setChecked((prev) => {
+                                            if (!prev) {
+                                                setChosenCategoryList([]);
+                                            }
+                                            return !prev;
+                                        })
+                                    }
+                                />
                             </Form.Item>
-                            <Form.Item label="Áp dụng cho tất cả sản phẩm">
-                                <Switch />
+                            <Form.Item label="Hình ảnh" name="image">
+                                <Upload
+                                    name="image"
+                                    listType="picture-card"
+                                    className="flex justify-center"
+                                    showUploadList={false}
+                                    beforeUpload={() => false}
+                                    onChange={handleChange}
+                                >
+                                    {imageUrl ? (
+                                        <img src={imageUrl} alt="category" className="w-full" />
+                                    ) : (
+                                        <div>
+                                            <PlusOutlined />
+                                            <div className="mt-[0.8rem]">Tải ảnh lên</div>
+                                        </div>
+                                    )}
+                                </Upload>
                             </Form.Item>
-                            <div className="flex items-center justify-between">
-                                <Button className="min-w-[10%]">Mặc định</Button>
+                            <div className="flex items-center justify-end">
                                 <Button
+                                    onClick={id ? onEdit : onAdd}
                                     htmlType="submit"
-                                    className="bg-blue-500 text-white min-w-[10%]"
+                                    className="bg-[--primary-color] text-white min-w-[100px] border-none"
                                 >
                                     {id ? 'Cập nhật' : 'Thêm'}
                                 </Button>

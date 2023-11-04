@@ -8,7 +8,7 @@ const apiRoutes = {
         },
         user: {
             _: '/api/users',
-            me: '/api/users/profile/me'
+            me: '/api/users/profile/me',
         },
         address: '/api/addresses',
         order: '/api/orders',
@@ -26,11 +26,14 @@ const apiRoutes = {
         product: '/api/products',
         product_image: '/api/products/images',
         variant: '/api/variants',
+        inventory: '/api/inventories',
+        sale: '/api/sales',
     },
     web: {
         product: '/api/products',
         cart: 'api/carts',
         follow_product: 'api/user-follow-products',
     }
-}
+};
+
 export default apiRoutes;

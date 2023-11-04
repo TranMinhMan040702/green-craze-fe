@@ -1,28 +1,60 @@
-import { Button, Form, InputNumber, Modal } from 'antd';
+import { Button, Form, Input, InputNumber, Modal } from 'antd';
 
-function Edit({ isEditOpen, setIsEditOpen }) {
+function Edit({ isImportProduct, setIsImportProduct, importProduct }) {
+    const [form] = Form.useForm();
+    form.setFieldValue('quantity', isImportProduct.docket.quantity);
+    form.setFieldValue('actualInventory', isImportProduct.docket.actualInventory);
+    form.setFieldValue('note', isImportProduct.docket.note);
+
+    const handleEdit = () => {
+        importProduct({
+            docket: {
+                ...isImportProduct.docket,
+                quantity: form.getFieldValue('quantity'),
+                actualInventory: form.getFieldValue('actualInventory'),
+                note: form.getFieldValue('note'),
+            },
+            isEdit: false,
+        });
+    };
+
     return (
         <Modal
             title={<p className="text-center text-[2rem] mb-6">Cập nhật kho hàng</p>}
-            open={isEditOpen}
-            onCancel={() => setIsEditOpen(false)}
+            open={isImportProduct.isEdit}
+            onCancel={() =>
+                setIsImportProduct({
+                    docket: {
+                        productId: 0,
+                        quantity: 0,
+                        actualInventory: 0,
+                        note: null,
+                    },
+                    isEdit: false,
+                })
+            }
             footer={[
-                <Button type="primary" className="bg-yellow-500 text-white">
+                <Button
+                    onClick={() => handleEdit()}
+                    type="primary"
+                    className="bg-yellow-500 text-white"
+                >
                     Cập nhật
                 </Button>,
             ]}
         >
-            <div>
+            <div className="form-container">
                 <Form
+                    form={form}
                     labelCol={{
-                        span: 7,
+                        span: 12,
                     }}
                     initialValues={{
                         remember: true,
                     }}
                     autoComplete="off"
                 >
-                    <Form.Item label="Số lượng trong kho">
+                    <Form.Item label="Số lượng nhập vào" name="quantity">
                         <InputNumber
                             min={0}
                             style={{
@@ -30,12 +62,24 @@ function Edit({ isEditOpen, setIsEditOpen }) {
                             }}
                         />
                     </Form.Item>
-                    <Form.Item label="Số lượng có thể bán">
+                    <Form.Item label="Số lượng bán thực tế" name="actualInventory">
                         <InputNumber
                             min={0}
                             style={{
                                 width: 250,
                             }}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Ghi chú" name="note">
+                        <Input.TextArea
+                            showCount
+                            maxLength={100}
+                            style={{
+                                height: 100,
+                                width: 250,
+                                resize: 'none',
+                            }}
+                            placeholder="Ghi chú"
                         />
                     </Form.Item>
                 </Form>

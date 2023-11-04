@@ -73,7 +73,8 @@ function ProductCategoryFormPage() {
     const onAdd = async () => {
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
-        formData.append('parentId', form.getFieldValue('parentId'));
+        form.getFieldValue('parentId') &&
+            formData.append('parentId', form.getFieldValue('parentId'));
         formData.append('image', imageFile);
         await mutationCreate.mutateAsync(formData);
     };
@@ -81,7 +82,8 @@ function ProductCategoryFormPage() {
     const onEdit = async () => {
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
-        formData.append('parentId', form.getFieldValue('parentId'));
+        form.getFieldValue('parentId') &&
+            formData.append('parentId', form.getFieldValue('parentId'));
         formData.append('status', form.getFieldValue('status'));
         formData.append('image', imageFile);
         await mutationUpdate.mutateAsync({
@@ -174,11 +176,11 @@ function ProductCategoryFormPage() {
                     </Row>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item label="Danh mục cha" name="parentId">
+                            <Form.Item label="Danh mục cha" name="parentId" initialValue={null}>
                                 <Select
                                     onChange={(v) => form.setFieldValue('parentId', v)}
-                                    placeholder="--"
                                     showSearch
+                                    placeholder="--"
                                 >
                                     {listCategory &&
                                         listCategory.map((c, i) => (
@@ -194,6 +196,7 @@ function ProductCategoryFormPage() {
                                 <Select
                                     onChange={(v) => form.setFieldValue('status', v)}
                                     placeholder="--"
+                                    defaultValue={true}
                                     showSearch
                                 >
                                     <Option value={true}>Kích hoạt</Option>

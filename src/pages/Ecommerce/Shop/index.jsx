@@ -1,8 +1,17 @@
+import { useParams } from 'react-router-dom';
 import Filter from './Filter';
 import Product from './Product';
 import './shop.scss';
+import { useState } from 'react';
 
 function ShopPage() {
+    let { productCategory } = useParams();
+    const [params, setParams] = useState({
+        pageIndex: 1,
+        pageSize: 50,
+        categorySlug: productCategory,
+    });
+
     return (
         <div className="shop-container p-[2rem]">
             <div className="max-w-[1200px] mx-auto grid grid-cols-12 bg-white">
@@ -10,7 +19,7 @@ function ShopPage() {
                     <Filter />
                 </div>
                 <div className="col-span-9 max-lg:col-span-12">
-                    <Product />
+                    <Product params={params} setParams={setParams} />
                 </div>
             </div>
 
