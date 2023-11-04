@@ -8,7 +8,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Steps } from 'antd';
-import { useEffect, useState } from 'react';
 import { ORDER_STATUS, getOrderStatus } from '../../../utils/constants';
 
 function OrderStatus({ order }) {
@@ -20,7 +19,7 @@ function OrderStatus({ order }) {
                     title={
                         <div className="text-gray-400 text-[1.2rem]">
                             <p>{new Date(order?.createdAt).toLocaleDateString()}</p>
-                            <p>{new Date(order?.createdAt).toLocaleTimeString()}</p>
+                            <p className='leading-4'>{new Date(order?.createdAt).toLocaleTimeString()}</p>
                         </div>
                     }
                     icon={<FontAwesomeIcon icon={faReceipt} className='w-8 h-8'/>}

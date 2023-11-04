@@ -18,7 +18,7 @@ function OrderDetailPage() {
                 <Head code={data?.data?.code} status={data?.data?.status} />
                 <OrderStatus order={data?.data} />
                 <Contact />
-                <Wrapper orderItems={data?.data?.items} />
+                <Wrapper orderItems={data?.data?.items} status={data?.data?.status}/>
                 <Info order={data?.data} />
             </div>
         </AccountLayout>

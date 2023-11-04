@@ -21,9 +21,14 @@ function Information({ product }) {
             });
         },
         error: (err) => {
+            let description = 'Sản phẩm chưa được thêm vào giỏ hàng, có lỗi xảy ra';
+            let detail = err?.response?.data?.detail?.toLowerCase();
+            if (detail?.includes('quantity')) {
+                description = 'Số lượng sản phẩm trong kho không đủ';
+            }
             notification.error({
                 message: 'Thêm thất bại',
-                description: 'Sản phẩm chưa được thêm vào giỏ hàng',
+                description: description,
             });
         },
     });
@@ -38,7 +43,8 @@ function Information({ product }) {
         error: (err) => {
             notification.error({
                 message: 'Thêm thất bại',
-                description: 'Có lỗi xảy ra khi thêm sản phẩm, có thể sản phẩm đã tồn tại trong danh sách yêu thích',
+                description:
+                    'Có lỗi xảy ra khi thêm sản phẩm, có thể sản phẩm đã tồn tại trong danh sách yêu thích',
             });
         },
     });

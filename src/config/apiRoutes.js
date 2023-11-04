@@ -2,6 +2,7 @@ const apiRoutes = {
     common: {
         auth: {
             login: '/api/auth/login',
+            google_login: '/api/auth/google-login',
             register: '/api/auth/register',
             refresh_token: '/api/auth/refresh-token',
         },

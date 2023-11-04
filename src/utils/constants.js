@@ -7,6 +7,7 @@ export const ORDER_STATUS = {
     DELIVERED: 'DELIVERED',
     CANCELLED: 'CANCELLED',
 };
+
 const ORDER_STATUS_OBJ = {
     NOT_PROCESSED: {
         title: 'Chưa xử lý',
@@ -39,6 +40,8 @@ const ORDER_STATUS_OBJ = {
         icon: faCancel
     },
 };
+
+export const EXCHANGE_VALUE_USD_VND = 23000;
 
 export const getOrderStatus = (status) => {
     return ORDER_STATUS_OBJ[status];

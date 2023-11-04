@@ -27,11 +27,15 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
         success: (data) => {
             notification.success({
                 message: 'Đặt hàng thành công',
-                description:
-                    'Đơn hàng của quý khách đã được ghi nhận và đang được xử lý. Vui lòng kiểm tra email để xem chi tiết.',
+                description: chosenPaymentMethod?.name?.toLowerCase().includes('cod')
+                    ? 'Đơn hàng của quý khách đã được ghi nhận và đang được xử lý. Vui lòng kiểm tra email để xem chi tiết.'
+                    : 'Đơn hàng của quý khách đã được ghi nhận và chưa được xử lý. Vui lòng thanh toán.',
             });
             localStorage.removeItem('chosenCartItems');
-            navigate(config.routes.web.cart);
+            let url = config.routes.web.order;
+            if (chosenPaymentMethod?.name?.toLowerCase().includes('paypal'))
+                url = config.routes.web.checkout + '/payment/' + data?.data?.code;
+            navigate(url);
         },
         error: (e) => {
             notification.error({
@@ -61,45 +65,45 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
             <div className="flex items-center justify-between max-sm:flex-col max-md:gap-[2rem] max-xl:gap-[3rem] max-2xl:gap-[17rem] 2xl:gap-[30rem] p-[2rem] text-black font-medium text-opacity-60 text-[1.6rem]">
                 <p className="text-[2rem] font-medium text-[#537F44]">Phương thức thanh toán</p>
                 <Radio.Group
-                        className="flex items-center"
-                        onChange={onChange}
-                        value={chosenPaymentMethod?.id}
-                    >
-                        {data?.data?.items?.map((v) => {
-                            return (
-                                <Radio
-                                    key={v.id}
-                                    className="element w-[14rem] h-[7rem] p-[1rem] flex flex-col items-center"
-                                    value={v.id}
-                                >
-                                    <div className="flex flex-col items-center">
-                                        <span className="text-[1.4rem]">{v.name}</span>
-                                        <svg
-                                            className="ico-check hidden"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <g>
+                    className="flex items-center"
+                    onChange={onChange}
+                    value={chosenPaymentMethod?.id}
+                >
+                    {data?.data?.items?.map((v) => {
+                        return (
+                            <Radio
+                                key={v.id}
+                                className="element w-[14rem] h-[7rem] p-[1rem] flex flex-col items-center"
+                                value={v.id}
+                            >
+                                <div className="flex flex-col items-center">
+                                    <span className="text-[1.4rem]">{v.name}</span>
+                                    <svg
+                                        className="ico-check hidden"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <g>
+                                            <path
+                                                fill="#537F44"
+                                                d="M0 0h16c2.21 0 4 1.79 4 4v16L0 0z"
+                                                transform="translate(-804 -366) translate(180 144) translate(484 114) translate(16 80) translate(0 28) translate(124)"
+                                            ></path>
+                                            <g fill="#FFF">
                                                 <path
-                                                    fill="#537F44"
-                                                    d="M0 0h16c2.21 0 4 1.79 4 4v16L0 0z"
-                                                    transform="translate(-804 -366) translate(180 144) translate(484 114) translate(16 80) translate(0 28) translate(124)"
+                                                    d="M4.654 7.571L8.88 3.176c.22-.228.582-.235.81-.016.229.22.236.582.017.81L5.04 8.825c-.108.113-.258.176-.413.176-.176 0-.33-.076-.438-.203L2.136 6.37c-.205-.241-.175-.603.067-.808.242-.204.603-.174.808.068L4.654 7.57z"
+                                                    transform="translate(-804 -366) translate(180 144) translate(484 114) translate(16 80) translate(0 28) translate(124) translate(7.5)"
                                                 ></path>
-                                                <g fill="#FFF">
-                                                    <path
-                                                        d="M4.654 7.571L8.88 3.176c.22-.228.582-.235.81-.016.229.22.236.582.017.81L5.04 8.825c-.108.113-.258.176-.413.176-.176 0-.33-.076-.438-.203L2.136 6.37c-.205-.241-.175-.603.067-.808.242-.204.603-.174.808.068L4.654 7.57z"
-                                                        transform="translate(-804 -366) translate(180 144) translate(484 114) translate(16 80) translate(0 28) translate(124) translate(7.5)"
-                                                    ></path>
-                                                </g>
                                             </g>
-                                        </svg>
-                                    </div>
-                                </Radio>
-                            );
-                        })}
-                    </Radio.Group>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </Radio>
+                        );
+                    })}
+                </Radio.Group>
             </div>
             <div className="p-5">
                 <h2 className="mb-2 ml-2 text-[1.6rem]">Lời nhắn</h2>
@@ -119,9 +123,20 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
                 <Button
                     onClick={onCreateOrder}
                     loading={processing}
-                    disabled={!defaultAddress || chosenCartItems?.length === 0 || !chosenDelivery || !chosenPaymentMethod}
+                    disabled={
+                        !defaultAddress ||
+                        chosenCartItems?.length === 0 ||
+                        !chosenDelivery ||
+                        !chosenPaymentMethod
+                    }
                     className={`w-[21rem] h-[3.6rem] md:ml-[2.5rem] max-md:mb-[1rem] text-[1.8rem] font-normal bg-[#FF5722] text-white border-none rounded-md
-                    ${(!defaultAddress || chosenCartItems?.length === 0 || !chosenDelivery || !chosenPaymentMethod) && 'bg-gray-400'}`}
+                    ${
+                        (!defaultAddress ||
+                            chosenCartItems?.length === 0 ||
+                            !chosenDelivery ||
+                            !chosenPaymentMethod) &&
+                        'bg-gray-400'
+                    }`}
                 >
                     Đặt hàng
                 </Button>

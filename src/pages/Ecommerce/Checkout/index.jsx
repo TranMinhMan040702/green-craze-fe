@@ -10,6 +10,7 @@ function CheckoutPage() {
     const [chosenDelivery, setChosenDelivery] = useState(null);
     const [totalCartPrice, setTotalCartPrice] = useState(null);
     const [chosenCartItems, setChosenCartItems] = useState([]);
+
     return (
         <div className="w-[80%] mx-auto checkout-container pt-[5.6rem] pb-[10rem]">
             <OrderAddress setDefaultAddress={setDefaultAddress} />

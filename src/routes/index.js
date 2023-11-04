@@ -46,6 +46,7 @@ import ProductCategoryPage from '../pages/Admin/ProductCategory';
 import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCategoryForm';
 import VariantPage from '../pages/Admin/Variant';
 import ProductImagePage from '../pages/Admin/ProductImage';
+import PaypalPaymentPage from '../pages/Ecommerce/Checkout/PaypalPayment';
 
 const privateRoutes = [
     // Admin Layout
@@ -335,6 +336,13 @@ const privateRoutes = [
     {
         path: config.routes.web.checkout,
         component: CheckoutPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: true,
+    },
+    {
+        path: config.routes.web.checkout + '/payment/:code',
+        component: PaypalPaymentPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: true,

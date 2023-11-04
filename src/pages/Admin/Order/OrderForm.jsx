@@ -7,7 +7,7 @@ import config from '../../../config';
 import { useEffect, useState } from 'react';
 import { useGetListOrderCancellationReason, useGetOrder, useUpdateOrder } from '../../../hooks/api';
 import { numberFormatter } from '../../../utils/formatter';
-import { getAllOrderStatusSelect } from '../../../utils/constants';
+import { ORDER_STATUS, getAllOrderStatusSelect } from '../../../utils/constants';
 
 const columns = [
     {
@@ -58,7 +58,7 @@ function transformData(data) {
             key: item?.id,
             index: idx + 1,
             product: (
-                <div className='flex items-center gap-[0.5rem]'>
+                <div className="flex items-center gap-[0.5rem]">
                     <img className="w-16 border border-solid" src={item?.productImage} />
                     <div>
                         <p className="text-[1.4rem]">{item?.productName}</p>
@@ -82,7 +82,7 @@ function OrderFormPage() {
     const [processing, setProcessing] = useState(false);
     const { data, isLoading } = useGetOrder(id);
     const cancelReasonApi = useGetListOrderCancellationReason({
-        status: true
+        status: true,
     });
     const [form] = Form.useForm();
     const mutationUpdate = useUpdateOrder({
@@ -126,7 +126,6 @@ function OrderFormPage() {
     }, [isLoading, data]);
 
     const onEdit = async () => {
-        
         await mutationUpdate.mutateAsync({
             id: id,
             body: {
@@ -172,9 +171,25 @@ function OrderFormPage() {
                     </div>
                 </div>
                 <div>
-                    <Button className="px-[3rem] bg-[--primary-color] border-none text-[1.5rem] text-white font-medium">
-                        Đã giao
-                    </Button>
+                    {data?.data?.status !== ORDER_STATUS.DELIVERED && (
+                        <Button
+                            loading={processing}
+                            onClick={async () => {
+                                await mutationUpdate.mutateAsync({
+                                    id: id,
+                                    body: {
+                                        status: ORDER_STATUS.DELIVERED,
+                                        otherCancellation: form.getFieldValue('otherCancelReason'),
+                                        orderCancellationReasonId:
+                                            form.getFieldValue('cancelReason'),
+                                    },
+                                });
+                            }}
+                            className="px-[3rem] bg-[--primary-color] border-none text-[1.5rem] text-white font-medium"
+                        >
+                            Đã giao
+                        </Button>
+                    )}
                 </div>
             </div>
             <div className="grid grid-cols-12 gap-[1.8rem]">

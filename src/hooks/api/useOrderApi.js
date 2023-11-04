@@ -38,3 +38,7 @@ export const useGetOrderByCode = (code) => {
 export const useUpdateOrder = (updater) => {
     return usePut(apiRoutes.common.order, updater);
 }
+
+export const useCompletePaypalOrder = (updater) => {
+    return usePut(apiRoutes.common.order + '/paypal', updater);
+}

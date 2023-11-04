@@ -43,7 +43,7 @@ export {
     useDeleteListEmployee,
 } from './useEmployeeApi.js';
 
-export { useLogin, useRegister } from './useAuthApi.js';
+export { useLogin, useRegister, useLoginByGoogle } from './useAuthApi.js';
 
 export {
     useGetMe,
@@ -134,5 +134,6 @@ export {
     useGetListOrder,
     useGetOrder,
     useUpdateOrder,
-    useGetOrderByCode
+    useGetOrderByCode,
+    useCompletePaypalOrder,
 } from './useOrderApi.js';
