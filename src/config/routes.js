@@ -59,7 +59,6 @@ const routes = {
         register: '/register',
         login: '/login',
         otp_verify: '/otp-verify',
-        home: '/home',
         cart: '/cart',
         checkout: '/checkout',
         product_detail: '/product-detail',

@@ -1,18 +1,19 @@
 import { Radio } from 'antd';
-const onChange = (e) => {
-    console.log(`radio checked:${e.target.value}`);
-};
 
-function FilterRating() {
+
+function FilterRating({setParams, count}) {
+    const onChange = (e) => {
+        setParams((prev) => ({...prev, rating: e.target.value}))
+    };
     return (
         <div className="filter-rating">
-            <Radio.Group onChange={onChange} defaultValue="a">
-                <Radio.Button value="a">Tất cả</Radio.Button>
-                <Radio.Button value="b">5 Sao {`(2,4k)`}</Radio.Button>
-                <Radio.Button value="c">4 Sao {`(2,4k)`}</Radio.Button>
-                <Radio.Button value="d">3 Sao {`(2,4k)`}</Radio.Button>
-                <Radio.Button value="e">2 Sao {`(2,4k)`}</Radio.Button>
-                <Radio.Button value="f">1 Sao {`(2,4k)`}</Radio.Button>
+            <Radio.Group onChange={onChange} defaultValue={null}>
+                <Radio.Button value={null}>Tất cả ({count[0]})</Radio.Button>
+                <Radio.Button value="5">5 Sao ({count[1]})</Radio.Button>
+                <Radio.Button value="4">4 Sao ({count[2]})</Radio.Button>
+                <Radio.Button value="3">3 Sao ({count[3]})</Radio.Button>
+                <Radio.Button value="2">2 Sao ({count[4]})</Radio.Button>
+                <Radio.Button value="1">1 Sao ({count[5]})</Radio.Button>
             </Radio.Group>
         </div>
     );

@@ -10,6 +10,7 @@ const apiRoutes = {
             _: '/api/users',
             me: '/api/users/profile/me',
         },
+        review: '/api/reviews',
         address: '/api/addresses',
         order: '/api/orders',
     },

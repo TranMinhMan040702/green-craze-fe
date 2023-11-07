@@ -51,6 +51,8 @@ export {
     useGetListUser,
     useDeleteListUser,
     useToggleUser,
+    useChangePassword,
+    useEditUser,
 } from './useUserApi.js';
 
 export { useGetRole, useGetListRole } from './useRoleApi.js';
@@ -149,3 +151,15 @@ export {
     useCancelSale,
 } from './useSaleApi.js';
 
+export {
+    useCreateReview,
+    useUpdateReview,
+    useGetReviewByOrderItem,
+    useDeleteListReview,
+    useDeleteReview,
+    useGetListReview,
+    useGetReview,
+    useReplyReview,
+    useToggleReview,
+    useGetCountReview
+} from './useReviewAPI.js';

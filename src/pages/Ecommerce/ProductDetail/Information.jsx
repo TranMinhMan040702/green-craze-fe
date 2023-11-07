@@ -95,12 +95,12 @@ function Information({ product }) {
                         <span className="mr-[0.5rem] star-color">{product?.sold}</span>
                         <span>đã bán</span>
                     </div>
-                </div>
+                </div>  
                 <div className="text-[1.6rem] my-[2rem]">
                     <div className="star-color">
                         <Rate
                             disabled
-                            value={product?.rating}
+                            value={Math.ceil(product?.rating * 2) / 2}
                             character={() => <FontAwesomeIcon icon={faStar} />}
                         />
                     </div>

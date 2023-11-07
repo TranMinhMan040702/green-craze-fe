@@ -1,19 +1,63 @@
-import { Button, DatePicker, Form, Input, Radio, Upload } from 'antd';
+import { Button, DatePicker, Form, Input, Radio, Upload, notification } from 'antd';
 import UploadAvatar from './UploadAvatar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { useEditUser, useGetMe } from '../../../hooks/api';
 
 function Info() {
+    const profile = useGetMe();
+    const [processing, setProcessing] = useState(false);
+    const [avatar, setAvatar] = useState(null);
+    const [imageUrl, setImageUrl] = useState();
     const [form] = Form.useForm();
+    const mutateEditUser = useEditUser({
+        success: (data) => {
+            notification.success({
+                message: 'Cập nhật thông tin thành công!',
+            });
+            setAvatar(null);
+            setImageUrl('')
+            profile.refetch();
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Cập nhật thông tin thất bại!',
+            });
+        },
+        mutate: (data) => {
+            setProcessing(true);
+        },
+        settled: (data) => {
+            setProcessing(false);
+        },
+    });
     useEffect(() => {
+        if (!profile?.data || profile?.isLoading) return;
+        let user = profile?.data?.data;
         form.setFieldsValue({
-            name: 'Nguyễn Minh Sơn',
-            phone: '0354964840'
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            phone: user?.phone,
+            gender: user?.gender || 'other',
+            dob: dayjs(user?.dob, 'YYYY-MM-DD'),
         });
-    }, []);
+    }, [profile?.data, profile?.isLoading]);
+
+    const onEditUser = async (values) => {
+        let data = {
+            ...values,
+            status: 1,
+            avatar: avatar,
+            dob: values.dob.format('YYYY-MM-DD'),
+        };
+        await mutateEditUser.mutateAsync(data);
+    };
+
     return (
         <div className="md:p-[5rem] sm:p-[1rem]">
             <Form
                 form={form}
+                onFinish={onEditUser}
                 name="my-profile"
                 labelCol={{
                     span: 8,
@@ -29,9 +73,22 @@ function Info() {
             >
                 <div className="">
                     <Form.Item
+                        label="Họ"
+                        name="firstName"
+                        className="text-[1.6rem]"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập họ của bạn!',
+                            },
+                        ]}
+                    >
+                        <Input className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none" />
+                    </Form.Item>
+                    <Form.Item
                         label="Tên"
-                        name="name"
-                        className='text-[1.6rem]'
+                        name="lastName"
+                        className="text-[1.6rem]"
                         rules={[
                             {
                                 required: true,
@@ -42,9 +99,7 @@ function Info() {
                         <Input className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none" />
                     </Form.Item>
                     <Form.Item label="Email" name="email">
-                        <p className="text-black text-[1.6rem] font-normal">
-                            nguyenminhson102002@gmail.com
-                        </p>
+                        <p className="text-black text-[1.6rem] font-normal">{profile?.data?.data?.email}</p>
                     </Form.Item>
                     <Form.Item
                         label="Số điện thoại"
@@ -60,10 +115,10 @@ function Info() {
                         <Input className="text-black text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow" />
                     </Form.Item>
                     <Form.Item label="Giới tính" name="gender">
-                        <Radio.Group defaultValue={'Nam'}>
-                            <Radio value="Nam">Nam</Radio>
-                            <Radio value="Nữ">Nữ</Radio>
-                            <Radio value="Khác">Khác</Radio>
+                        <Radio.Group defaultValue={'male'}>
+                            <Radio value="male">Nam</Radio>
+                            <Radio value="female">Nữ</Radio>
+                            <Radio value="other">Khác</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
@@ -76,22 +131,24 @@ function Info() {
                             },
                         ]}
                     >
-                        <DatePicker 
+                        <DatePicker
+                            format={'YYYY-MM-DD'}
                             className="max-w-[14rem] text-[1.6rem] p-3 h-[3rem] bg-white rounded-[0.3rem] shadow"
                         />
                     </Form.Item>
                 </div>
                 <div className="">
-                    <UploadAvatar />
+                    <UploadAvatar setAvatar={setAvatar} imageUrl={imageUrl} setImageUrl={setImageUrl}/>
                 </div>
 
                 <Form.Item className="text-center max-md:flex xl:ml-[8rem] mt-2 max-sm:justify-center">
-                    <button
+                    <Button
+                        loading={processing}
                         className="submit-btn text-white text-[2rem] w-[11rem] h-[4rem] pb-[0.5rem] rounded-lg"
-                        type="submit"
+                        htmlType='submit'
                     >
                         Lưu
-                    </button>
+                    </Button>
                 </Form.Item>
             </Form>
         </div>

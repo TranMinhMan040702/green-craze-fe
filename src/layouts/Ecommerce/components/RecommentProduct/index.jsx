@@ -6,7 +6,8 @@ import { useGetListProduct } from '../../../../hooks/api';
 function RecommentProduct() {
     const {data, isLoading} = useGetListProduct({
         pageIndex: 1,
-        pageSize: 5
+        pageSize: 5,
+        status: true
     });
     return (
         <div className="recomment">

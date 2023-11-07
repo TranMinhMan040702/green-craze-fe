@@ -89,6 +89,16 @@
                 }
             }
         }
+        .ant-pagination {
+            .ant-pagination-item {
+                a {
+                    color: var(--primary-color);
+                }
+            }
+            .ant-pagination-item-active {
+                border-color: var(--primary-color);
+            }
+        }
     }
 }
 @media screen and (max-width: 1023px) {

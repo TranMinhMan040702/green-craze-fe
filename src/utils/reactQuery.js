@@ -87,6 +87,10 @@ export const usePutWithoutId = (url, updater) => {
     return useGenericMutation((data) => api.put(url, data), url, updater);
 };
 
+export const usePutFormWithoutId = (url, updater) => {
+    return useGenericMutation((data) => api.putForm(url, data), url, updater);
+};
+
 export const usePutForm = (url, updater) => {
     return useGenericMutation((data) => api.putForm(`${url}/${data.id}`, data.body), url, updater);
 };

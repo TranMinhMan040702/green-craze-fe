@@ -7,7 +7,7 @@ function OrderItem({ item, isLastItem = false }) {
             <div className="">
                 <p className="text-black text-[1.5rem] font-normal">{item?.productName}</p>
                 <p className="text-[1.2rem] mb-[1rem] mt-[.6rem]">
-                    x{item?.quantity} {item?.productUnit}
+                    x{item?.quantity} {item?.variantName}
                 </p>
                 <p className="text-rose-600 text-opacity-70 font-medium text-[1.4rem]">
                     {numberFormatter(item?.totalPrice)}
