@@ -11,6 +11,7 @@ import {
     Switch,
     Tabs,
     Upload,
+    notification,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -33,8 +34,6 @@ const getBase64 = (img, callback) => {
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
 };
-
-const dateFormat = 'MM/DD/YYYY, HH:mm:ss';
 
 function SaleFormPage() {
     const navigate = useNavigate();
@@ -82,19 +81,33 @@ function SaleFormPage() {
 
     const mutationCreate = useCreateSale({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Đợt giảm giá đã được thêm',
+            });
             navigate(config.routes.admin.sale);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm đợt giảm giá',
+            });
         },
     });
 
     const mutationEdit = useUpdateSale({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Đợt giảm giá đã được chỉnh sửa',
+            });
             navigate(config.routes.admin.sale);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa đợt giảm giá',
+            });
         },
     });
 

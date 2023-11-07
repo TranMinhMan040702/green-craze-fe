@@ -1,7 +1,7 @@
 import { faEdit, faEye } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
+import { Button, Input, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
@@ -141,19 +141,33 @@ function Data({ params, setParams }) {
 
     const mutationApply = useApplySale({
         success: () => {
+            notification.success({
+                message: 'Áp dụng thành công',
+                description: 'Áp dụng giảm giá cho sản phẩm thành công',
+            });
             refetch();
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Áp dụng thất bại',
+                description: 'Áp dụng giảm giá cho sản phẩm thất bại',
+            });
         },
     });
 
     const mutationCancel = useCancelSale({
         success: () => {
+            notification.success({
+                message: 'Hủy áp dụng thành công',
+                description: 'Hủy áp dụng giảm giá cho sản phẩm thành công',
+            });
             refetch();
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Hủy áp dụng thất bại',
+                description: 'Hủy áp dụng giảm giá cho sản phẩm thất bại',
+            });
         },
     });
 

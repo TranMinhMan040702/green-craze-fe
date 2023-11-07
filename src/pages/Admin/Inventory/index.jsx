@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Data from './Data';
-import InventoryHead from './UnitHead';
+import InventoryHead from './InventoryHead.jsx';
 import './inventory.scss';
 
 function InventoryPage() {

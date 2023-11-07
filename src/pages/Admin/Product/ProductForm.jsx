@@ -1,4 +1,15 @@
-import { Button, Col, Form, Input, Row, Select, Upload, InputNumber, Table } from 'antd';
+import {
+    Button,
+    Col,
+    Form,
+    Input,
+    Row,
+    Select,
+    Upload,
+    InputNumber,
+    Table,
+    notification,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft, faEdit, faXmarkSquare } from '@fortawesome/free-solid-svg-icons';
@@ -207,19 +218,33 @@ function ProductFormPage() {
 
     const mutationCreate = useCreateProduct({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Sản phẩm đã được thêm',
+            });
             navigate(config.routes.admin.product);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm sản phẩm',
+            });
         },
     });
 
     const mutationUpdate = useUpdateProduct({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Sản phẩm đã được chỉnh sửa',
+            });
             navigate(config.routes.admin.product);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa sản phẩm',
+            });
         },
     });
 

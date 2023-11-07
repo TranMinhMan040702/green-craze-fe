@@ -86,7 +86,9 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             roles: (
                 <div className="flex flex-col gap-[1rem]">
                     {item?.user?.roles.map((r) => (
-                        <Tag key={r} className="w-fit uppercase">{r}</Tag>
+                        <Tag key={r} className="w-fit uppercase">
+                            {r}
+                        </Tag>
                     ))}
                 </div>
             ),
@@ -100,7 +102,9 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     </Button>
                     <Button
                         className="text-green-500 border border-green-500"
-                        onClick={() => navigate(`${config.routes.admin.employee_update}/${item?.id}`)}
+                        onClick={() =>
+                            navigate(`${config.routes.admin.employee_update}/${item?.id}`)
+                        }
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
@@ -134,7 +138,6 @@ function Data({ params, setParams, setEmployeeIds }) {
     const mutationDelete = useDeleteEmployee({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
-
             notification.success({
                 message: 'Đổi trạng thái thành công',
                 description: 'Nhân viên đã được thay đổi trạng thái',
@@ -196,6 +199,7 @@ function Data({ params, setParams, setEmployeeIds }) {
     const onDelete = async (id) => {
         await mutationDelete.mutateAsync(id);
     };
+
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
             ...tableParams,
@@ -210,6 +214,7 @@ function Data({ params, setParams, setEmployeeIds }) {
             isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
     };
+
     return (
         <div>
             <div className="search-container p-4 bg-white mb-3 flex items-center rounded-lg">
