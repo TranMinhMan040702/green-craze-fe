@@ -24,7 +24,7 @@ function RegisterPage() {
                 description: err?.response?.data?.detail,
             });
         },
-    })
+    });
 
     const onRegister = async () => {
         try {
@@ -41,13 +41,13 @@ function RegisterPage() {
         });
     };
 
-    if(isTokenStoraged()){
+    if (isTokenStoraged()) {
         let roles = getRoles();
-        let url = config.routes.web.home;
+        let url = '/';
 
         if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
 
-        return <Navigate to={url} replace/>
+        return <Navigate to={url} replace />;
     }
     return (
         <div className="register-container py-[3.6rem] ">

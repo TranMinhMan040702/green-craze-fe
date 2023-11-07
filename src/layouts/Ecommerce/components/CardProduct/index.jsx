@@ -6,8 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconStarFilled, IconStarHalfFilled, IconStar } from '@tabler/icons-react';
 import { numberFormatter } from '../../../../utils/formatter';
+import { useNavigate } from 'react-router-dom';
+import config from '../../../../config';
 
 function CardProduct({ product }) {
+    const navigate = useNavigate();
     const handlePrice = (variants) => {
         const variantWithItemPriceMin = variants.reduce((min, current) =>
             current.itemPrice < min.itemPrice ? current : min,
@@ -21,11 +24,11 @@ function CardProduct({ product }) {
                     : null,
         };
     };
-
     const price = handlePrice(product.variants);
 
     return (
         <Card
+            onClick={() => navigate(`${config.routes.web.product_detail}/${product.slug}`)}
             hoverable
             className="card-product"
             style={{

@@ -15,6 +15,10 @@ export const useGetProductCategory = (id) => {
     return useFetch({ url: `${apiRoutes.admin.product_category}/${id}`, key: 'getById' });
 };
 
+export const useGetProductCategoryBySlug = (slug) => {
+    return useFetch({ url: `${apiRoutes.admin.product_category}/slug/${slug}`, key: 'getBySlug' });
+};
+
 export const useCreateProductCategory = (updater) => {
     return usePostForm(apiRoutes.admin.product_category, updater);
 };

@@ -4,6 +4,7 @@ import OrderDelivery from './OrderDelivery';
 import OrderProducts from './OrderProducts';
 import Payment from './Payment';
 import './checkout.scss';
+import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function CheckoutPage() {
     const [defaultAddress, setDefaultAddress] = useState(null);
@@ -12,20 +13,26 @@ function CheckoutPage() {
     const [chosenCartItems, setChosenCartItems] = useState([]);
 
     return (
-        <div className="w-[80%] mx-auto checkout-container pt-[5.6rem] pb-[10rem]">
-            <OrderAddress setDefaultAddress={setDefaultAddress} />
-            <OrderProducts
-                setChosenCartItems={setChosenCartItems}
-                setTotalCartPrice={setTotalCartPrice}
-            />
-            <OrderDelivery chosenDelivery={chosenDelivery} setChosenDelivery={setChosenDelivery} />
-            <Payment
-                chosenCartItems={chosenCartItems}
-                defaultAddress={defaultAddress}
-                chosenDelivery={chosenDelivery}
-                totalCartPrice={totalCartPrice}
-            />
-        </div>
+        <>
+            <BreadCrumb routes={[{ title: 'Thanh toán' }]} />
+            <div className="w-[80%] mx-auto checkout-container pt-[5.6rem] pb-[10rem]">
+                <OrderAddress setDefaultAddress={setDefaultAddress} />
+                <OrderProducts
+                    setChosenCartItems={setChosenCartItems}
+                    setTotalCartPrice={setTotalCartPrice}
+                />
+                <OrderDelivery
+                    chosenDelivery={chosenDelivery}
+                    setChosenDelivery={setChosenDelivery}
+                />
+                <Payment
+                    chosenCartItems={chosenCartItems}
+                    defaultAddress={defaultAddress}
+                    chosenDelivery={chosenDelivery}
+                    totalCartPrice={totalCartPrice}
+                />
+            </div>
+        </>
     );
 }
 

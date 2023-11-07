@@ -69,6 +69,7 @@ export {
 export {
     useGetListProductCategory,
     useGetProductCategory,
+    useGetProductCategoryBySlug,
     useCreateProductCategory,
     useUpdateProductCategory,
     useDeleteProductCategory,
@@ -148,4 +149,3 @@ export {
     useApplySale,
     useCancelSale,
 } from './useSaleApi.js';
-

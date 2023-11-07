@@ -10,7 +10,7 @@ function transformData(transaction) {
         {
             key: '1',
             property: 'ID',
-            value: '1',
+            value: transaction.id,
         },
         {
             key: '2',
@@ -68,7 +68,7 @@ function transformData(transaction) {
         {
             key: '11',
             property: 'PayPal ID',
-            value: transaction?.paypalId,
+            value: transaction?.paypalOrderId,
         },
     ];
 }

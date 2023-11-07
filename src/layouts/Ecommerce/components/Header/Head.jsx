@@ -8,15 +8,19 @@ import {
     faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetMe } from '../../../../hooks/api';
+import { Dropdown } from 'antd';
 
 function Head() {
+    const { isLoading, data } = useGetMe();
+
     return (
         <div className="head-container">
             <div className="container grid grid-cols-12 lg:gap-[5rem] mx-auto bg-white h-[68px] my-[1rem] sm:px-[3.2rem] px-[1rem] items-center justify-between">
                 <label for="active" className="lg:hidden col-span-4 text-[2.4rem] cursor-pointer">
                     <FontAwesomeIcon icon={faBars} />
                 </label>
-                <Link to={config.routes.web.home} className="lg:col-span-2 col-span-4">
+                <Link to={'/'} className="lg:col-span-2 col-span-4">
                     <div className="logo md:w-[110px] md:h-[68px] mx-auto">
                         <img src={images.logo} alt="logo" />
                     </div>
@@ -43,15 +47,75 @@ function Head() {
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">
-                        <div className="w-[28px] h-[28px] mr-[1.5rem]">
-                            <img src={images.user} alt="bell" />
-                        </div>
-                        <div className="flex-col">
-                            <Link className="block text-[1.6rem]">Đăng nhập</Link>
-                            <Link className="block text-[1.2rem]">Đăng ký</Link>
-                        </div>
+                        {data?.data ? (
+                            <Dropdown
+                                menu={{
+                                    items: [
+                                        {
+                                            key: '1',
+                                            label: (
+                                                <Link to={config.routes.web.profile}>
+                                                    Tài khoản của Tôi
+                                                </Link>
+                                            ),
+                                        },
+                                        {
+                                            key: '2',
+                                            label: (
+                                                <Link to={config.routes.web.order}>Đơn mua</Link>
+                                            ),
+                                        },
+                                        {
+                                            key: '3',
+                                            label: <Link>Đăng xuất</Link>,
+                                        },
+                                    ],
+                                }}
+                                placement="bottom"
+                                arrow
+                            >
+                                <div className="flex items-center">
+                                    <div className="w-[28px] h-[28px] mr-[1.5rem]">
+                                        <img
+                                            className="rounded-full"
+                                            src={
+                                                data?.data?.avatar
+                                                    ? data?.data?.avatar
+                                                    : images.user
+                                            }
+                                            alt="bell"
+                                        />
+                                    </div>
+                                    <div className="text-[1.4rem]">{`${data?.data?.lastName} ${data?.data?.firstName}`}</div>
+                                </div>
+                            </Dropdown>
+                        ) : (
+                            <div className="flex items-center">
+                                <div className="w-[28px] h-[28px] mr-[1.5rem]">
+                                    <img
+                                        className="rounded-full"
+                                        src={data?.data?.avatar ? data?.data?.avatar : images.user}
+                                        alt="bell"
+                                    />
+                                </div>
+                                <div className="flex-col">
+                                    <Link
+                                        to={config.routes.web.login}
+                                        className="block text-[1.6rem]"
+                                    >
+                                        Đăng nhập
+                                    </Link>
+                                    <Link
+                                        to={config.routes.web.register}
+                                        className="block text-[1.2rem]"
+                                    >
+                                        Đăng ký
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <Link>
+                    <Link to={config.routes.web.cart}>
                         <div className="cart max-md:border-none w-[130px] h-[40px] bg-white p-[0.8rem] flex items-center justify-start max-md:justify-end max-md:relative">
                             <FontAwesomeIcon className="text-[2.4rem]" icon={faCartShopping} />
                             <span className="max-md:hidden text-[1.4rem] mx-[0.4rem]">
