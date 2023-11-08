@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { Button, Form, Input, notification } from 'antd';
 
 import images from '../../../assets/images';
@@ -206,11 +206,19 @@ function LoginPage() {
                             />
                         </div>
                         <div className="text-center text-[1.2rem]">
+                            <span className="text-black text-opacity-60">Quên mật khẩu?</span>
+                            <span className="text-lime-700 text-opacity-60 px-[0.5rem]">
+                                <NavLink to={config.routes.web.forgot_password}>
+                                    Lấy lại mật khẩu
+                                </NavLink>
+                            </span>
+                        </div>
+                        <div className="text-center text-[1.2rem]">
                             <span className="text-black text-opacity-60">
                                 Bạn là thành viên mới?
                             </span>
                             <span className="text-lime-700 text-opacity-60 px-[0.5rem]">
-                                <Link>Đăng ký</Link>
+                                <NavLink to={config.routes.web.register}>Đăng ký</NavLink>
                             </span>
                         </div>
                     </div>

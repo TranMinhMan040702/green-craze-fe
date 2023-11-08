@@ -47,6 +47,8 @@ import ProductCategoryFormPage from '../pages/Admin/ProductCategory/ProductCateg
 import VariantPage from '../pages/Admin/Variant';
 import ProductImagePage from '../pages/Admin/ProductImage';
 import PaypalPaymentPage from '../pages/Ecommerce/Checkout/PaypalPayment';
+import OTPVerificationPage from '../pages/Ecommerce/OTPVerification';
+import ForgotPasswordPage from '../pages/Ecommerce/ForgotPassword';
 
 const privateRoutes = [
     // Admin Layout
@@ -416,6 +418,20 @@ const publicRoutes = [
     {
         path: config.routes.web.login,
         component: LoginPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: false,
+    },
+    {
+        path: config.routes.web.otp_verify,
+        component: OTPVerificationPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: false,
+    },
+    {
+        path: config.routes.web.forgot_password,
+        component: ForgotPasswordPage,
         layout: EcommerceLayout,
         roles: ['USER'],
         private: false,

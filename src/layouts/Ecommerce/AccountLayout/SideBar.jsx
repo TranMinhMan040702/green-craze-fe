@@ -33,7 +33,7 @@ function SideBar({ routeKey }) {
     };
 
     return (
-        <div className='w-1/5'>
+        <div className='xl:w-1/5'>
             <div className="flex items-center max-md:flex-col justify-center pt-7 pb-[2.7rem] border-b-[0.1rem] border-b-gray-300">
                 <img
                     src={data?.data?.avatar}

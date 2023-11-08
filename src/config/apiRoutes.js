@@ -4,6 +4,11 @@ const apiRoutes = {
             login: '/api/auth/login',
             google_login: '/api/auth/google-login',
             register: '/api/auth/register',
+            register_otp_verify: '/api/auth/register/verify',
+            register_resend_otp_verify: '/api/auth/register/resend',
+            forgot_password: '/api/auth/forgot-password',
+            forgot_password_resend_otp_verify: '/api/auth/forgot-password/resend',
+            reset_password: '/api/auth/reset-password',
             refresh_token: '/api/auth/refresh-token',
         },
         user: {

@@ -43,7 +43,16 @@ export {
     useDeleteListEmployee,
 } from './useEmployeeApi.js';
 
-export { useLogin, useRegister, useLoginByGoogle } from './useAuthApi.js';
+export {
+    useLogin,
+    useRegister,
+    useLoginByGoogle,
+    useRegisterOTPVerification,
+    useResendRegisterOTPVerification,
+    useForgotPassword,
+    useResetPassword,
+    useResendForgotPasswordOTPVerification
+} from './useAuthApi.js';
 
 export {
     useGetMe,
@@ -161,5 +170,5 @@ export {
     useGetReview,
     useReplyReview,
     useToggleReview,
-    useGetCountReview
+    useGetCountReview,
 } from './useReviewAPI.js';
