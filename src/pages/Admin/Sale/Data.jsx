@@ -13,51 +13,33 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Tên khuyến mãi',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.salename.localeCompare(b.salename),
-            multiple: 2,
-        },
+        sorter: true,
     },
     {
         title: 'Ngày bắt đầu',
-        dataIndex: 'starDate',
-        sorter: {
-            compare: (a, b) => a.starDate.localeCompare(b.starDate),
-            multiple: 1,
-        },
+        dataIndex: 'startDate',
+        sorter: true,
     },
     {
         title: 'Ngày kết thúc',
         dataIndex: 'endDate',
-        sorter: {
-            compare: (a, b) => a.endDate.localeCompare(b.endDate),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Phần trăm giảm giá',
         dataIndex: 'promotionalPercent',
-        sorter: {
-            compare: (a, b) => a.percent.localeCompare(b.percent),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',

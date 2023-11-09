@@ -10,42 +10,27 @@ const baseColumns = [
     {
         title: 'Mã sản phẩm',
         dataIndex: 'code',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
     },
     {
         title: 'Tên sản phẩm',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Số lượng trong kho',
         dataIndex: 'quantity',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Có thể bán',
         dataIndex: 'actualInventory',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Đã bán',
         dataIndex: 'sold',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Trạng thái',

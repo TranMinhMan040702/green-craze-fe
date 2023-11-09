@@ -13,29 +13,20 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Tên danh mục',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
         ellipsis: true,
         width: 200,
     },
     {
         title: 'Slug',
         dataIndex: 'slug',
-        sorter: {
-            compare: (a, b) => a.slug.localeCompare(b.slug),
-            multiple: 2,
-        },
+        sorter: true,
     },
     {
         title: 'Hình đại diện',
@@ -44,18 +35,11 @@ const baseColumns = [
     {
         title: 'Tên danh mục cha',
         dataIndex: 'parentName',
-        sorter: {
-            compare: (a, b) => a.parentName.localeCompare(b.parentName),
-            multiple: 1,
-        },
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
@@ -138,7 +122,7 @@ function Data({ setProductCategoryIds, params, setParams }) {
         if (isLoading || !data) return;
         let dt = transformData(data?.data?.items, navigate, setIsDetailOpen, setIsDisableOpen);
         setTData(dt);
-        setParams({
+        setTableParams({
             ...tableParams,
             pagination: {
                 ...tableParams.pagination,
@@ -152,7 +136,7 @@ function Data({ setProductCategoryIds, params, setParams }) {
             setProductCategoryIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
-            name: record.name,
+            name: record.name, 
         }),
     };
 
@@ -207,6 +191,7 @@ function Data({ setProductCategoryIds, params, setParams }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

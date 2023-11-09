@@ -13,29 +13,25 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        sorter: true,
     },
     {
         title: 'Tên thương hiệu',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
         ellipsis: true,
         width: 200,
     },
     {
         title: 'Code',
         dataIndex: 'code',
-        sorter: {
-            compare: (a, b) => a.slug.localeCompare(b.slug),
-            multiple: 2,
-        },
+        sorter: true,
     },
     {
         title: 'Hình đại diện',
@@ -44,10 +40,7 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
@@ -60,6 +53,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
         return {
             key: item.id,
             id: item.id,
+            createdAt: item.createdAt && new Date(item.createdAt).toLocaleString(),
             name: item.name,
             code: item.code,
             image: <Image width={80} src={item.image} />,
