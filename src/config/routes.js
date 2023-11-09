@@ -1,6 +1,7 @@
 const routes = {
     admin: {
         dashboard: '/admin',
+        profile: '/admin/profile',
         forbidden: '/forbidden',
         // Product
         product: '/admin/products',
