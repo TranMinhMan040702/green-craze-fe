@@ -156,7 +156,11 @@ function AddressForm({ isFormOpen, setIsFormOpen }) {
                                 },
                             ]}
                         >
-                            <Input className="text-[1.6rem]" />
+                            <Input.TextArea
+                                rows={1}
+                                autoSize={{ maxRows: 1, minRows: 1 }}
+                                className="text-[1.6rem]"
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -174,7 +178,11 @@ function AddressForm({ isFormOpen, setIsFormOpen }) {
                                 },
                             ]}
                         >
-                            <Input className="text-[1.6rem]" />
+                            <Input.TextArea
+                                rows={1}
+                                autoSize={{ maxRows: 1, minRows: 1 }}
+                                className="text-[1.6rem]"
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -190,7 +198,11 @@ function AddressForm({ isFormOpen, setIsFormOpen }) {
                                 },
                             ]}
                         >
-                            <Input className="text-[1.6rem]" />
+                            <Input.TextArea
+                                rows={1}
+                                autoSize={{ maxRows: 1, minRows: 1 }}
+                                className="text-[1.6rem]"
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -204,7 +216,11 @@ function AddressForm({ isFormOpen, setIsFormOpen }) {
                                 },
                             ]}
                         >
-                            <Input className="text-[1.6rem]" />
+                            <Input.TextArea
+                                rows={1}
+                                autoSize={{ maxRows: 1, minRows: 1 }}
+                                className="text-[1.6rem]"
+                            />
                         </Form.Item>
                     </Col>
                 </Row>

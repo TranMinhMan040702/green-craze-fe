@@ -9,7 +9,7 @@ function Review({ product }) {
         productId: product?.id,
         rating: null,
         pageIndex: 1,
-        pageSize: 2,
+        pageSize: 10,
         status: true,
     });
     const { data, isLoading } = useGetListReview(params);
@@ -26,12 +26,20 @@ function Review({ product }) {
                 <div className="infor col-span-2 max-md:col-span-3 max-sm:col-span-6 text-[1.8rem] text-center">
                     <div>
                         <span className="text-[3rem] font-medium mr-[0.5rem]">
-                            {Math.ceil((product?.rating) * 2) / 2}
+                            {product?.rating}
                         </span>
                         <span>trên 5</span>
                     </div>
                     <div>
-                        <Rate value={product?.rating} allowHalf disabled />
+                        <Rate
+                            value={
+                                product?.rating - 0.5 < Math.floor(product?.rating)
+                                    ? Math.ceil(product?.rating * 2) / 2
+                                    : Math.floor(product?.rating * 2) / 2
+                            }
+                            allowHalf
+                            disabled
+                        />
                     </div>
                 </div>
                 <div className="col-span-10 max-md:col-span-9 max-sm:col-span-6">

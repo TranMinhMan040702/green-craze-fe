@@ -8,7 +8,7 @@ function Info() {
     const profile = useGetMe();
     const [processing, setProcessing] = useState(false);
     const [avatar, setAvatar] = useState(null);
-    const [imageUrl, setImageUrl] = useState();
+    const [imageUrl, setImageUrl] = useState(profile?.data?.data?.avatar);
     const [form] = Form.useForm();
     const mutateEditUser = useEditUser({
         success: (data) => {
@@ -16,7 +16,6 @@ function Info() {
                 message: 'Cập nhật thông tin thành công!',
             });
             setAvatar(null);
-            setImageUrl('')
             profile.refetch();
         },
         error: (err) => {
@@ -144,7 +143,7 @@ function Info() {
                 <Form.Item className="text-center max-md:flex xl:ml-[8rem] mt-2 max-sm:justify-center">
                     <Button
                         loading={processing}
-                        className="submit-btn text-white text-[2rem] w-[11rem] h-[4rem] pb-[0.5rem] rounded-lg"
+                        className="submit-btn text-white text-[2rem] leading-4 w-[11rem] h-[4rem] pb-[0.5rem] rounded-lg"
                         htmlType='submit'
                     >
                         Lưu

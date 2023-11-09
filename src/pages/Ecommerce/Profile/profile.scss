@@ -5,6 +5,7 @@
         }
         .avatar-uploader {
             .ant-upload{
+                display: unset !important;
                 width: 15rem !important;
                 height: 15rem !important;
             }
