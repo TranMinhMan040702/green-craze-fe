@@ -2,7 +2,7 @@ import './productDetail.scss';
 import Information from './Information';
 import Description from './Description';
 import Review from './Review';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useGetProductBySlug } from '../../../hooks/api';
 import { Spin } from 'antd';
 import config from '../../../config';
@@ -11,6 +11,7 @@ import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function ProductDetailPage() {
     let { slug } = useParams();
+    
     const { data, isLoading } = useGetProductBySlug(slug);
     const [routes, setRoutes] = useState([]);
 
@@ -35,9 +36,9 @@ function ProductDetailPage() {
                     {!isLoading ? (
                         data?.data ? (
                             <>
-                                <Information product={data?.data} />
+                                 <Information product={data?.data} />
                                 <Description product={data?.data} />
-                                <Review />
+                                <Review product={data?.data}/>
                             </>
                         ) : (
                             <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>

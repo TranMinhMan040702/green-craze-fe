@@ -45,7 +45,7 @@ function FormInput() {
     };
 
     return (
-        <div className="flex max-xl:flex-col max-xl:items-center justify-center mt-[8rem]">
+        <div className="flex items-center justify-center mt-[8rem]">
             <Form
                 name="my-profile"
                 labelCol={{
@@ -125,7 +125,7 @@ function FormInput() {
                         />
                     </Form.Item>
                 </div>
-                <Form.Item className="text-center max-xl:flex max-xl:justify-center xl:ml-[8rem] md:mt-[6rem]">
+                <div className="text-center ml-[8rem] md:mt-[6rem]">
                     <Button
                         className="submit-btn text-white text-[2rem] pb-[0.5rem] w-[16.8rem] h-[4rem] rounded-lg border-none"
                         htmlType='submit'
@@ -133,11 +133,8 @@ function FormInput() {
                     >
                         Xác nhận
                     </Button>
-                </Form.Item>
+                </div>
             </Form>
-            <NavLink className="text-[1.6rem] h-[1.4rem] hover:text-blue-500 text-black xl:ml-[3rem] mt-[0.5rem]">
-                Quên mật khẩu?
-            </NavLink>
         </div>
     );
 }

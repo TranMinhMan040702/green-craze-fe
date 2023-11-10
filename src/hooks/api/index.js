@@ -43,7 +43,16 @@ export {
     useDeleteListEmployee,
 } from './useEmployeeApi.js';
 
-export { useLogin, useRegister, useLoginByGoogle } from './useAuthApi.js';
+export {
+    useLogin,
+    useRegister,
+    useLoginByGoogle,
+    useRegisterOTPVerification,
+    useResendRegisterOTPVerification,
+    useForgotPassword,
+    useResetPassword,
+    useResendForgotPasswordOTPVerification
+} from './useAuthApi.js';
 
 export {
     useGetMe,
@@ -51,6 +60,8 @@ export {
     useGetListUser,
     useDeleteListUser,
     useToggleUser,
+    useChangePassword,
+    useEditUser,
     useUpdateUser,
     useChangePassword,
 } from './useUserApi.js';
@@ -159,11 +170,23 @@ export {
 } from './useSaleApi.js';
 
 export {
+    useCreateReview,
+    useUpdateReview,
+    useGetReviewByOrderItem,
+    useDeleteListReview,
+    useDeleteReview,
+    useGetListReview,
+    useGetReview,
+    useReplyReview,
+    useToggleReview,
+    useGetCountReview,
+    useGetTop5ReviewLatest
+} from './useReviewAPI.js';
+
+export {
     useStatisticTotal,
     useStatisticRevenue,
     useStatisticTopSellingProductYear,
     useStatisticOrderStatus,
     useStatisticRating,
 } from './useStatisticApi.js';
-
-export { useGetTop5ReviewLatest } from './userReviewApi.js';

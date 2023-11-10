@@ -29,7 +29,7 @@ function PriceVariant({ variants, unit, setChosenVariant, chosenVariant }) {
                                     <>
                                         <div className="flex items-center gap-[0.5rem]">
                                             <span className="price text-[2rem] font-medium price-color">
-                                                {numberFormatter(v.totalPrice)}
+                                                {numberFormatter(v?.totalPromotionalPrice || v.totalPrice)}
                                             </span>
                                             <span className="text-[1.2rem] opacity-[0.8]">
                                                 (

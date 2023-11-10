@@ -1,32 +1,41 @@
-import {
-    faCarCrash,
-    faCashRegister,
-    faChainSlash,
-    faCoins,
-    faTruck,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderItem from './OrderItem';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import { getOrderStatus } from '../../../utils/constants';
 import { numberFormatter } from '../../../utils/formatter';
+import { Tag } from 'antd';
 
 function Order({ order, isLastItem = false }) {
+    const isOrderNotProcessed =
+        order?.transaction?.paymentMethod?.toLowerCase()?.includes('paypal') &&
+        !order?.paymentStatus;
     return (
         <>
             <div className="border shadow">
                 <div
-                    style={{
-                        color: getOrderStatus(order?.status).color,
-                    }}
-                    className={`flex justify-end items-center border-b-[0.1rem] text-[1.6rem] mx-[2.2rem] py-[1rem]`}
+                    className={`flex ${
+                        isOrderNotProcessed ? 'justify-between' : 'justify-end'
+                    } items-center border-b-[0.1rem] text-[1.6rem] mx-[2.2rem] py-[1.4rem]`}
                 >
-                    <FontAwesomeIcon
-                        icon={getOrderStatus(order?.status).icon}
-                        className="mr-[0.7rem]"
-                    />
-                    <p className="mb-0">{getOrderStatus(order?.status).title}</p>
+                    {isOrderNotProcessed && (
+                        <div className="">
+                            <Tag color="red">Đơn hàng này cần thanh toán trước</Tag>
+                        </div>
+                    )}
+                    <div
+                        style={{
+                            color: getOrderStatus(order?.status).color,
+                        }}
+                        className={`flex justify-end items-center`}
+                    >
+                        <FontAwesomeIcon
+                            icon={getOrderStatus(order?.status).icon}
+                            className="mr-[0.7rem]"
+                        />
+                        <p className="mb-0">{getOrderStatus(order?.status).title}</p>
+                    </div>
                 </div>
                 <NavLink
                     to={config.routes.web.order + '/' + order?.code}
@@ -42,8 +51,22 @@ function Order({ order, isLastItem = false }) {
                         );
                     })}
                 </NavLink>
-                <div className="bg-stone-100">
-                    <div className="flex justify-end px-[2.2rem] py-[1.5rem]">
+                <div
+                    className={`bg-stone-100  px-[2.2rem] py-[1.5rem] flex ${
+                        isOrderNotProcessed ? 'justify-between' : 'justify-end'
+                    }`}
+                >
+                    {isOrderNotProcessed && (
+                        <NavLink
+                            to={config.routes.web.checkout + '/payment/' + order?.code}
+                            className={
+                                'border-red-400 border border-solid px-4 hover:bg-red-500 hover:text-white transition-all py-2 text-[1.4rem] text-red-500 rounded-lg'
+                            }
+                        >
+                            Thanh toán
+                        </NavLink>
+                    )}
+                    <div className="flex justify-end">
                         <div className="flex items-center text-black text-[1.8rem]">
                             <FontAwesomeIcon icon={faCoins} />
                             <p className="ml-[.5rem]">Thành tiền: </p>

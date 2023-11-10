@@ -17,6 +17,11 @@ const baseColumns = [
         width: 50,
     },
     {
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        sorter: true,
+    },
+    {
         title: 'Tên đơn vị',
         dataIndex: 'name',
         sorter: true,
@@ -37,6 +42,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
         return {
             key: item.id,
             id: item.id,
+            createdAt: item.createdAt && new Date(item.createdAt).toLocaleString(),
             name: item.name,
             status: (
                 <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>

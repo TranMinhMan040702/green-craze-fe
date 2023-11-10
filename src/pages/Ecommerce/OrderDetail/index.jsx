@@ -11,14 +11,14 @@ import { useGetOrderByCode } from '../../../hooks/api';
 
 function OrderDetailPage() {
     const { code } = useParams();
-    const { data, isLoading } = useGetOrderByCode(code);
+    const { data, isLoading, refetch } = useGetOrderByCode(code);
     return (
         <AccountLayout routeKey={config.routes.web.order} isSetMinHeight={false}>
             <div className="order-detail-container">
                 <Head code={data?.data?.code} status={data?.data?.status} />
                 <OrderStatus order={data?.data} />
-                <Contact />
-                <Wrapper orderItems={data?.data?.items} status={data?.data?.status}/>
+                <Contact order={data?.data}/>
+                <Wrapper orderRefetch={refetch} orderItems={data?.data?.items} status={data?.data?.status}/>
                 <Info order={data?.data} />
             </div>
         </AccountLayout>

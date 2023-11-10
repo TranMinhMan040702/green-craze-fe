@@ -3,10 +3,12 @@ import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import routes from './routes';
 import './index.css';
+import { HistoryRouter } from './components/HistoryRouter';
+import myHistory from './utils/myHistory';
 
 function App() {
     return (
-        <Router>
+        <HistoryRouter history={myHistory}>
             <div className="App">
                 <Routes>
                     {routes.map((page, index) => {
@@ -39,7 +41,7 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
-        </Router>
+        </HistoryRouter>
     );
 }
 

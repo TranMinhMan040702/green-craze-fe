@@ -87,10 +87,10 @@ function Information({ product }) {
                             {product?.code}-{chosenVariant?.sku}
                         </span>
                     </div>
-                    <div className="pr-[1rem] mr-[1rem] border-r-[1px]">
+                    {/* <div className="pr-[1rem] mr-[1rem] border-r-[1px]">
                         <span className="mr-[0.5rem] star-color">23773</span>
                         <span>lượt xem</span>
-                    </div>
+                    </div> */}
                     <div className="pr-[1rem] mr-[1rem]">
                         <span className="mr-[0.5rem] star-color">{product?.sold}</span>
                         <span>đã bán</span>
@@ -99,8 +99,13 @@ function Information({ product }) {
                 <div className="text-[1.6rem] my-[2rem]">
                     <div className="star-color">
                         <Rate
+                            allowHalf
                             disabled
-                            value={product?.rating}
+                            value={
+                                product?.rating - 0.5 < Math.floor(product?.rating)
+                                    ? Math.ceil(product?.rating * 2) / 2
+                                    : Math.floor(product?.rating * 2) / 2
+                            }
                             character={() => <FontAwesomeIcon icon={faStar} />}
                         />
                     </div>

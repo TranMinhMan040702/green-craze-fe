@@ -1,152 +1,192 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faReply, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Rate, Table, Tag } from 'antd';
-import { useState } from 'react';
+import { Button, Input, Rate, Table, Tag, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 import ReviewDetail from './ReviewDetail';
 import Reply from './Reply';
+import { useDeleteReview, useGetListReview, useToggleReview } from '../../../hooks/api';
 
 const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.createdAt.localeCompare(b.createdAt),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
-        title: 'Người dùng',
-        dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 2,
-        },
+        title: 'Tiêu đề',
+        dataIndex: 'title',
+        sorter: true,
     },
     {
         title: 'Sản phẩm',
         dataIndex: 'product',
-        sorter: {
-            compare: (a, b) => a.product.localeCompare(b.product),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Số sao',
-        dataIndex: 'star',
-        sorter: {
-            compare: (a, b) => a?.star?.props?.defaultValue - b?.star?.props?.defaultValue,
-            multiple: 1,
-        },
+        dataIndex: 'rating',
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Thao tác',
         dataIndex: 'action',
     },
 ];
+function transformData(dt, setIsDetailOpen, setIsDisableOpen, setIsReplyOpen) {
+    return dt?.map((item) => {
+        return {
+            key: item?.id,
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            title: item?.title,
+            product: item?.product?.name,
+            rating: <Rate className="text-2xl" disabled defaultValue={item?.rating} />,
+            status: (
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                </Tag>
+            ),
+            action: (
+                <div className="action-btn flex gap-3">
+                    <Button
+                        className="text-blue-500 border border-blue-500"
+                        onClick={() => setIsDetailOpen({ id: item?.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faSearch} />
+                    </Button>
+                    <Button
+                        className="text-green-500 border border-green-500"
+                        onClick={() => setIsReplyOpen({ id: item?.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={faReply} />
+                    </Button>
+                    <Button
+                        className={`border ${
+                            item?.status
+                                ? ' text-red-500  border-red-500'
+                                : 'text-green-500 border-green-500'
+                        }`}
+                        onClick={() => setIsDisableOpen({ id: item?.id, isOpen: true })}
+                    >
+                        <FontAwesomeIcon icon={item?.status ? faEyeSlash : faEye} />
+                    </Button>
+                </div>
+            ),
+        };
+    });
+}
+function Data({ params, setParams, setReviewIds }) {
+    const [isReplyOpen, setIsReplyOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
 
-function Data() {
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const [isReplyOpen, setIsReplyOpen] = useState(false);
-    const [isDisableOpen, setIsDisableOpen] = useState(false);
-    const [rawData, setRawData] = useState([
-        {
-            key: '1',
-            id: '1',
-            createdAt: new Date().toLocaleString(),
-            name: 'John Brown',
-            product: 'Ly giấy',
-            star: <Rate className="text-2xl" disabled defaultValue={4} allowHalf />,
-            status: <Tag color="green">Đã hiển thị</Tag>,
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => setIsReplyOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faReply} />
-                    </Button>
-                    <Button
-                        className="text-red-500 border border-red-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEyeSlash} />
-                    </Button>
-                </div>
-            ),
+    const [isDetailOpen, setIsDetailOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const [isDisableOpen, setIsDisableOpen] = useState({
+        id: 0,
+        isOpen: false,
+    });
+
+    const { data, isLoading, refetch } = useGetListReview(params);
+
+    const mutationDelete = useToggleReview({
+        success: () => {
+            setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            refetch();
+            notification.success({
+                message: 'Thao tác thành công',
+            });
         },
-        {
-            key: '2',
-            id: '2',
-            createdAt: new Date().toLocaleString(),
-            name: 'NMS',
-            product: 'Ly giấy',
-            star: <Rate className="text-2xl" disabled defaultValue={2.5} allowHalf />,
-            status: <Tag color="red">Đã ẩn</Tag>,
-            action: (
-                <div className="action-btn flex gap-3">
-                    <Button
-                        className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => setIsReplyOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faReply} />
-                    </Button>
-                    <Button
-                        className="text-green-500 border border-green-500"
-                        onClick={() => setIsDisableOpen(true)}
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                </div>
-            ),
+        error: (err) => {
+            notification.error({
+                message: 'Ẩn thất bại',
+            });
         },
-    ]);
-    const [data, setData] = useState(rawData);
+        obj: {
+            id: isDisableOpen.id,
+            params: params,
+        },
+    });
+
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: params.pageIndex,
+            pageSize: params.pageSize,
+            total: data?.data?.totalItems,
+        },
+    });
+
+    const [tdata, setTData] = useState([]);
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setReviewIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
             name: record.name,
         }),
     };
-    const onSearch = (value) => {
-        const dt = rawData;
-        const filterTable = dt.filter((o) =>
-            Object.keys(o).some((k) => String(o[k]).toLowerCase().includes(value.toLowerCase())),
-        );
 
-        setData(filterTable);
+    useEffect(() => {
+        if (isLoading || !data) return;
+        let dt = transformData(
+            data?.data?.items,
+            setIsDetailOpen,
+            setIsDisableOpen,
+            setIsReplyOpen,
+        );
+        setTData(dt);
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
+    }, [isLoading, data]);
+
+    const onSearch = (value) => {
+        setParams({
+            ...params,
+            search: value,
+        });
+    };
+
+    const onDelete = async (id) => {
+        await mutationDelete.mutateAsync({
+            id: id,
+        });
+    };
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'updatedAt' : sorter.field,
+            isSortAccending: sorter.order === 'descend' || !sorter.order ? false : true,
+        });
     };
 
     return (
@@ -161,27 +201,33 @@ function Data() {
                 />
             </div>
             <Table
+                loading={isLoading}
                 scroll={{
                     x: 'max-content',
                 }}
-                columns={baseColumns}
-                dataSource={data}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
                 }}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                columns={baseColumns}
+                dataSource={tdata}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
-            <ReviewDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
-            <Reply isReplyOpen={isReplyOpen} setIsReplyOpen={setIsReplyOpen} />
-            <ConfirmPrompt
-                content="Bạn có muốn ấn đánh giá này ?"
-                isDisableOpen={isDisableOpen}
-                setIsDisableOpen={setIsDisableOpen}
-            />
+            {isDetailOpen.id !== 0 && (
+                <ReviewDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+            )}
+            {isReplyOpen.id !== 0 && (
+                <Reply isReplyOpen={isReplyOpen} setIsReplyOpen={setIsReplyOpen} />
+            )}
+            {isDisableOpen.id !== 0 && (
+                <ConfirmPrompt
+                    handleConfirm={onDelete}
+                    content="Bạn có muốn ấn đánh giá này ?"
+                    isDisableOpen={isDisableOpen}
+                    setIsDisableOpen={setIsDisableOpen}
+                />
+            )}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { Button, Form, Input, notification } from 'antd';
 
 import images from '../../../assets/images';
@@ -6,23 +6,32 @@ import config from '../../../config';
 import { getRoles, isTokenStoraged } from '../../../utils/storage';
 import './register.scss';
 import { useRegister } from '../../../hooks/api';
+import { useState } from 'react';
 
 function RegisterPage() {
+    const [processing, setProcessing] = useState(false);
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const mutationRegister = useRegister({
         success: (data) => {
             notification.success({
                 message: 'Đăng ký thành công',
-                description: 'Bạn có thể đăng nhập để tiếp tục',
+                description:
+                    'Bạn đã đăng ký thành công tài khoản, vui lòng lấy mã OTP để xác thực tài khoản',
             });
-            navigate(config.routes.web.login);
+            navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
         },
         error: (err) => {
             notification.error({
                 message: 'Đăng ký thất bại',
                 description: err?.response?.data?.detail,
             });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
         },
     });
 
@@ -168,6 +177,7 @@ function RegisterPage() {
                         </Form.Item>
                         <Form.Item>
                             <Button
+                                loading={processing}
                                 onClick={onRegister}
                                 className="h-[36px] mt-[0.6rem] text-[1.6rem] text-white font-medium border-none hover:border-none"
                                 block
@@ -182,25 +192,18 @@ function RegisterPage() {
                         <div class="text-center text-black text-opacity-40 text-[1.3rem]">HOẶC</div>
                         <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
                     </div>
-                    <div className="h-[34px] my-[3rem] flex justify-between">
-                        <div className="w-[45%] h-[34px] bg-white rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.4)] flex items-center justify-center">
-                            <div className="w-[20px] h-[20px]">
-                                <img className="" src={images.facebook} />
-                            </div>
-                            <div className="ml-[1rem] text-center text-black text-opacity-70 text-[1.4rem]">
-                                Facebook
-                            </div>
-                        </div>
-                        <div className="w-[45%] h-[34px] bg-white rounded-[3px] shadow-[0_0_2px_0_rgba(0,0,0,0.4)] flex items-center justify-center">
-                            <div className="w-[20px] h-[20px]">
-                                <img className="" src={images.google} />
-                            </div>
-                            <div className="ml-[1rem] text-center text-black text-opacity-70 text-[1.4rem]">
-                                Google
-                            </div>
-                        </div>
+                    <div className="text-center text-[1.2rem] my-[2rem]">
+                        <span className="text-black text-opacity-60">Bạn đã có tài khoản?</span>
+                        <span className="text-lime-700 text-opacity-60 px-[0.5rem]">
+                            <NavLink to={config.routes.web.login}>Đăng nhập</NavLink>
+                        </span>
                     </div>
-                    <div className="text-center text-[1.2rem]">
+                    <div class="h-[15px] relative flex items-center justify-between">
+                        <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
+                        <div class="text-center text-black text-opacity-40 text-[1.3rem]">ĐIỀU KHOẢN</div>
+                        <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
+                    </div>
+                    <div className="text-center text-[1.2rem] mt-2">
                         <span className="text-black text-opacity-60">
                             Bằng việc đăng ký, bạn đã đồng ý với GreenCraze về
                             <br />

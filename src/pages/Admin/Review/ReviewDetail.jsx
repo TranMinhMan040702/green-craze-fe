@@ -2,16 +2,26 @@ import { faClock, faStar, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faBox, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Modal, Rate, Tag } from 'antd';
+import { useGetReview } from '../../../hooks/api';
 
 function ReviewDetail({ isDetailOpen, setIsDetailOpen }) {
+    const onCancel = () => {
+        setIsDetailOpen({ ...isDetailOpen, isOpen: false });
+    };
+    const { data, isLoading } = useGetReview(isDetailOpen.id);
+
     return (
         <Modal
-            title={<p className="my-4 font-bold text-[1.6rem]">Chi tiết đánh giá ID 1</p>}
+            title={
+                <p className="my-4 font-bold text-[1.6rem]">
+                    Chi tiết đánh giá ID {data?.data?.id}
+                </p>
+            }
             width={800}
-            open={isDetailOpen}
-            onCancel={() => setIsDetailOpen(false)}
+            open={isDetailOpen.isOpen}
+            onCancel={onCancel}
             footer={[
-                <Button type="primary" className="bg-red-500 text-white">
+                <Button type="primary" className="bg-red-500 text-white" onClick={onCancel}>
                     OK
                 </Button>,
             ]}
@@ -22,35 +32,34 @@ function ReviewDetail({ isDetailOpen, setIsDetailOpen }) {
                         <Tag color="green" className="text-2xl px-4 py-2">
                             <FontAwesomeIcon icon={faClock} />
                         </Tag>
-                        <p>{new Date().toLocaleString()}</p>
+                        <p>
+                            {data?.data?.updatedAt
+                                ? new Date(data?.data?.updatedAt).toLocaleString()
+                                : new Date(data?.data?.createdAt).toLocaleString()}
+                        </p>
                     </div>
                     <div className="flex items-center">
                         <Tag color="green" className="text-2xl px-4 py-2">
                             <FontAwesomeIcon icon={faUser} />
                         </Tag>
-                        <p>NMS</p>
+                        <p>{data?.data?.user?.firstName + ' ' + data?.data?.user?.lastName}</p>
                     </div>
                     <div className="flex items-center">
                         <Tag color="green" className="text-2xl px-4 py-2">
                             <FontAwesomeIcon icon={faBox} />
                         </Tag>
-                        <p>Ly Giấy</p>
+                        <p>{data?.data?.product?.name}</p>
                     </div>
                     <div className="flex items-center">
                         <Tag color="green" className="text-2xl px-4 py-2">
                             <FontAwesomeIcon icon={faStar} />
                         </Tag>
-                        <Rate className="text-2xl" disabled defaultValue={2.5} allowHalf />
+                        <Rate className="text-2xl" disabled value={data?.data?.rating} allowHalf />
                     </div>
                 </div>
                 <div className="flex p-6 gap-[2rem]">
                     <FontAwesomeIcon className="text-5xl text-gray-500" icon={faQuoteLeft} />
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere felis
-                        sed justo finibus, eget maximus diam rhoncus. Integer posuere tempor magna,
-                        ut dictum massa suscipit vel. Sed quis placerat neque. Etiam urna sapien,
-                        accumsan nec nulla in, condimentum venenatis ex.
-                    </p>
+                    <p>{data?.data?.content}</p>
                 </div>
             </div>
         </Modal>

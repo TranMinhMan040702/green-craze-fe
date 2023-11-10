@@ -13,27 +13,18 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Tên sản phẩm',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
         title: 'Mã sản phẩm',
         dataIndex: 'code',
-        sorter: {
-            compare: (a, b) => a.slug.localeCompare(b.slug),
-            multiple: 2,
-        },
+        sorter: true,
     },
     {
         title: 'Hình đại diện',
@@ -43,18 +34,12 @@ const baseColumns = [
     {
         title: 'Tên danh mục',
         dataIndex: 'category',
-        sorter: {
-            compare: (a, b) => a.parentName.localeCompare(b.parentName),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Dạng bán ra',
@@ -222,6 +207,21 @@ function Data({ setProductIds, params, setParams }) {
         });
     };
 
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
+            ...sorter,
+        });
+        setParams({
+            ...params,
+            pageIndex: pagination.current,
+            pageSize: pagination.pageSize,
+            columnName: !sorter.column ? 'id' : sorter.field,
+            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+        });
+    };
+
     const mutationDelete = useDeleteProduct({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
@@ -258,16 +258,15 @@ function Data({ setProductIds, params, setParams }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
                 }}
                 columns={baseColumns}
                 dataSource={tdata}
-                pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
-                }}
+                pagination={{ ...tableParams.pagination, showSizeChanger: true }}
+                onChange={handleTableChange}
             />
             {isDetailOpen.id !== 0 && (
                 <ProductDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />

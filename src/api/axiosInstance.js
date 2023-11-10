@@ -1,5 +1,7 @@
 import axios from 'axios';
 import config from '../config';
+import myHistory from '../utils/myHistory';
+import { notification } from 'antd';
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -40,15 +42,26 @@ const refreshToken = async (originalRequest) => {
         });
         if (!response) {
             localStorage.removeItem('token');
-            window.location.href = '/login';
-            return;
+            notification.error({
+                message: 'Thông báo',
+                description: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
+            });
+            myHistory.replace(config.routes.web.login);
+            return Promise.reject();
         }
         const { refreshToken, accessToken } = response.data;
         localStorage.setItem('token', { refreshToken, accessToken });
         originalRequest.headers.Authorization = `Bearer ${token?.accessToken}`;
 
         return axios(originalRequest);
-    } catch (error) {}
+    } catch (error) {
+        myHistory.replace(config.routes.web.login);
+        notification.error({
+            message: 'Thông báo',
+            description: 'Bạn vui lòng đăng nhập để tiếp tục',
+        });
+        return Promise.reject(error);
+    }
 };
 
 export default axiosInstance;

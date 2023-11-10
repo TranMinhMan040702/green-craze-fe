@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { Button, Form, Input, notification } from 'antd';
 
 import images from '../../../assets/images';
@@ -17,7 +17,7 @@ function LoginPage() {
         let roles = getRoles();
         let url = '/';
 
-        if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
+        if (roles?.includes('ADMIN')) url = config.routes.admin.dashboard;
         notification.success({
             message: 'Đăng nhập thành công',
             description: 'Chào mừng bạn đến với hệ thống của chúng tôi',
@@ -29,7 +29,20 @@ function LoginPage() {
         success: (data) => {
             handleToken(data?.data);
         },
-        error: (err) => {},
+        error: (err) => {
+            let description = 'Không thể đăng nhập, vui lòng liên hệ Quản trị viên';
+            let detail = err?.response?.data?.detail?.toLowerCase();
+            if (detail?.includes('banned')) {
+                description = 'Tài khoản của bạn đã bị vô hiệu hoá';
+            } else if (detail?.includes('lockout')) {
+                description =
+                    'Tài khoản của bạn đã tạm khoá do đăng nhập sai nhiều lần, vui lòng thử lại sau';
+            }
+            notification.error({
+                message: 'Đăng nhập thất bại',
+                description: description,
+            });
+        },
         mutate: (data) => {
             setProcessing(true);
         },
@@ -94,7 +107,7 @@ function LoginPage() {
         let roles = getRoles();
         let url = config.routes.web.home;
 
-        if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
+        if (roles?.includes('ADMIN')) url = config.routes.admin.dashboard;
 
         return <Navigate to={url} replace />;
     }
@@ -193,11 +206,19 @@ function LoginPage() {
                             />
                         </div>
                         <div className="text-center text-[1.2rem]">
+                            <span className="text-black text-opacity-60">Quên mật khẩu?</span>
+                            <span className="text-lime-700 text-opacity-60 px-[0.5rem]">
+                                <NavLink to={config.routes.web.forgot_password}>
+                                    Lấy lại mật khẩu
+                                </NavLink>
+                            </span>
+                        </div>
+                        <div className="text-center text-[1.2rem]">
                             <span className="text-black text-opacity-60">
                                 Bạn là thành viên mới?
                             </span>
                             <span className="text-lime-700 text-opacity-60 px-[0.5rem]">
-                                <Link>Đăng ký</Link>
+                                <NavLink to={config.routes.web.register}>Đăng ký</NavLink>
                             </span>
                         </div>
                     </div>
