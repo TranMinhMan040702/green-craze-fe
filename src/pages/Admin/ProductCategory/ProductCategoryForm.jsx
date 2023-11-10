@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Upload, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -54,19 +54,33 @@ function ProductCategoryFormPage() {
 
     const mutationCreate = useCreateProductCategory({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Thể loại sản phẩm đã được thêm',
+            });
             navigate(config.routes.admin.product_category);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm thể loại sản phẩm',
+            });
         },
     });
 
     const mutationUpdate = useUpdateProductCategory({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Thể loại sản phẩm đã được chỉnh sửa',
+            });
             navigate(config.routes.admin.product_category);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa thể loại sản phẩm',
+            });
         },
     });
 

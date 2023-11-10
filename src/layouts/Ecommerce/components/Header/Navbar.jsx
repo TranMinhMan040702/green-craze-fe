@@ -8,7 +8,7 @@ function Navbar() {
             <div className="max-lg:hidden container w-full h-[50px] flex items-center mx-auto justify-between text-white text-[1.6rem] uppercase">
                 <ul className="w-[670px] h-full flex items-center ml-[3rem]">
                     <li>
-                        <Link to={config.routes.web.home}>Trang chủ</Link>
+                        <Link to={'/'}>Trang chủ</Link>
                     </li>
                     <li>
                         <Link>Sản phẩm</Link>

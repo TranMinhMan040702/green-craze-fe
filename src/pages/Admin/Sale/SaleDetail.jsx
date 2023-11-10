@@ -99,8 +99,6 @@ function SaleDetail({ isDetailOpen, setIsDetailOpen }) {
         setSale(transformData(data?.data));
     }, [isLoading, data]);
 
-    console.log(data?.data);
-
     return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={sale} />;
 }
 

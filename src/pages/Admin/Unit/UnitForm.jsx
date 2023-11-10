@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Upload, notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,19 +25,33 @@ function UnitFormPage() {
 
     const mutationCreate = useCreateUnit({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Đơn vị sản phẩm đã được thêm',
+            });
             navigate(config.routes.admin.unit);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm đơn vị sản phẩm',
+            });
         },
     });
 
     const mutationUpdate = useUpdateUnit({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Đơn vị sản phẩm đã được chỉnh sửa',
+            });
             navigate(config.routes.admin.unit);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa đơn vị sản phẩm',
+            });
         },
     });
 
