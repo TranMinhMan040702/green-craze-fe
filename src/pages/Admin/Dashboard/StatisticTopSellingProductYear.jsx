@@ -1,5 +1,4 @@
 import { Card, DatePicker } from 'antd';
-import { useEffect, useState } from 'react';
 import {
     BarChart,
     Bar,
@@ -10,13 +9,10 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    Label,
-    LineChart,
-    Line,
 } from 'recharts';
 import dayjs from 'dayjs';
-import { useStatisticRevenue } from '../../../hooks/api';
-import { numberFormatter } from '../../../utils/formatter';
+import { useEffect, useState } from 'react';
+import { useStatisticTopSellingProductYear } from '../../../hooks/api';
 
 const monthTickFormatter = (tick) => {
     const date = new Date(tick);
@@ -46,23 +42,24 @@ const renderQuarterTick = (tickProps) => {
     return null;
 };
 
-const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        return (
-            <div className="custom-tooltip">
-                <p className="label">{`${label} : ${payload[0].value} ${numberFormatter(
-                    payload[0].value,
-                )}`}</p>
-            </div>
-        );
-    }
+const COLORS = ['#a6a6a4', '#7258db', '#e5df88', '#ed5782', '#ff9966'];
 
-    return null;
-};
-
-function StatisticRevenue() {
+function StatisticTopSellingProductYear() {
     const [year, setYear] = useState(new Date().getFullYear().toString());
-    const { isLoading, data } = useStatisticRevenue({ year });
+    const [keys, setKeys] = useState(null);
+    const [cdata, setCData] = useState([]);
+
+    const { isLoading, data } = useStatisticTopSellingProductYear({ year });
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setCData(
+            data?.data.map((d) => {
+                return { date: d.date, ...d.products };
+            }),
+        );
+        setKeys(Object.keys(data?.data[0]?.products));
+    }, [isLoading, data]);
 
     const onChange = (date, dateString) => {
         setYear(dateString);
@@ -72,18 +69,18 @@ function StatisticRevenue() {
         <Card bordered={false} className="min-h-[382px]">
             <div className="flex items-center justify-between my-[1rem]">
                 <h5 className="font-medium text-center text-[1.6rem] ml-[4rem]">
-                    Thống kê doanh thu và chi phí theo năm
+                    Top sản phẩm bán chạy nhất năm
                 </h5>
                 <DatePicker
+                    className="mr-[1rem]"
                     defaultValue={dayjs(year)}
                     format="YYYY"
-                    className="mr-[1rem]"
                     onChange={onChange}
                     picker="year"
                     placeholder="Chọn năm"
                 />
             </div>
-            <LineChart width={700} height={300} data={data?.data}>
+            <BarChart width={700} height={350} data={cdata}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" tickFormatter={monthTickFormatter} />
                 <XAxis
@@ -99,17 +96,13 @@ function StatisticRevenue() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line
-                    name="Doanh thu"
-                    type="monotone"
-                    dataKey="revenue"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                />
-                <Line name="Chi phí" type="monotone" dataKey="expense" stroke="#82ca9d" />
-            </LineChart>
+                {keys &&
+                    keys.map((key, index) => (
+                        <Bar dataKey={key} stackId="a" fill={COLORS[index % COLORS.length]} />
+                    ))}
+            </BarChart>
         </Card>
     );
 }
 
-export default StatisticRevenue;
+export default StatisticTopSellingProductYear;

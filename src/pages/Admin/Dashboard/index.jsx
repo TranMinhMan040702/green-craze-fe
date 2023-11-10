@@ -4,10 +4,10 @@ import StatisticTotal from './StatisticTotal';
 import './dashboard.scss';
 import { Col, Row } from 'antd';
 import StatisticRevenue from './StatisticRevenue';
-import StatisticTopSellingProduct from './StatisticTopSellingProduct';
+import StatisticTopSellingProductYear from './StatisticTopSellingProductYear';
 import StatisticRating from './StatisticRating';
 import StatisticOrderStatus from './StatisticOrderStatus';
-import StatisticTopSellingCaterory from './StatisticTopSellingCategory';
+import StatisticTopSellingProduct from './StatisticTopSellingProduct';
 import StatisticTransaction from './StatisticTransaction';
 import StatisticOrderLatest from './StatisticOrderLatest';
 import StatisticSale from './StatisticSale';
@@ -39,10 +39,10 @@ function DashboardPage() {
             </Row>
             <Row gutter={[16, 40]} className="mb-[2rem]">
                 <Col span={16}>
-                    <StatisticTopSellingProduct />
+                    <StatisticTopSellingProductYear />
                 </Col>
                 <Col span={8}>
-                    <StatisticTopSellingCaterory />
+                    <StatisticTopSellingProduct />
                 </Col>
             </Row>
             <Row gutter={[16, 40]} className="mb-[2rem]">

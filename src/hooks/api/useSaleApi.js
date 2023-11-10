@@ -16,6 +16,10 @@ export const useGetSale = (id) => {
     return useFetch({ url: `${apiRoutes.admin.sale}/${id}`, key: 'getById' });
 };
 
+export const useGetSaleLatest = () => {
+    return useFetch({ url: `${apiRoutes.admin.sale}/latest`, key: 'getById' });
+};
+
 export const useCreateSale = (updater) => {
     return usePostForm(apiRoutes.admin.sale, updater);
 };

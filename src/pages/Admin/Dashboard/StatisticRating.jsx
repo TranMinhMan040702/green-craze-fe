@@ -1,15 +1,8 @@
-import { Card } from 'antd';
-import React, { PureComponent } from 'react';
+import { Card, DatePicker } from 'antd';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-
-const data = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+import dayjs from 'dayjs';
+import { useStatisticOrderStatus, useStatisticRating } from '../../../hooks/api';
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -29,16 +22,42 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         </text>
     );
 };
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#cf8db4'];
 
 function StatisticRating() {
+    const currentDate = new Date();
+    const [daterange, setDaterange] = useState([
+        dayjs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)),
+        dayjs(currentDate),
+    ]);
+
+    const { isLoading, data } = useStatisticRating({
+        startDate: daterange[0].$d.toISOString(),
+        endDate: daterange[1].$d.toISOString(),
+    });
+
+    const onChange = (value) => {
+        if (value == null) {
+            setDaterange(daterange);
+            return;
+        }
+        setDaterange(value);
+    };
+
     return (
         <Card bordered={false}>
-            <h5 className="font-medium text-center text-[1.6rem] w-[340px]">
-                Tỉ lệ đánh giá của khách hàng
-            </h5>
+            <div className="flex flex-col items-center justify-between my-[1rem]">
+                <h5 className="font-medium text-center text-[1.6rem]">Tỷ lệ đáng giá</h5>
+                <DatePicker.RangePicker
+                    defaultValue={daterange}
+                    value={daterange}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    onChange={onChange}
+                />
+            </div>
             <PieChart width={340} height={285}>
                 <Pie
-                    data={data}
+                    data={data?.data}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -47,7 +66,7 @@ function StatisticRating() {
                     fill="#8884d8"
                     dataKey="value"
                 >
-                    {data.map((entry, index) => (
+                    {data?.data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>

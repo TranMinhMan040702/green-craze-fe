@@ -83,7 +83,7 @@ function Head() {
                                                     ? data?.data?.avatar
                                                     : images.user
                                             }
-                                            alt="bell"
+                                            alt="avatar"
                                         />
                                     </div>
                                     <div className="text-[1.4rem]">{`${data?.data?.lastName} ${data?.data?.firstName}`}</div>

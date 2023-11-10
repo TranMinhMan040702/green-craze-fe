@@ -1,4 +1,8 @@
 import { Card, Table } from 'antd';
+import { useGetTop5ReviewLatest } from '../../../hooks/api';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import config from '../../../config';
 const baseColumns = [
     {
         title: 'Id',
@@ -42,14 +46,37 @@ const baseColumns = [
         },
     },
 ];
+
 function StatisticReviewLatest() {
+    const navigate = useNavigate();
+    // const { isLoading, data } = useGetTop5ReviewLatest();
+    // const [tdata, setTData] = useState([]);
+
+    // useEffect(() => {
+    //     if (isLoading || !data) return;
+    //     setTData(transformData(data?.data));
+    // }, [isLoading, data]);
+
     return (
-        <Card bordered={false} className="card-container h-[330px]">
+        <Card bordered={false} className="card-container min-h-[382px]">
             <div className="flex items-center justify-between mb-[2rem]">
                 <h5 className="font-medium text-center text-[2rem]">Các đánh giá mới nhất</h5>
-                <span className="text-[#3ea4ff] cursor-pointer">Xem thêm</span>
+                <span
+                    className="text-[#3ea4ff] cursor-pointer"
+                    onClick={() => navigate(config.routes.admin.review)}
+                >
+                    Xem thêm
+                </span>
             </div>
-            <Table pagination={false} columns={baseColumns} dataSource={null} />
+            <Table
+                scroll={{
+                    x: 1500,
+                }}
+                pagination={false}
+                columns={baseColumns}
+                dataSource={null}
+                size="small"
+            />
         </Card>
     );
 }
