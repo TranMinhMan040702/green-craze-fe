@@ -5,7 +5,7 @@ import ProfileForm from './ProfileForm';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 
 function AdminProfilePage() {
-    const { isLoading, data } = useGetMe();
+    const { isLoading, data, refetch } = useGetMe();
 
     return (
         <div className="profile-container">
@@ -21,7 +21,7 @@ function AdminProfilePage() {
                     <ProfileDetail user={data?.data} />
                 </div>
                 <div className="col-span-8">
-                    <ProfileForm user={data?.data} />
+                    <ProfileForm user={data?.data} refetch={refetch} />
                 </div>
             </div>
         </div>

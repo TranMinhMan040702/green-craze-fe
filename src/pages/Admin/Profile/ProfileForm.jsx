@@ -1,6 +1,23 @@
-import { Button, Col, DatePicker, Form, Image, Input, Row, Select, Tag, Upload } from 'antd';
+import {
+    Button,
+    Col,
+    DatePicker,
+    Form,
+    Image,
+    Input,
+    Row,
+    Select,
+    Tag,
+    Upload,
+    notification,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
+import config from '../../../config';
+import { useChangePassword, useUpdateUser } from '../../../hooks/api';
+import { useNavigate } from 'react-router-dom';
+import { clearToken } from '../../../utils/storage';
+import dayjs from 'dayjs';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -8,9 +25,15 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 
-function ProfileForm({ user }) {
+function ProfileForm({ user, refetch }) {
+    const navigate = useNavigate();
+    const onLogout = () => {
+        clearToken();
+        navigate(config.routes.web.login);
+    };
     const [imageUrl, setImageUrl] = useState();
     const [imageFile, setImageFile] = useState(null);
+    const [processing, setProcessing] = useState(false);
     const [form] = Form.useForm();
     const formData = new FormData();
 
@@ -31,6 +54,69 @@ function ProfileForm({ user }) {
                 setImageUrl(url);
             });
         }
+    };
+
+    const mutationUpdate = useUpdateUser({
+        success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Thông tin người dùng đã được chỉnh sửa',
+            });
+            refetch();
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa thông tin người dùng',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+
+    const muationChangePassword = useChangePassword({
+        success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Mật khẩu người dùng đã được chỉnh sửa',
+            });
+            onLogout();
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa mật khẩu người dùng',
+            });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
+    });
+
+    const onEdit = async () => {
+        formData.append('firstName', form.getFieldValue('firstName'));
+        formData.append('lastName', form.getFieldValue('lastName'));
+        formData.append('phone', form.getFieldValue('phone'));
+        formData.append('gender', form.getFieldValue('gender'));
+        formData.append('dob', form.getFieldValue('dob').$d.toISOString());
+        formData.append('avatar', imageFile);
+        console.log([...formData]);
+        await mutationUpdate.mutateAsync(formData);
+    };
+
+    const onChangePassword = async () => {
+        await muationChangePassword.mutateAsync({
+            oldPassword: form.getFieldValue('oldPassword'),
+            newPassword: form.getFieldValue('newPassword'),
+            confirmPassword: form.getFieldValue('confirmPassword'),
+        });
     };
 
     return (
@@ -64,11 +150,7 @@ function ProfileForm({ user }) {
                                     onChange={handleChange}
                                 >
                                     {imageUrl ? (
-                                        <img
-                                            src={imageUrl}
-                                            alt="category"
-                                            className="w-full rounded-full"
-                                        />
+                                        <img src={imageUrl} alt="category" className="w-full" />
                                     ) : (
                                         <div>
                                             <PlusOutlined />
@@ -125,7 +207,7 @@ function ProfileForm({ user }) {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input readOnly />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -150,16 +232,17 @@ function ProfileForm({ user }) {
                         </Col>
                         <Col span={8}>
                             <Form.Item label="Ngày sinh" name="dob">
-                                <DatePicker className="w-full h-[33px]" />
+                                <DatePicker
+                                    className="w-full h-[33px]"
+                                    defaultValue={dayjs(new Date(user.dob).toLocaleString())}
+                                    format="YYYY-MM-DD HH:mm:ss"
+                                />
                             </Form.Item>
                         </Col>
                     </Row>
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
-                        <Button
-                            // onClick={id ? onEdit : onAdd}
-                            className="bg-blue-500 text-white min-w-[10%]"
-                        >
+                        <Button onClick={onEdit} className="bg-blue-500 text-white min-w-[10%]">
                             Cập nhật
                         </Button>
                     </div>
@@ -172,19 +255,19 @@ function ProfileForm({ user }) {
                     </div>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item label="Mật khẩu hiện tại" name="passwordCurrent">
+                            <Form.Item label="Mật khẩu hiện tại" name="oldPassword">
                                 <Input.Password />
                             </Form.Item>
                         </Col>
                     </Row>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item label="Mật khẩu mới" name="lastName">
+                            <Form.Item label="Mật khẩu mới" name="newPassword">
                                 <Input.Password />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item label="Xác nhận mật khẩu mới" name="lastName">
+                            <Form.Item label="Xác nhận mật khẩu mới" name="confirmPassword">
                                 <Input.Password />
                             </Form.Item>
                         </Col>
@@ -192,7 +275,7 @@ function ProfileForm({ user }) {
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
-                            // onClick={id ? onEdit : onAdd}
+                            onClick={onChangePassword}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >
                             Cập nhật

@@ -45,7 +45,7 @@ function ProfileDetail({ user }) {
                         <IconCake className="w-[20px]" />
                     </div>
                     <span className={`text-[1.4rem] px-[5px] ${!user.dob && 'italic'}`}>
-                        {user.dob ? user.dob : 'Đang cập nhật . . .'}
+                        {user.dob ? new Date(user.dob).toLocaleString() : 'Đang cập nhật . . .'}
                     </span>
                 </div>
                 <div className="flex items-center my-[0.5rem]">

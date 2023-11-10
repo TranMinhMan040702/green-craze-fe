@@ -51,6 +51,8 @@ export {
     useGetListUser,
     useDeleteListUser,
     useToggleUser,
+    useUpdateUser,
+    useChangePassword,
 } from './useUserApi.js';
 
 export { useGetRole, useGetListRole } from './useRoleApi.js';

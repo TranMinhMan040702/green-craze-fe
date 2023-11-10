@@ -35,7 +35,7 @@ const useGenericMutation = (func, url, updater) => {
             updater?.mutate && updater.mutate(data);
         },
         onSettled: (data, error, variables, context) => {
-            updater?.settled && updater.settled({data, error, variables, context});
+            updater?.settled && updater.settled({ data, error, variables, context });
         },
     });
 };
@@ -85,6 +85,10 @@ export const usePut = (url, updater) => {
 
 export const usePutWithoutId = (url, updater) => {
     return useGenericMutation((data) => api.put(url, data), url, updater);
+};
+
+export const usePutFormWithoutId = (url, updater) => {
+    return useGenericMutation((data) => api.putForm(url, data), url, updater);
 };
 
 export const usePutForm = (url, updater) => {
