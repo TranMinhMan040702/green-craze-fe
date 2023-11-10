@@ -1,7 +1,7 @@
 import { faEdit, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faAdd, faArrowLeft, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Image, Table, Tag } from 'antd';
+import { Button, Image, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
@@ -144,10 +144,17 @@ function Data({ setProductImageIds, setProductId }) {
 
     const mutationCreate = useCreateProductImage({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Hình ảnh sản phẩm đã được thêm',
+            });
             setModalImage({ image: null, edit: { index: null, isEdit: false }, isOpen: false });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm hình ảnh sản phẩm',
+            });
         },
         obj: {
             id: isDisableOpen.id,
@@ -157,9 +164,17 @@ function Data({ setProductImageIds, setProductId }) {
 
     const mutationUpdate = useUpdateProductImage({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Hình ảnh sản phẩm đã được chỉnh sửa',
+            });
             setModalImage({ image: null, edit: { index: null, isEdit: false }, isOpen: false });
         },
         error: (err) => {
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa hình ảnh sản phẩm',
+            });
             console.log(err);
         },
         obj: {
@@ -170,10 +185,17 @@ function Data({ setProductImageIds, setProductId }) {
 
     const mutationSetDefault = useSetDefaultProductImage({
         success: () => {
+            notification.success({
+                message: 'Đặt hình ảnh mặc định thành công',
+                description: 'Đặt hình ảnh mặc định cho sản phẩm thành công',
+            });
             navigate(`${config.routes.admin.product_image}/${productId}`);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Đặt hình ảnh mặc định thất bại',
+                description: 'Đặt hình ảnh mặc định cho sản phẩm thất bại',
+            });
         },
         obj: {
             id: null,
@@ -183,10 +205,17 @@ function Data({ setProductImageIds, setProductId }) {
 
     const mutationDelete = useDeleteProductImage({
         success: () => {
+            notification.success({
+                message: 'Xóa hình ảnh thành công',
+                description: 'Hình ảnh sản phẩm đã được xóa',
+            });
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
         },
         error: (err) => {
-            console.log(err);
+            notification.success({
+                message: 'Xóa hình ảnh thất bại',
+                description: 'Có lỗi xảy ra khi xóa hình ảnh sản phẩm',
+            });
         },
         obj: {
             id: isDisableOpen.id,

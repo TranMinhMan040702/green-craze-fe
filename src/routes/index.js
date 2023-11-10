@@ -49,12 +49,20 @@ import ProductImagePage from '../pages/Admin/ProductImage';
 import PaypalPaymentPage from '../pages/Ecommerce/Checkout/PaypalPayment';
 import OTPVerificationPage from '../pages/Ecommerce/OTPVerification';
 import ForgotPasswordPage from '../pages/Ecommerce/ForgotPassword';
+import AdminProfilePage from '../pages/Admin/Profile';
 
 const privateRoutes = [
     // Admin Layout
     {
         path: config.routes.admin.dashboard,
         component: DashboardPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: true,
+    },
+    {
+        path: config.routes.admin.profile,
+        component: AdminProfilePage,
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select, Upload } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Upload, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -39,19 +39,33 @@ function BrandFormPage() {
 
     const mutationCreate = useCreateBrand({
         success: () => {
+            notification.success({
+                message: 'Thêm thành công',
+                description: 'Thương hiệu sản phẩm đã được thêm',
+            });
             navigate(config.routes.admin.brand);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm thất bại',
+                description: 'Có lỗi xảy ra khi thêm thương hiệu sản phẩm',
+            });
         },
     });
 
     const mutationUpdate = useUpdateBrand({
         success: () => {
+            notification.success({
+                message: 'Chỉnh sửa thành công',
+                description: 'Thương hiệu sản phẩm đã được chỉnh sửa',
+            });
             navigate(config.routes.admin.brand);
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa thương hiệu sản phẩm',
+            });
         },
     });
 

@@ -1,6 +1,8 @@
-.ant-card {
-    box-shadow: 0.01em 0.01em 0.2em rgba(0, 0, 0, 0.2);
-    .ant-card-body {
-        max-width: 250px !important;
+.card-product {
+    .ant-card {
+        box-shadow: 0.01em 0.01em 0.2em rgba(0, 0, 0, 0.2);
+        .ant-card-body {
+            max-width: 250px !important;
+        }
     }
 }

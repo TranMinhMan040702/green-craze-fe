@@ -5,31 +5,52 @@ import Review from './Review';
 import { useLocation, useParams } from 'react-router-dom';
 import { useGetProductBySlug } from '../../../hooks/api';
 import { Spin } from 'antd';
+import config from '../../../config';
+import { useEffect, useState } from 'react';
+import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function ProductDetailPage() {
     let { slug } = useParams();
     
     const { data, isLoading } = useGetProductBySlug(slug);
+    const [routes, setRoutes] = useState([]);
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setRoutes([
+            {
+                title: data?.data?.category.name,
+                href: config.routes.web.home + '/' + data?.data?.category.slug,
+            },
+            {
+                title: data?.data?.name,
+            },
+        ]);
+    }, [isLoading, data]);
+
     return (
-        <div className="product-detail-container p-[2rem]">
-            <div className="max-w-[1200px] h-full mx-auto p-[1.2rem] rounded-[10px] bg-white">
-                {!isLoading ? (
-                    data?.data ? (
-                        <>
-                            <Information product={data?.data} />
-                            <Description product={data?.data} />
-                            <Review product={data?.data}/>
-                        </>
+        <>
+            <BreadCrumb routes={routes} />
+            <div className="product-detail-container p-[2rem]">
+                <div className="max-w-[1200px] h-full mx-auto p-[1.2rem] rounded-[10px] bg-white">
+                    {!isLoading ? (
+                        data?.data ? (
+                            <>
+                                 <Information product={data?.data} />
+                                <Description product={data?.data} />
+                                <Review product={data?.data}/>
+                            </>
+                        ) : (
+                            <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>
+                        )
                     ) : (
-                        <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>
-                    )
-                ) : (
-                    <div className="flex justify-center">
-                        <Spin />
-                    </div>
-                )}
+                        <div className="flex justify-center">
+                            <Spin />
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

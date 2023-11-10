@@ -52,7 +52,7 @@ function RegisterPage() {
 
     if (isTokenStoraged()) {
         let roles = getRoles();
-        let url = config.routes.web.home;
+        let url = '/';
 
         if (roles.includes('ADMIN')) url = config.routes.admin.dashboard;
 

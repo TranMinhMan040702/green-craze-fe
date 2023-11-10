@@ -62,11 +62,17 @@ export {
     useToggleUser,
     useChangePassword,
     useEditUser,
+    useUpdateUser,
+    useChangePassword,
 } from './useUserApi.js';
 
 export { useGetRole, useGetListRole } from './useRoleApi.js';
 
-export { useGetTransaction, useGetListTransaction } from './useTransactionApi.js';
+export {
+    useGetTransaction,
+    usGetTop5TransactionLatest,
+    useGetListTransaction,
+} from './useTransactionApi.js';
 
 export {
     useGetListBrand,
@@ -80,6 +86,7 @@ export {
 export {
     useGetListProductCategory,
     useGetProductCategory,
+    useGetProductCategoryBySlug,
     useCreateProductCategory,
     useUpdateProductCategory,
     useDeleteProductCategory,
@@ -143,6 +150,7 @@ export {
     useCreateOrder,
     useGetListUserOrder,
     useGetListOrder,
+    useGetTop5OrderLatest,
     useGetOrder,
     useUpdateOrder,
     useGetOrderByCode,
@@ -154,6 +162,7 @@ export { useImportProduct, useGetListDocketByProductId } from './useInventoryApi
 export {
     useGetListSale,
     useGetSale,
+    useGetSaleLatest,
     useCreateSale,
     useUpdateSale,
     useApplySale,
@@ -171,4 +180,13 @@ export {
     useReplyReview,
     useToggleReview,
     useGetCountReview,
+    useGetTop5ReviewLatest
 } from './useReviewAPI.js';
+
+export {
+    useStatisticTotal,
+    useStatisticRevenue,
+    useStatisticTopSellingProductYear,
+    useStatisticOrderStatus,
+    useStatisticRating,
+} from './useStatisticApi.js';

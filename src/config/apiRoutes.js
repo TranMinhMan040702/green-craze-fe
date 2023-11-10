@@ -34,12 +34,14 @@ const apiRoutes = {
         variant: '/api/variants',
         inventory: '/api/inventories',
         sale: '/api/sales',
+        statistic: '/api/statistics',
+        review: '/api/reviews',
     },
     web: {
         product: '/api/products',
         cart: 'api/carts',
         follow_product: 'api/user-follow-products',
-    }
+    },
 };
 
 export default apiRoutes;

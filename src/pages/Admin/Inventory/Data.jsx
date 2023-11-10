@@ -1,6 +1,6 @@
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
+import { Button, Input, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import Edit from './Edit';
 import { useGetListProduct, useImportProduct } from '../../../hooks/api';
@@ -155,10 +155,17 @@ function Data({ params, setParams }) {
                 docket: { ...isImportProduct.docket },
                 isEdit: false,
             });
+            notification.success({
+                message: 'Thêm sản phẩm vào kho thành công',
+                description: 'Sản phẩm đã được thêm vào kho',
+            });
             refetch();
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Thêm sản phẩm vào kho thất bại',
+                description: 'Có lỗi xảy ra khi thêm sản phẩm đã được thêm vào kho',
+            });
         },
         obj: {
             id: isImportProduct.docket.productId,

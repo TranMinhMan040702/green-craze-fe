@@ -1,7 +1,7 @@
 import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Table, Tag } from 'antd';
+import { Button, Input, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
@@ -147,9 +147,16 @@ function Data({ setUnitIds, params, setParams }) {
     const mutationDelete = useDeleteUnit({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            notification.success({
+                message: 'Vô hiệu hoá thành công',
+                description: 'Đơn vị sản phẩm đã được vô hiệu hoá',
+            });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Vô hiệu hoá thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hoá đơn vị sản phẩm',
+            });
         },
         obj: {
             id: isDisableOpen.id,

@@ -3,6 +3,7 @@ import { useGetCart } from '../../../hooks/api';
 import Info from './Info';
 import Summary from './Summary';
 import './cart.scss';
+import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function CartPage() {
     const { data, isLoading } = useGetCart({
@@ -12,14 +13,17 @@ function CartPage() {
     const [chosenItem, setChosenItem] = useState([]);
 
     return (
-        <div className="cart-container flex justify-center max-md:flex-col pt-[6.3rem] rounded-lg">
-            <Info
-                cartItems={data?.data?.items}
-                chosenItem={chosenItem}
-                setChosenItem={setChosenItem}
-            />
-            <Summary cartItems={data?.data?.items} chosenItem={chosenItem} />
-        </div>
+        <>
+            <BreadCrumb routes={[{ title: 'Giỏ hàng' }]} />
+            <div className="cart-container flex justify-center max-md:flex-col pt-[6.3rem] rounded-lg">
+                <Info
+                    cartItems={data?.data?.items}
+                    chosenItem={chosenItem}
+                    setChosenItem={setChosenItem}
+                />
+                <Summary cartItems={data?.data?.items} chosenItem={chosenItem} />
+            </div>
+        </>
     );
 }
 

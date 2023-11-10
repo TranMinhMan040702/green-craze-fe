@@ -35,7 +35,7 @@ const useGenericMutation = (func, url, updater) => {
             updater?.mutate && updater.mutate(data);
         },
         onSettled: (data, error, variables, context) => {
-            updater?.settled && updater.settled({data, error, variables, context});
+            updater?.settled && updater.settled({ data, error, variables, context });
         },
     });
 };
