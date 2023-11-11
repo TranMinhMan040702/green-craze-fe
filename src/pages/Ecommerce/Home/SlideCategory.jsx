@@ -25,7 +25,7 @@ function SlideCategory() {
         <div className="category my-[5rem]">
             <div className="w-full justify-center items-center gap-[1.6rem] inline-flex mb-[2rem]">
                 <img className="h-[25px]" src={images.cart} />
-                <div className="text-center text-black text-[3rem] font-bold">
+                <div className="text-center text-color text-[3rem] font-bold">
                     Mua sắm thôi nào!
                 </div>
             </div>
