@@ -45,6 +45,7 @@ const baseColumns = [
         dataIndex: 'action',
     },
 ];
+
 function transformData(dt, setIsDetailOpen, setIsDisableOpen, setIsReplyOpen) {
     return dt?.map((item) => {
         return {
@@ -88,6 +89,7 @@ function transformData(dt, setIsDetailOpen, setIsDisableOpen, setIsReplyOpen) {
         };
     });
 }
+
 function Data({ params, setParams, setReviewIds }) {
     const [isReplyOpen, setIsReplyOpen] = useState({
         id: 0,

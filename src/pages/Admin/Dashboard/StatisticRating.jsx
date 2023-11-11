@@ -28,7 +28,7 @@ function StatisticRating() {
     const currentDate = new Date();
     const [daterange, setDaterange] = useState([
         dayjs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)),
-        dayjs(currentDate),
+        dayjs(new Date(currentDate).setDate(currentDate.getDate() + 1)),
     ]);
 
     const { isLoading, data } = useStatisticRating({
@@ -47,11 +47,11 @@ function StatisticRating() {
     return (
         <Card bordered={false}>
             <div className="flex flex-col items-center justify-between my-[1rem]">
-                <h5 className="font-medium text-center text-[1.6rem]">Tỷ lệ đáng giá</h5>
+                <h5 className="font-medium text-center text-[1.6rem]">Tỷ lệ đánh giá</h5>
                 <DatePicker.RangePicker
                     defaultValue={daterange}
                     value={daterange}
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     onChange={onChange}
                 />
             </div>

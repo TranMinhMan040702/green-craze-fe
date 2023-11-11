@@ -1,6 +1,6 @@
 import images from '../../../../assets/images';
 import config from '../../../../config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     faBars,
     faCartShopping,
@@ -10,9 +10,24 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetMe } from '../../../../hooks/api';
 import { Dropdown } from 'antd';
+import { clearToken } from '../../../../utils/storage';
+import { useEffect, useState } from 'react';
 
 function Head() {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const { isLoading, data } = useGetMe();
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setUser(data?.data);
+    }, [isLoading, data]);
+
+    const onLogout = () => {
+        clearToken();
+        setUser(null);
+        navigate(config.routes.web.login);
+    };
 
     return (
         <div className="head-container">
@@ -47,8 +62,9 @@ function Head() {
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">
-                        {data?.data ? (
+                        {user ? (
                             <Dropdown
+                                className="cursor-pointer"
                                 menu={{
                                     items: [
                                         {
@@ -67,7 +83,7 @@ function Head() {
                                         },
                                         {
                                             key: '3',
-                                            label: <Link>Đăng xuất</Link>,
+                                            label: <div onClick={() => onLogout()}>Đăng xuất</div>,
                                         },
                                     ],
                                 }}
@@ -78,15 +94,11 @@ function Head() {
                                     <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                         <img
                                             className="rounded-full"
-                                            src={
-                                                data?.data?.avatar
-                                                    ? data?.data?.avatar
-                                                    : images.user
-                                            }
+                                            src={user?.avatar ? user?.avatar : images.user}
                                             alt="avatar"
                                         />
                                     </div>
-                                    <div className="text-[1.4rem]">{`${data?.data?.lastName} ${data?.data?.firstName}`}</div>
+                                    <div className="text-[1.4rem]">{`${user?.lastName} ${user?.firstName}`}</div>
                                 </div>
                             </Dropdown>
                         ) : (
@@ -94,7 +106,7 @@ function Head() {
                                 <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                     <img
                                         className="rounded-full"
-                                        src={data?.data?.avatar ? data?.data?.avatar : images.user}
+                                        src={user?.avatar ? user?.avatar : images.user}
                                         alt="bell"
                                     />
                                 </div>

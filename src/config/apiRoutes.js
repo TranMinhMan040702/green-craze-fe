@@ -35,7 +35,6 @@ const apiRoutes = {
         inventory: '/api/inventories',
         sale: '/api/sales',
         statistic: '/api/statistics',
-        review: '/api/reviews',
     },
     web: {
         product: '/api/products',

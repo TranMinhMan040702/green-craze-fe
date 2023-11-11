@@ -14,7 +14,7 @@ function HomePage() {
             <Product />
             <div className="w-full h-[340px] my-[7rem]">
                 <img
-                    className="w-full h-full object-cover object-top rounded-[5px] shadow-[2px_2px_6px_0_rgba(0,0,0,0.4)]"
+                    className="w-full h-full object-cover object-top rounded-[5px] shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)]"
                     src={images.banner.slide4}
                     alt=""
                 />

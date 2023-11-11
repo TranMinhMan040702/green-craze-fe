@@ -10,16 +10,16 @@ function Quality() {
                 </div>
             </div>
             <div className="grid grid-cols-4 max-md:grid-cols-2 gap-[2rem] mx-auto">
-                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[0px_0px_6px_1px_rgba(0,0,0,0.3)] p-[3rem] bg-white">
+                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)] p-[3rem] bg-white">
                     <img className="h-full" src={images.quality.quality1} alt="" />
                 </div>
-                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[0px_0px_6px_1px_rgba(0,0,0,0.3)] p-[3rem] bg-white">
+                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)] p-[3rem] bg-white">
                     <img className="h-full" src={images.quality.quality2} alt="" />
                 </div>
-                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[0px_0px_6px_1px_rgba(0,0,0,0.3)] p-[3rem] bg-white">
+                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)] p-[3rem] bg-white">
                     <img className="h-full" src={images.quality.quality3} alt="" />
                 </div>
-                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[0px_0px_6px_1px_rgba(0,0,0,0.3)] p-[3rem] bg-white">
+                <div className="image-list h-[150px] flex justify-center rounded-[10px] hover:shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)] p-[3rem] bg-white">
                     <img className="h-full" src={images.quality.quality4} alt="" />
                 </div>
             </div>

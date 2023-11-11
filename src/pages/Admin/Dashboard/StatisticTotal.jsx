@@ -16,7 +16,7 @@ function StatisticTotal() {
                     <Card className="bg-[rgb(209,231,221)]" bordered={false}>
                         <Statistic
                             title="Doanh thu"
-                            value={numberFormatter(data?.data?.revenue)}
+                            value={numberFormatter(data?.data?.revenue || 0)}
                             precision={2}
                             valueStyle={{
                                 color: '#0f5132',
@@ -33,7 +33,7 @@ function StatisticTotal() {
                     <Card bordered={false} className="bg-[rgb(248,215,218)]">
                         <Statistic
                             title="Chi phí"
-                            value={numberFormatter(data?.data?.expense)}
+                            value={numberFormatter(data?.data?.expense || 0)}
                             precision={2}
                             valueStyle={{
                                 color: '#842029',

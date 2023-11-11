@@ -35,7 +35,7 @@ function StatisticOrderStatus() {
     const currentDate = new Date();
     const [daterange, setDaterange] = useState([
         dayjs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)),
-        dayjs(currentDate),
+        dayjs(new Date(currentDate).setDate(currentDate.getDate() + 1)),
     ]);
 
     const { isLoading, data } = useStatisticOrderStatus({
@@ -58,7 +58,7 @@ function StatisticOrderStatus() {
                 <DatePicker.RangePicker
                     defaultValue={daterange}
                     value={daterange}
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     onChange={onChange}
                 />
             </div>
