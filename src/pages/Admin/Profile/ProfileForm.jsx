@@ -107,7 +107,6 @@ function ProfileForm({ user, refetch }) {
         formData.append('gender', form.getFieldValue('gender'));
         formData.append('dob', form.getFieldValue('dob').$d.toISOString());
         formData.append('avatar', imageFile);
-        console.log([...formData]);
         await mutationUpdate.mutateAsync(formData);
     };
 
@@ -231,18 +230,26 @@ function ProfileForm({ user, refetch }) {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Ngày sinh" name="dob">
+                            <Form.Item
+                                label="Ngày sinh"
+                                name="dob"
+                                initialValue={dayjs(new Date(user.dob).toLocaleString())}
+                            >
                                 <DatePicker
                                     className="w-full h-[33px]"
-                                    defaultValue={dayjs(new Date(user.dob).toLocaleString())}
-                                    format="YYYY-MM-DD HH:mm:ss"
+                                    // defaultValue={dayjs(new Date(user.dob).toLocaleString())}
+                                    format="YYYY-MM-DD"
                                 />
                             </Form.Item>
                         </Col>
                     </Row>
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
-                        <Button onClick={onEdit} className="bg-blue-500 text-white min-w-[10%]">
+                        <Button
+                            onClick={onEdit}
+                            loading={processing}
+                            className="bg-blue-500 text-white min-w-[10%]"
+                        >
                             Cập nhật
                         </Button>
                     </div>
@@ -276,6 +283,7 @@ function ProfileForm({ user, refetch }) {
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
                             onClick={onChangePassword}
+                            loading={processing}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >
                             Cập nhật

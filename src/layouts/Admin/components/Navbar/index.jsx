@@ -25,8 +25,8 @@ const items = [
     ]),
     getItem('Nhân viên', config.routes.admin.employee, <IconBuilding />),
     getItem('Sản phẩm', 'product', <IconPackage />, [
-        getItem('Danh sách sản phẩm', config.routes.admin.product),
-        getItem('Danh mục sản phẩm', config.routes.admin.product_category),
+        getItem('Sản phẩm', config.routes.admin.product),
+        getItem('Danh mục', config.routes.admin.product_category),
         getItem('Thương hiệu', config.routes.admin.brand),
         getItem('Đơn vị tính', config.routes.admin.unit),
     ]),

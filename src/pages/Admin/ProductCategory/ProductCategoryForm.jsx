@@ -20,9 +20,10 @@ const getBase64 = (img, callback) => {
 };
 
 function ProductCategoryFormPage() {
-    const navigate = useNavigate();
-    const inputRef = useRef(null);
     let { id } = useParams();
+    const navigate = useNavigate();
+    const [processing, setProcessing] = useState(false);
+    const inputRef = useRef(null);
     const { isLoading: isLoadingCategory, data: category } = id
         ? useGetProductCategory(id)
         : { isLoading: null, data: null };
@@ -50,7 +51,7 @@ function ProductCategoryFormPage() {
         } else {
             setListCategory(categories?.data?.items);
         }
-    }, [isLoadingCategory, isLoadingCategories]);
+    }, [isLoadingCategory, isLoadingCategories, category]);
 
     const mutationCreate = useCreateProductCategory({
         success: () => {
@@ -65,6 +66,12 @@ function ProductCategoryFormPage() {
                 message: 'Thêm thất bại',
                 description: 'Có lỗi xảy ra khi thêm thể loại sản phẩm',
             });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
         },
     });
 
@@ -82,9 +89,20 @@ function ProductCategoryFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa thể loại sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
         form.getFieldValue('parentId') &&
@@ -94,6 +112,11 @@ function ProductCategoryFormPage() {
     };
 
     const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('slug', form.getFieldValue('slug'));
         form.getFieldValue('parentId') &&
@@ -249,6 +272,7 @@ function ProductCategoryFormPage() {
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
+                            loading={processing}
                             onClick={id ? onEdit : onAdd}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >

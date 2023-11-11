@@ -156,6 +156,7 @@ function Data({ setVariantIds, setProductId }) {
         },
         isOpen: false,
     });
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -186,6 +187,12 @@ function Data({ setVariantIds, setProductId }) {
         error: (err) => {
             console.log(err);
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: isDisableOpen.id,
             params: { productId },
@@ -206,6 +213,12 @@ function Data({ setVariantIds, setProductId }) {
         error: (err) => {
             console.log(err);
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: isDisableOpen.id,
             params: { productId },
@@ -218,6 +231,12 @@ function Data({ setVariantIds, setProductId }) {
         },
         error: (err) => {
             console.log(err);
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
         },
         obj: {
             id: isDisableOpen.id,
@@ -278,6 +297,7 @@ function Data({ setVariantIds, setProductId }) {
                 </Button>
             </div>
             <Table
+                loading={isLoading}
                 scroll={{
                     x: 'max-content',
                 }}
@@ -289,11 +309,14 @@ function Data({ setVariantIds, setProductId }) {
                 dataSource={tdata}
                 pagination={false}
             />
-            <ModalVariant
-                modalVariant={modalVariant}
-                setModalVariant={setModalVariant}
-                handleVariant={handleVariant}
-            />
+            {modalVariant.edit.index !== 0 && (
+                <ModalVariant
+                    loading={processing}
+                    modalVariant={modalVariant}
+                    setModalVariant={setModalVariant}
+                    handleVariant={handleVariant}
+                />
+            )}
             <VariantDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
             <ConfirmPrompt
                 handleConfirm={onDelete}

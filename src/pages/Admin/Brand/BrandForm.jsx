@@ -22,6 +22,7 @@ function BrandFormPage() {
     const [imageFile, setImageFile] = useState(null);
     const [form] = Form.useForm();
     const formData = new FormData();
+    const [processing, setProcessing] = useState(false);
 
     const { data, isLoading } = id ? useGetBrand(id) : { data: null, isLoading: null };
 
@@ -51,6 +52,12 @@ function BrandFormPage() {
                 description: 'Có lỗi xảy ra khi thêm thương hiệu sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const mutationUpdate = useUpdateBrand({
@@ -67,9 +74,20 @@ function BrandFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa thương hiệu sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('code', form.getFieldValue('code'));
         formData.append('description', form.getFieldValue('description'));
@@ -78,6 +96,11 @@ function BrandFormPage() {
     };
 
     const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('code', form.getFieldValue('code'));
         formData.append('description', form.getFieldValue('description'));
@@ -244,6 +267,7 @@ function BrandFormPage() {
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
+                            loading={processing}
                             onClick={id ? onEdit : onAdd}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >
