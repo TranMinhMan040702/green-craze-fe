@@ -1,13 +1,13 @@
 import './cardProduct.scss';
 import Meta from 'antd/es/card/Meta';
 import Card from 'antd/es/card/Card';
-import { Rate, Tooltip } from 'antd';
+import { Rate, Tooltip, notification } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import { IconStarFilled, IconStarHalfFilled, IconStar } from '@tabler/icons-react';
 import { numberFormatter } from '../../../../utils/formatter';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../../config';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { useFollowProduct } from '../../../../hooks/api';
 
 function CardProduct({ product }) {
     const navigate = useNavigate();
@@ -25,6 +25,27 @@ function CardProduct({ product }) {
         };
     };
     const price = handlePrice(product.variants);
+
+    const mutationFollow = useFollowProduct({
+        success: () => {
+            notification.success({
+                message: 'Thêm sản phẩm',
+                description: `Sản phẩm "${product.name}" đã được thêm vào danh sách yêu thích`,
+            });
+        },
+        error: (err) => {
+            notification.error({
+                message: 'Thêm thất bại',
+                description: `Sản phẩm "${product.name}" đã tồn tại trong danh sách yêu thích`,
+            });
+        },
+    });
+
+    const onFollowProduct = async () => {
+        await mutationFollow.mutateAsync({
+            productId: product?.id,
+        });
+    };
 
     return (
         <Card
@@ -62,10 +83,14 @@ function CardProduct({ product }) {
                         </span>
                     )}
                 </div>
-                <Tooltip placement="bottom" title="Thêm vào giỏ hàng">
+                <Tooltip placement="bottom" title="Yêu thích">
                     <FontAwesomeIcon
-                        className="primary-color transition-all delay-[0.3] text-[2.4rem]"
-                        icon={faCartPlus}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onFollowProduct();
+                        }}
+                        className="price-color transition-all delay-[0.3] text-[2.4rem] text-end hidden heart"
+                        icon={faHeart}
                     />
                 </Tooltip>
             </div>

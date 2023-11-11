@@ -8,7 +8,7 @@ import {
     faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetMe } from '../../../../hooks/api';
+import { useGetCart, useGetMe } from '../../../../hooks/api';
 import { Dropdown } from 'antd';
 import { clearToken } from '../../../../utils/storage';
 import { useEffect, useState } from 'react';
@@ -17,11 +17,12 @@ function Head() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const { isLoading, data } = useGetMe();
+    const { isLoading: isLoadingCart, data: dCart } = useGetCart();
 
     useEffect(() => {
-        if (isLoading || !data) return;
+        if (isLoading || isLoadingCart) return;
         setUser(data?.data);
-    }, [isLoading, data]);
+    }, [isLoading, isLoadingCart, data, dCart]);
 
     const onLogout = () => {
         clearToken();
@@ -134,7 +135,7 @@ function Head() {
                                 Giỏ hàng
                             </span>
                             <span className="max-md:absolute bottom-[2rem] right-[-0.2rem] top text-[1.2rem] px-[0.5rem] py-[0.3rem] bg-yellow-400 rounded-[5px]">
-                                5
+                                {dCart?.data?.currentItemCount || 0}
                             </span>
                         </div>
                     </Link>

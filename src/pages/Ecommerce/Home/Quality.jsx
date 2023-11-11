@@ -2,7 +2,7 @@ import images from '../../../assets/images';
 
 function Quality() {
     return (
-        <div className="quality">
+        <div className="quality max-w-[1200px] mx-auto p-[3rem] pb-[5rem]">
             <div className="w-full justify-center items-center gap-[1.6rem] inline-flex mb-[2rem]">
                 <img className="h-[25px]" src={images.quality.quality} />
                 <div className="text-center text-black text-[3rem] font-bold">

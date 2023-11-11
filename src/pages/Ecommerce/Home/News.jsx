@@ -4,7 +4,7 @@ import CardNews from './CardNews';
 
 function News() {
     return (
-        <div className="news mt-[6rem]">
+        <div className="news  max-w-[1200px] mx-auto p-[3rem]">
             <div className="w-full justify-center items-center gap-[1.6rem] inline-flex mb-[2rem]">
                 <img className="h-[25px]" src={images.quality.quality} />
                 <div className="text-center text-black text-[3rem] font-bold">Tin tức</div>

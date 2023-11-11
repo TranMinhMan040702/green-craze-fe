@@ -11,7 +11,7 @@ import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function ProductDetailPage() {
     let { slug } = useParams();
-    
+
     const { data, isLoading } = useGetProductBySlug(slug);
     const [routes, setRoutes] = useState([]);
 
@@ -36,9 +36,9 @@ function ProductDetailPage() {
                     {!isLoading ? (
                         data?.data ? (
                             <>
-                                 <Information product={data?.data} />
+                                <Information product={data?.data} />
                                 <Description product={data?.data} />
-                                <Review product={data?.data}/>
+                                <Review product={data?.data} />
                             </>
                         ) : (
                             <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>

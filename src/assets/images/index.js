@@ -41,6 +41,7 @@ const images = {
         news3: require('../../../src/assets/images/news/news3.png'),
         news4: require('../../../src/assets/images/news/news4.png'),
     },
+    partners: require('../../../src/assets/images/partners/partners.png'),
 };
 
 export default images;
