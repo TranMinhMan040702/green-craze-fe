@@ -51,7 +51,7 @@ export {
     useResendRegisterOTPVerification,
     useForgotPassword,
     useResetPassword,
-    useResendForgotPasswordOTPVerification
+    useResendForgotPasswordOTPVerification,
 } from './useAuthApi.js';
 
 export {
@@ -63,7 +63,6 @@ export {
     useChangePassword,
     useEditUser,
     useUpdateUser,
-    useChangePassword,
 } from './useUserApi.js';
 
 export { useGetRole, useGetListRole } from './useRoleApi.js';
@@ -180,8 +179,8 @@ export {
     useReplyReview,
     useToggleReview,
     useGetCountReview,
-    useGetTop5ReviewLatest
-} from './useReviewAPI.js';
+    useGetTop5ReviewLatest,
+} from './useReviewApi.js';
 
 export {
     useStatisticTotal,

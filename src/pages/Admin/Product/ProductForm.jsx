@@ -114,6 +114,7 @@ function transformVariant(variants, setVariants, setModalVariant) {
 function ProductFormPage() {
     let { id } = useParams();
     const navigate = useNavigate();
+    const [processing, setProcessing] = useState(false);
     const [form] = Form.useForm();
     const formData = new FormData();
     const [images, setImages] = useState([
@@ -230,6 +231,12 @@ function ProductFormPage() {
                 description: 'Có lỗi xảy ra khi thêm sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const mutationUpdate = useUpdateProduct({
@@ -246,9 +253,20 @@ function ProductFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('categoryId', form.getFieldValue('categoryId'));
         formData.append('brandId', form.getFieldValue('brandId'));
@@ -266,6 +284,11 @@ function ProductFormPage() {
     };
 
     const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         formData.append('name', form.getFieldValue('name'));
         formData.append('categoryId', form.getFieldValue('categoryId'));
         formData.append('brandId', form.getFieldValue('brandId'));
@@ -367,7 +390,16 @@ function ProductFormPage() {
                             </Form.Item>
                         </Col>
                         <Col span={6}>
-                            <Form.Item label="Đơn vị tính" name="unitId">
+                            <Form.Item
+                                label="Đơn vị tính"
+                                name="unitId"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Chọn đơn sản phẩm!',
+                                    },
+                                ]}
+                            >
                                 <Select
                                     onChange={(v) => form.setFieldValue('unitId', v)}
                                     placeholder="--"
@@ -570,7 +602,16 @@ function ProductFormPage() {
                     </div>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item label="Danh mục sản phẩm" name="categoryId">
+                            <Form.Item
+                                label="Danh mục sản phẩm"
+                                name="categoryId"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'chọn danh mục sản phẩm!',
+                                    },
+                                ]}
+                            >
                                 <Select
                                     onChange={(v) => form.setFieldValue('categoryId', v)}
                                     placeholder="--"
@@ -584,7 +625,16 @@ function ProductFormPage() {
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item label="Thương hiệu" name="brandId">
+                            <Form.Item
+                                label="Thương hiệu"
+                                name="brandId"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Chọn thương hiệu sản phẩm!',
+                                    },
+                                ]}
+                            >
                                 <Select
                                     onChange={(v) => form.setFieldValue('brandId', v)}
                                     placeholder="--"
@@ -613,6 +663,7 @@ function ProductFormPage() {
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
+                            loading={processing}
                             onClick={id ? onEdit : onAdd}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >

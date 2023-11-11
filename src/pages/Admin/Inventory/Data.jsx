@@ -45,6 +45,7 @@ const baseColumns = [
         dataIndex: 'action',
     },
 ];
+
 function transformData(dt, setIsImportProduct, setIsDetailOpen) {
     return dt?.map((item) => {
         return {
@@ -121,6 +122,7 @@ function Data({ params, setParams }) {
         productName: '',
         isOpen: false,
     });
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -167,6 +169,12 @@ function Data({ params, setParams }) {
                 description: 'Có lỗi xảy ra khi thêm sản phẩm đã được thêm vào kho',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: isImportProduct.docket.productId,
         },
@@ -189,6 +197,7 @@ function Data({ params, setParams }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 columns={baseColumns}
                 dataSource={tdata}
                 pagination={{ ...tableParams.pagination, showSizeChanger: true }}
@@ -196,6 +205,7 @@ function Data({ params, setParams }) {
             />
             {isImportProduct.isEdit && (
                 <Edit
+                    loading={processing}
                     isImportProduct={isImportProduct}
                     setIsImportProduct={setIsImportProduct}
                     importProduct={importProduct}

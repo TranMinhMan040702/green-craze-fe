@@ -187,6 +187,7 @@ function Data({ params, setParams, setBrandIds }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,

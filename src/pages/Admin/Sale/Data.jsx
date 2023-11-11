@@ -53,7 +53,7 @@ function transformData(dt, navigate, setIsDetailOpen, onApply, onCancel) {
             key: item.id,
             id: item.id,
             name: item.name,
-            starDate: new Date(item.startDate).toLocaleString(),
+            startDate: new Date(item.startDate).toLocaleString(),
             endDate: new Date(item.endDate).toLocaleString(),
             promotionalPercent: item.promotionalPercent + '%',
             status: (
@@ -90,6 +90,7 @@ function transformData(dt, navigate, setIsDetailOpen, onApply, onCancel) {
                     </Button>
                     <Button
                         className="text-yellow-500 border border-yellow-500"
+                        disabled={item.status === 'ACTIVE'}
                         onClick={() => onApply(item.id)}
                     >
                         <FontAwesomeIcon icon={faArrowRightFromBracket} />
@@ -216,6 +217,7 @@ function Data({ params, setParams }) {
                 />
             </div>
             <Table
+                loading={isLoading}
                 scroll={{
                     x: 1500,
                 }}

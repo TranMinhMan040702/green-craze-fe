@@ -1,6 +1,6 @@
 import { Button, Form, Input, InputNumber, Modal } from 'antd';
 
-function Edit({ isImportProduct, setIsImportProduct, importProduct }) {
+function Edit({ isImportProduct, setIsImportProduct, importProduct, loading }) {
     const [form] = Form.useForm();
     form.setFieldValue('quantity', isImportProduct.docket.quantity);
     form.setFieldValue('actualInventory', isImportProduct.docket.actualInventory);
@@ -35,6 +35,7 @@ function Edit({ isImportProduct, setIsImportProduct, importProduct }) {
             }
             footer={[
                 <Button
+                    loading={loading}
                     onClick={() => handleEdit()}
                     type="primary"
                     className="bg-yellow-500 text-white"

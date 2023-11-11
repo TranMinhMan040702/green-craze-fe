@@ -11,21 +11,22 @@ function Banner() {
                 />
             </div>
             <div className="image-list my-[2rem]">
-                <div className="image-item rounded-[5px] shadow-[2px_2px_6px_0_rgba(0,0,0,0.4)]">
+                {/* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */}
+                <div className="image-item rounded-[5px] shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)]">
                     <img
                         src={images.banner.slide1}
                         alt=""
                         className="h-full w-full object-cover object-top rounded-[5px]"
                     />
                 </div>
-                <div className="image-item rounded-[5px] shadow-[2px_2px_6px_0_rgba(0,0,0,0.4)]">
+                <div className="image-item rounded-[5px] shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)]">
                     <img
                         src={images.banner.slide2}
                         alt=""
                         className="h-full w-full object-cover object-top rounded-[5px]"
                     />
                 </div>
-                <div className="image-item rounded-[5px] shadow-[2px_2px_6px_0_rgba(0,0,0,0.4)]">
+                <div className="image-item rounded-[5px] shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)]">
                     <img
                         src={images.banner.slide3}
                         alt=""

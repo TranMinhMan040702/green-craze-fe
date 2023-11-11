@@ -11,8 +11,8 @@ function UnitFormPage() {
     let { id } = useParams();
     const navigate = useNavigate();
     const [form] = Form.useForm();
-
     const { data, isLoading } = id ? useGetUnit(id) : { data: null, isLoading: null };
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -37,6 +37,12 @@ function UnitFormPage() {
                 description: 'Có lỗi xảy ra khi thêm đơn vị sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const mutationUpdate = useUpdateUnit({
@@ -53,15 +59,31 @@ function UnitFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa đơn vị sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         await mutationCreate.mutateAsync({
             name: form.getFieldValue('name'),
         });
     };
 
     const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         await mutationUpdate.mutateAsync({
             id: id,
             body: {
@@ -148,6 +170,7 @@ function UnitFormPage() {
                     <div className="flex justify-between items-center gap-[1rem]">
                         <Button className="min-w-[10%]">Đặt lại</Button>
                         <Button
+                            loading={processing}
                             onClick={id ? onEdit : onAdd}
                             className="bg-blue-500 text-white min-w-[10%]"
                         >

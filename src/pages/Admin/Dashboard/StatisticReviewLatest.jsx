@@ -1,4 +1,4 @@
-import { Card, Table } from 'antd';
+import { Card, Rate, Table, Tag } from 'antd';
 import { useGetTop5ReviewLatest } from '../../../hooks/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,55 +7,57 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
+        sorter: true,
         width: 50,
     },
     {
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
-        sorter: {
-            compare: (a, b) => a.createdAt.localeCompare(b.createdAt),
-            multiple: 3,
-        },
+        sorter: true,
     },
     {
-        title: 'Người dùng',
-        dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 2,
-        },
+        title: 'Tiêu đề',
+        dataIndex: 'title',
+        sorter: true,
     },
     {
         title: 'Sản phẩm',
         dataIndex: 'product',
-        sorter: {
-            compare: (a, b) => a.product.localeCompare(b.product),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Số sao',
-        dataIndex: 'star',
-        sorter: {
-            compare: (a, b) => a?.star?.props?.defaultValue - b?.star?.props?.defaultValue,
-            multiple: 1,
-        },
+        dataIndex: 'rating',
+        sorter: true,
     },
 ];
+function transformData(dt) {
+    return dt?.map((item) => {
+        return {
+            key: item?.id,
+            id: item?.id,
+            createdAt: new Date(item?.createdAt)?.toLocaleString(),
+            title: item?.title,
+            product: item?.product?.name,
+            rating: <Rate className="text-2xl" disabled defaultValue={item?.rating} />,
+            status: (
+                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
+                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                </Tag>
+            ),
+        };
+    });
+}
 
 function StatisticReviewLatest() {
     const navigate = useNavigate();
-    // const { isLoading, data } = useGetTop5ReviewLatest();
-    // const [tdata, setTData] = useState([]);
+    const { isLoading, data } = useGetTop5ReviewLatest();
+    const [tdata, setTData] = useState([]);
 
-    // useEffect(() => {
-    //     if (isLoading || !data) return;
-    //     setTData(transformData(data?.data));
-    // }, [isLoading, data]);
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setTData(transformData(data?.data));
+    }, [isLoading, data]);
 
     return (
         <Card bordered={false} className="card-container min-h-[382px]">
@@ -70,11 +72,11 @@ function StatisticReviewLatest() {
             </div>
             <Table
                 scroll={{
-                    x: 1500,
+                    x: 600,
                 }}
                 pagination={false}
                 columns={baseColumns}
-                dataSource={null}
+                dataSource={tdata}
                 size="small"
             />
         </Card>

@@ -48,9 +48,9 @@ function SaleFormPage() {
     const [imageUrl, setImageUrl] = useState();
     const [imageFile, setImageFile] = useState(null);
     const [checked, setChecked] = useState(false);
-    const [daterange, setDaterange] = useState([dayjs(new Date()), dayjs(new Date())]);
     const [categories, setCategories] = useState([]);
     const [chosenCategoryList, setChosenCategoryList] = useState([]);
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (isLoadingProductCategory || isLoadingSale) return;
@@ -61,14 +61,17 @@ function SaleFormPage() {
                 slug: sale.slug,
                 promotionalPercent: sale.promotionalPercent,
                 description: sale.description,
+                daterange: [
+                    dayjs(new Date(sale.startDate).toLocaleString()),
+                    dayjs(new Date(sale.endDate).toLocaleString()),
+                ],
             });
             setChecked(sale.all);
             setImageUrl(sale.image);
-            setDaterange([dayjs(sale.startDate), dayjs(sale.endDate)]);
             setChosenCategoryList(sale.productCategories);
         }
         setCategories(dProductCategory?.data?.items);
-    }, [isLoadingProductCategory, isLoadingSale]);
+    }, [isLoadingProductCategory, isLoadingSale, dSale, dProductCategory]);
 
     const handleChange = (info) => {
         if (info.file) {
@@ -93,6 +96,12 @@ function SaleFormPage() {
                 description: 'Có lỗi xảy ra khi thêm đợt giảm giá',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
     const mutationEdit = useUpdateSale({
@@ -109,9 +118,20 @@ function SaleFormPage() {
                 description: 'Có lỗi xảy ra khi chỉnh sửa đợt giảm giá',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
     });
 
-    const onAdd = () => {
+    const onAdd = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         const daterange = form.getFieldValue('daterange');
         formData.append('name', form.getFieldValue('name'));
         formData.append('description', form.getFieldValue('description'));
@@ -124,10 +144,15 @@ function SaleFormPage() {
         chosenCategoryList
             .map((item) => item.id)
             .forEach((id) => formData.append('categoryIds', id));
-        mutationCreate.mutateAsync(formData);
+        await mutationCreate.mutateAsync(formData);
     };
 
-    const onEdit = () => {
+    const onEdit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         const daterange = form.getFieldValue('daterange');
         formData.append('name', form.getFieldValue('name'));
         formData.append('description', form.getFieldValue('description'));
@@ -140,7 +165,7 @@ function SaleFormPage() {
         chosenCategoryList
             .map((item) => item.id)
             .forEach((id) => formData.append('categoryIds', id));
-        mutationEdit.mutateAsync({
+        await mutationEdit.mutateAsync({
             id: id,
             body: formData,
         });
@@ -257,7 +282,7 @@ function SaleFormPage() {
                             <Form.Item
                                 label="Khoảng thời gian"
                                 name="daterange"
-                                initialValue={daterange}
+                                initialValue={[dayjs(new Date()), dayjs(new Date())]}
                                 rules={[
                                     {
                                         required: true,
@@ -265,11 +290,7 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <DatePicker.RangePicker
-                                    showTime
-                                    defaultValue={daterange}
-                                    format="YYYY-MM-DD HH:mm:ss"
-                                />
+                                <DatePicker.RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                             </Form.Item>
                             <Form.Item
                                 label="Mô tả"
@@ -291,12 +312,6 @@ function SaleFormPage() {
                                     placeholder="Mô tả"
                                 />
                             </Form.Item>
-                            {/* <Form.Item label="Trạng thái khuyến mãi" name="status">
-                                <Select defaultValue="INACTIVE">
-                                    <Option value="ACTIVE">Kích hoạt</Option>
-                                    <Option value="INACTIVE">Vô hiệu lực</Option>
-                                </Select>
-                            </Form.Item> */}
                             <Form.Item label="Áp dụng cho tất cả sản phẩm" name="all">
                                 <Switch
                                     checked={checked}
@@ -331,6 +346,7 @@ function SaleFormPage() {
                             </Form.Item>
                             <div className="flex items-center justify-end">
                                 <Button
+                                    loading={processing}
                                     onClick={id ? onEdit : onAdd}
                                     htmlType="submit"
                                     className="bg-[--primary-color] text-white min-w-[100px] border-none"

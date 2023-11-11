@@ -2,7 +2,7 @@ import { Card } from 'antd';
 
 function Map() {
     return (
-        <Card bordered={false} className="card-container min-h-[340px]">
+        <Card bordered={false} className="card-container min-h-[350px]">
             <div className="flex items-center justify-between mb-[2rem]">
                 <h5 className="font-medium text-center text-[2rem]">Vị trí cửa hàng</h5>
             </div>

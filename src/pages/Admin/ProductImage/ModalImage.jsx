@@ -9,7 +9,7 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 
-function ModalImage({ modalImage, setModalImage, handleImage }) {
+function ModalImage({ modalImage, setModalImage, handleImage, loading }) {
     const inputRef = useRef(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [imageFile, setImageFile] = useState(null);
@@ -51,6 +51,7 @@ function ModalImage({ modalImage, setModalImage, handleImage }) {
             footer={[
                 <Button
                     onClick={handleSubmit}
+                    loading={loading}
                     type="primary"
                     className={`${
                         modalImage.edit.isEdit ? 'bg-yellow-500' : 'bg-[--primary-color]'

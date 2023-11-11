@@ -1,6 +1,6 @@
 import images from '../../../../assets/images';
 import config from '../../../../config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     faBars,
     faCartShopping,
@@ -8,11 +8,27 @@ import {
     faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetMe } from '../../../../hooks/api';
+import { useGetCart, useGetMe } from '../../../../hooks/api';
 import { Dropdown } from 'antd';
+import { clearToken } from '../../../../utils/storage';
+import { useEffect, useState } from 'react';
 
 function Head() {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const { isLoading, data } = useGetMe();
+    const { isLoading: isLoadingCart, data: dCart } = useGetCart();
+
+    useEffect(() => {
+        if (isLoading || isLoadingCart) return;
+        setUser(data?.data);
+    }, [isLoading, isLoadingCart, data, dCart]);
+
+    const onLogout = () => {
+        clearToken();
+        setUser(null);
+        navigate(config.routes.web.login);
+    };
 
     return (
         <div className="head-container">
@@ -47,8 +63,9 @@ function Head() {
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">
-                        {data?.data ? (
+                        {user ? (
                             <Dropdown
+                                className="cursor-pointer"
                                 menu={{
                                     items: [
                                         {
@@ -67,7 +84,7 @@ function Head() {
                                         },
                                         {
                                             key: '3',
-                                            label: <Link>Đăng xuất</Link>,
+                                            label: <div onClick={() => onLogout()}>Đăng xuất</div>,
                                         },
                                     ],
                                 }}
@@ -78,15 +95,11 @@ function Head() {
                                     <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                         <img
                                             className="rounded-full"
-                                            src={
-                                                data?.data?.avatar
-                                                    ? data?.data?.avatar
-                                                    : images.user
-                                            }
+                                            src={user?.avatar ? user?.avatar : images.user}
                                             alt="avatar"
                                         />
                                     </div>
-                                    <div className="text-[1.4rem]">{`${data?.data?.lastName} ${data?.data?.firstName}`}</div>
+                                    <div className="text-[1.4rem]">{`${user?.lastName} ${user?.firstName}`}</div>
                                 </div>
                             </Dropdown>
                         ) : (
@@ -94,7 +107,7 @@ function Head() {
                                 <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                     <img
                                         className="rounded-full"
-                                        src={data?.data?.avatar ? data?.data?.avatar : images.user}
+                                        src={user?.avatar ? user?.avatar : images.user}
                                         alt="bell"
                                     />
                                 </div>
@@ -122,7 +135,7 @@ function Head() {
                                 Giỏ hàng
                             </span>
                             <span className="max-md:absolute bottom-[2rem] right-[-0.2rem] top text-[1.2rem] px-[0.5rem] py-[0.3rem] bg-yellow-400 rounded-[5px]">
-                                5
+                                {dCart?.data?.currentItemCount || 0}
                             </span>
                         </div>
                     </Link>

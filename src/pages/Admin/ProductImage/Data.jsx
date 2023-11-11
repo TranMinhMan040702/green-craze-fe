@@ -107,8 +107,8 @@ function transformData(dt, setIsDetailOpen, setIsDisableOpen, setModalImage, set
 }
 
 function Data({ setProductImageIds, setProductId }) {
-    const navigate = useNavigate();
     const { productId } = useParams();
+    const navigate = useNavigate();
     const { isLoading, data } = productId
         ? useGetListProductImage({ productId })
         : { isLoading: null, data: null };
@@ -124,6 +124,7 @@ function Data({ setProductImageIds, setProductId }) {
         },
         isOpen: false,
     });
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -156,6 +157,12 @@ function Data({ setProductImageIds, setProductId }) {
                 description: 'Có lỗi xảy ra khi thêm hình ảnh sản phẩm',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: isDisableOpen.id,
             params: { productId },
@@ -177,6 +184,12 @@ function Data({ setProductImageIds, setProductId }) {
             });
             console.log(err);
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: isDisableOpen.id,
             params: { productId },
@@ -197,6 +210,12 @@ function Data({ setProductImageIds, setProductId }) {
                 description: 'Đặt hình ảnh mặc định cho sản phẩm thất bại',
             });
         },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
+        },
         obj: {
             id: null,
             params: { productId },
@@ -216,6 +235,12 @@ function Data({ setProductImageIds, setProductId }) {
                 message: 'Xóa hình ảnh thất bại',
                 description: 'Có lỗi xảy ra khi xóa hình ảnh sản phẩm',
             });
+        },
+        mutate: () => {
+            setProcessing(true);
+        },
+        settled: () => {
+            setProcessing(false);
         },
         obj: {
             id: isDisableOpen.id,
@@ -283,6 +308,7 @@ function Data({ setProductImageIds, setProductId }) {
                 </Button>
             </div>
             <Table
+                loading={isLoading}
                 scroll={{
                     x: 'max-content',
                 }}
@@ -295,6 +321,7 @@ function Data({ setProductImageIds, setProductId }) {
                 pagination={false}
             />
             <ModalImage
+                loading={processing}
                 modalImage={modalImage}
                 setModalImage={setModalImage}
                 handleImage={handleImage}

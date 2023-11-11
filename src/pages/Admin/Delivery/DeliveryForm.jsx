@@ -19,12 +19,11 @@ const getBase64 = (img, callback) => {
 function DeliveryFormPage() {
     let { id } = useParams();
     const navigate = useNavigate();
-
     const [processing, setProcessing] = useState(false);
-
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState();
     const inputRef = useRef(null);
+
     const handleUploadChange = (info) => {
         if (info.file) {
             setImage(info.file);

@@ -1,5 +1,13 @@
 import apiRoutes from '../../config/apiRoutes';
-import { useDelete, useDeleteList, useFetch, usePatch, usePostForm, usePut, usePutForm } from '../../utils/reactQuery';
+import {
+    useDelete,
+    useDeleteList,
+    useFetch,
+    usePatch,
+    usePostForm,
+    usePut,
+    usePutForm,
+} from '../../utils/reactQuery';
 
 export const useCreateReview = (updater) => {
     return usePostForm(apiRoutes.common.review, updater);
@@ -24,6 +32,10 @@ export const useGetCountReview = (productId) => {
 
 export const useGetListReview = (params) => {
     return useFetch({ url: apiRoutes.common.review, params, key: 'getList' });
+};
+
+export const useGetTop5ReviewLatest = () => {
+    return useFetch({ url: `${apiRoutes.common.review}/top5-review-latest`, key: 'getList' });
 };
 
 export const useGetReview = (id) => {

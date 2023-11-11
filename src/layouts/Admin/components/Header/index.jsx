@@ -49,7 +49,7 @@ function Header() {
                             </Link>
                         </li>
                         <li className="mr-[2rem] py-[0.5rem] px-[1rem] hover:bg-[--background-item-menu-color] rounded-[5px]">
-                            <Link className="flex items-center">
+                            <Link to={'/'} className="flex items-center">
                                 <IconTableShare className="h-[1.6rem]" />
                                 Website
                             </Link>

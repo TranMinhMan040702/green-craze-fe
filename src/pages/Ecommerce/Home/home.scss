@@ -74,7 +74,13 @@
                 width: 128px;
                 height: 100px;
                 .image {
-                    background-color: var(--primary-color);
+                    background-color: #72a560;
+                    transition: all 0.5s;
+                }
+                &:hover {
+                    .image {
+                        background-color: var(--primary-color);
+                    }
                 }
             }
         }
@@ -93,6 +99,16 @@
         .image-list {
             &:hover img {
                 scale: (1.2);
+                transition: all 0.8s;
+            }
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+        }
+    }
+    .partners {
+        .image-list {
+            &:hover img {
+                scale: (1.2);
+                transition: all 0.8s;
             }
         }
     }

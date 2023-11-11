@@ -1,9 +1,14 @@
 import { Button, Form, Input, InputNumber, Modal, Select } from 'antd';
 
-function ModalVariant({ modalVariant, setModalVariant, handleVariant }) {
+function ModalVariant({ modalVariant, setModalVariant, handleVariant, loading }) {
     const [form] = Form.useForm();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        try {
+            await form.validateFields();
+        } catch {
+            return;
+        }
         handleVariant(modalVariant.edit, {
             name: form.getFieldValue('name'),
             sku: form.getFieldValue('sku'),
@@ -40,6 +45,7 @@ function ModalVariant({ modalVariant, setModalVariant, handleVariant }) {
             }}
             footer={[
                 <Button
+                    loading={loading}
                     onClick={handleSubmit}
                     type="primary"
                     className={`${
