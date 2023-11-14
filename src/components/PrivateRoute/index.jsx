@@ -2,6 +2,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { isTokenStoraged } from '../../utils/storage';
 import config from '../../config';
 import { useGetMe } from '../../hooks/api';
+import WebLoading from '../../layouts/Ecommerce/components/WebLoading';
+
 
 function PrivateRoute({ children, roles }) {
     const { data, isLoading } = useGetMe();
@@ -10,7 +12,7 @@ function PrivateRoute({ children, roles }) {
         return <Navigate to={config.routes.web.login} replace />;
     }
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <WebLoading />;
 
     if (!data) {
         return <Navigate to={config.routes.web.login} replace />;

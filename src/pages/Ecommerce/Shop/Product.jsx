@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { useGetListProduct } from '../../../hooks/api';
 import { useEffect, useState } from 'react';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Product({ params, setParams }) {
     const { isLoading, data } = useGetListProduct(params);
@@ -25,6 +26,8 @@ function Product({ params, setParams }) {
             pageSize: pageSize,
         });
     };
+
+    if (isLoading) return <WebLoading />;
 
     return (
         <div className="product py-[1rem] px-[2.6rem]">

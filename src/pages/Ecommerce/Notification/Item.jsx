@@ -1,29 +1,52 @@
 import { Button } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useUpdateNotification } from '../../../hooks/api';
+import { useContext } from 'react';
+import { NotificationContext } from '../../../App';
 
-function Item({isRead = false}) {
+function Item({ notification, isRead = false }) {
+    const {refetchNotification} = useContext(NotificationContext);
+    const mutateRead = useUpdateNotification({
+        success: (data) => {
+            refetchNotification();
+        }
+    });
+
+    const onReadNotification = async () => {
+        await mutateRead.mutateAsync({
+            id: notification?.id,
+            body: {},
+        });
+    };
+
     return (
         <NavLink>
-            <div className={`${!isRead && 'bg-[#fff2ee]'} flex justify-between items-center gap-[2.2rem] p-[2rem] hover:bg-gray-100 transition-all`}>
-                <div className='flex items-center gap-[1rem]'>
-                    <img
-                        className="w-[7.9rem] h-[7.9rem] "
-                        src="https://via.placeholder.com/79x79"
-                    />
+            <div
+                className={`${
+                    !isRead && 'bg-[#fff2ee]'
+                } flex justify-between items-center gap-[2.2rem] p-[2rem] hover:bg-gray-100 transition-all border-b border-solid`}
+            >
+                <div className="flex items-center gap-[1rem]">
+                    <img className="w-[7.9rem] h-[7.9rem] " src={notification?.image} />
                     <div className="">
                         <p className="text-black text-[1.6rem] font-normal">
-                            Giao kiện hàng thành công
+                            {notification?.title}
                         </p>
                         <p className="text-[1.4rem] mb-[1rem] mt-[.6rem]">
-                            Kiện hàng <b>SPXVN039729777439</b> của đơn hàng <b>2309233WKH6BQV</b> đã
-                            giao thành công đến bạn.
+                            {notification?.content}
                         </p>
                         <p className="text-rose-600 text-opacity-70 font-medium text-[1.4rem]">
-                            {new Date().toLocaleString()}
+                            {new Date(notification?.createdAt).toLocaleString()}
                         </p>
                     </div>
                 </div>
-                <Button className='detail-btn'>Xem chi tiết</Button>
+                <NavLink
+                    onClick={() => onReadNotification()}
+                    to={notification?.anchor}
+                    className="detail-btn text-[1.2rem] border border-solid px-7 py-3 rounded-xl border-gray-500 hover:border-[var(--primary-color)]"
+                >
+                    Xem chi tiết
+                </NavLink>
             </div>
         </NavLink>
     );

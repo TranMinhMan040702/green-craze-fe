@@ -43,6 +43,14 @@ const useGenericMutation = (func, url, updater) => {
 export const useFetch = ({ url, key, params, config }) => {
     const context = useQuery([url, key, params], ({ queryKey }) => fetcher({ queryKey }), {
         enabled: !!url,
+        retry: (failureCount, error) => {
+            // Don't retry if the error status is 401
+            if (error.message === '401') {
+              return false;
+            }
+            // Otherwise, retry up to 3 times
+            return failureCount < 3;
+          },
         ...config,
     });
     return context;

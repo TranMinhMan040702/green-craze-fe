@@ -8,10 +8,13 @@ import OrderStatus from './OrderStatus';
 import Wrapper from './Wrapper';
 import './orderdetail.scss';
 import { useGetOrderByCode } from '../../../hooks/api';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function OrderDetailPage() {
     const { code } = useParams();
     const { data, isLoading, refetch } = useGetOrderByCode(code);
+    if(isLoading)
+        return <WebLoading />
     return (
         <AccountLayout routeKey={config.routes.web.order} isSetMinHeight={false}>
             <div className="order-detail-container">

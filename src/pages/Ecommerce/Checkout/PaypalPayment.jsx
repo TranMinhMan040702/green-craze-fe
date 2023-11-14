@@ -4,8 +4,9 @@ import config from '../../../config';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EXCHANGE_VALUE_USD_VND } from '../../../utils/constants';
 import './checkout.scss';
-import { Alert, Spin, notification } from 'antd';
+import { Alert, Button, Result, Spin, notification } from 'antd';
 import { useCallback } from 'react';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function PaypalPaymentPage() {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ function PaypalPaymentPage() {
         },
     });
 
-    if (orderApi?.isLoading) return <Spin />;
+    if (orderApi?.isLoading) return <WebLoading />;
 
     const createPaypalOrder = (data, actions) => {
         let order = orderApi?.data?.data;
@@ -159,25 +160,47 @@ function PaypalPaymentPage() {
                         </div>
                     </div>
                 ) : (
-                    <Alert
-                        className="w-[80%] text-center"
-                        message={
-                            <h1 className="font-bold text-green-600">Thanh toán thành công</h1>
+                    <Result
+                        status="success"
+                        title="Thanh toán thành công"
+                        subTitle={
+                            <div className="text-[1.6rem]">
+                                <p>
+                                    Đơn hàng <strong>{code}</strong> đã được thanh toán trước đó
+                                    bằng phương thức PayPal.
+                                </p>
+                                <p>Vui lòng kiểm tra email để xem chi tiết đơn hàng</p>
+                            </div>
                         }
-                        description={
-                            <p className="text-[2rem]">Đơn hàng đã được thanh toán trước đó</p>
-                        }
-                        type="success"
+                        extra={[
+                            <Button
+                                onClick={() => navigate(config.routes.web.order + '/' + code)}
+                                className="text-green-400 border border-solide border-green-400"
+                            >
+                                Chi tiết đơn hàng
+                            </Button>,
+                        ]}
                     />
                 )
             ) : (
-                <Alert
-                    className="w-[80%] text-center"
-                    message={<h1 className="font-bold text-red-600">Yêu cầu không hợp lệ</h1>}
-                    description={
-                        <p className="text-[2rem]">Đơn hàng này không cần thanh toán trước</p>
+                <Result
+                    status="error"
+                    title="Yêu cầu không hợp lệ"
+                    subTitle={
+                        <div className="text-[1.6rem]">
+                            <p>
+                                Đơn hàng <strong>{code}</strong> không cần thanh toán trước.
+                            </p>
+                        </div>
                     }
-                    type="error"
+                    extra={[
+                        <Button
+                            onClick={() => navigate(config.routes.web.order)}
+                            className="text-green-400 border border-solide border-green-400"
+                        >
+                            Danh sách đơn hàng
+                        </Button>,
+                    ]}
                 />
             )}
         </div>

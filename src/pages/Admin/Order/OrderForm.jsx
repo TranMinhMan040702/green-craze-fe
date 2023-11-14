@@ -94,10 +94,12 @@ function OrderFormPage() {
             navigate(config.routes.admin.order);
         },
         error: (err) => {
-            let description = 'Có lỗi xảy ra khi huỷ, vui lòng thử lại sau';
+            let description = 'Có lỗi xảy ra khi thao tác, vui lòng thử lại sau';
             let detail = err?.response?.data?.detail?.toLowerCase();
             if (detail?.includes('paypal')) {
                 description = 'Người dùng chưa thanh toán PayPal cho đơn hàng này';
+            }else if (detail?.includes('delivered')) {
+                description = 'Đơn hàng đã được giao, không thể thay đổi trạng thái';
             }
             notification.error({
                 message: 'Chỉnh sửa thất bại',

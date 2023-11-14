@@ -1,14 +1,14 @@
-import Item from "./Item";
+import { useGetListNotification } from '../../../hooks/api';
+import Item from './Item';
 
-
-function Wrapper(){
-    return <div>
-        <Item isRead/>
-        <Item />
-        <Item isRead/>
-        <Item isRead/>
-        <Item />
-    </div>
+function Wrapper({ notifications }) {
+    return (
+        <div>
+            {notifications?.map((item) => {
+                return <Item key={item.id} notification={item} isRead={item?.status} />;
+            })}
+        </div>
+    );
 }
 
 export default Wrapper;

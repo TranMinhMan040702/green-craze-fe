@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGetListAddress } from '../../../hooks/api';
 import AddressForm from './AddressForm';
 import Item from './Item';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Wrapper() {
     const addressAPI = useGetListAddress({
@@ -11,6 +12,8 @@ function Wrapper() {
         id: 0,
         isOpen: false,
     });
+    if(addressAPI.isLoading)
+        return <WebLoading />
     return (
         <div>
             {addressAPI?.data?.data?.items?.map((v, idx) => {

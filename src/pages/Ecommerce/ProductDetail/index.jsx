@@ -8,6 +8,7 @@ import { Spin } from 'antd';
 import config from '../../../config';
 import { useEffect, useState } from 'react';
 import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function ProductDetailPage() {
     let { slug } = useParams();
@@ -28,25 +29,21 @@ function ProductDetailPage() {
         ]);
     }, [isLoading, data]);
 
+    if (isLoading) return <WebLoading />;
+
     return (
         <>
             <BreadCrumb routes={routes} />
             <div className="product-detail-container p-[2rem]">
                 <div className="max-w-[1200px] h-full mx-auto p-[1.2rem] rounded-[10px] bg-white">
-                    {!isLoading ? (
-                        data?.data ? (
-                            <>
-                                <Information product={data?.data} />
-                                <Description product={data?.data} />
-                                <Review product={data?.data} />
-                            </>
-                        ) : (
-                            <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>
-                        )
+                    {data?.data ? (
+                        <>
+                            <Information product={data?.data} />
+                            <Description product={data?.data} />
+                            <Review product={data?.data} />
+                        </>
                     ) : (
-                        <div className="flex justify-center">
-                            <Spin />
-                        </div>
+                        <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>
                     )}
                 </div>
             </div>

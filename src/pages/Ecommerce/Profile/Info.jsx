@@ -3,6 +3,7 @@ import UploadAvatar from './UploadAvatar';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useEditUser, useGetMe } from '../../../hooks/api';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Info() {
     const profile = useGetMe();
@@ -51,6 +52,8 @@ function Info() {
         };
         await mutateEditUser.mutateAsync(data);
     };
+
+    if (profile?.isLoading) return <WebLoading />;
 
     return (
         <div className="md:p-[5rem] sm:p-[1rem]">
@@ -114,10 +117,10 @@ function Info() {
                         <Input className="text-black text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow" />
                     </Form.Item>
                     <Form.Item label="Giới tính" name="gender">
-                        <Radio.Group defaultValue={'male'}>
-                            <Radio value="male">Nam</Radio>
-                            <Radio value="female">Nữ</Radio>
-                            <Radio value="other">Khác</Radio>
+                        <Radio.Group defaultValue={'MALE'}>
+                            <Radio value="MALE">Nam</Radio>
+                            <Radio value="FEMALE">Nữ</Radio>
+                            <Radio value="OTHER">Khác</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item

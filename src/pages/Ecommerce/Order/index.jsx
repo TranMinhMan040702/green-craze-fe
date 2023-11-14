@@ -5,14 +5,14 @@ import AccountLayout from '../../../layouts/Ecommerce/AccountLayout';
 import Order from './Order';
 import OrderStateTab from './OrderStateTab';
 import './order.scss';
-import { Spin } from 'antd';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 function OrderPage() {
     const [chosenStatus, setChosenStatus] = useState(null);
     const { data, isLoading } = useGetListUserOrder({
         orderStatus: chosenStatus,
     });
-
+    
     return (
         <AccountLayout
             isSetMinHeight={false}
@@ -24,7 +24,7 @@ function OrderPage() {
                 <div className="space"></div>
                 {isLoading ? (
                     <div className="flex justify-center">
-                        <Spin />
+                        <SpinLoading />
                     </div>
                 ) : data?.data?.items?.length === 0 ? (
                     <div className="text-center mt-20">

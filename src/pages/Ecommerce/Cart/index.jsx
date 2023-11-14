@@ -4,6 +4,7 @@ import Info from './Info';
 import Summary from './Summary';
 import './cart.scss';
 import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function CartPage() {
     const { data, isLoading } = useGetCart({
@@ -11,6 +12,9 @@ function CartPage() {
     });
 
     const [chosenItem, setChosenItem] = useState([]);
+    
+    if(isLoading || !data)
+        return <WebLoading />
 
     return (
         <>

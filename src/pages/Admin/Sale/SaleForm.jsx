@@ -28,6 +28,7 @@ import {
     useGetSale,
     useUpdateSale,
 } from '../../../hooks/api';
+import slugify from '../../../utils/slugify';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -253,7 +254,7 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input  onChange={(e) => form.setFieldValue('slug', slugify(e.target.value))}/>
                             </Form.Item>
                             <Form.Item
                                 label="Slug"
@@ -265,7 +266,7 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input readOnly/>
                             </Form.Item>
                             <Form.Item
                                 label="Phần trăm giảm giá"

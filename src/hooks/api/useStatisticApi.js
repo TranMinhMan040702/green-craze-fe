@@ -21,6 +21,14 @@ export const useStatisticTopSellingProductYear = (params) => {
     });
 };
 
+export const useStatisticTopSellingProduct = (params) => {
+    return useFetch({
+        url: `${apiRoutes.admin.statistic}/top-selling-product`,
+        params,
+        key: 'statisticTopSellingProduct',
+    });
+};
+
 export const useStatisticOrderStatus = (params) => {
     return useFetch({
         url: `${apiRoutes.admin.statistic}/order-status`,

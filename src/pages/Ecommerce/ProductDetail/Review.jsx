@@ -3,6 +3,7 @@ import { useGetCountReview, useGetListReview } from '../../../hooks/api';
 import FilterRating from './FilterRating';
 import Rating from './Rating';
 import { Pagination, Rate, Spin } from 'antd';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 function Review({ product }) {
     const [params, setParams] = useState({
@@ -51,7 +52,7 @@ function Review({ product }) {
             <div className="list-rating">
                 {isLoading ? (
                     <div className="flex justify-center my-7">
-                        <Spin />
+                        <SpinLoading />
                     </div>
                 ) : (
                     <>
