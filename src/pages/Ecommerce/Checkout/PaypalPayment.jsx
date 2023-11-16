@@ -15,11 +15,11 @@ function PaypalPaymentPage() {
     const orderApi = useGetOrderByCode(code);
     const mutateCompletePaypalOrder = useCompletePaypalOrder({
         success: (data) => {
-            notification.success({
-                message: 'Thanh toán thành công',
-                description:
-                    'Đơn hàng của quý khách đã được thanh toán, vui lòng kiểm tra email chi tiết',
-            });
+            // notification.success({
+            //     message: 'Thanh toán thành công',
+            //     description:
+            //         'Đơn hàng của quý khách đã được thanh toán, vui lòng kiểm tra email chi tiết',
+            // });
             navigate(config.routes.web.order);
         },
         error: (e) => {
