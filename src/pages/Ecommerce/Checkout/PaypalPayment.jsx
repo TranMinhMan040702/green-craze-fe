@@ -128,7 +128,7 @@ function PaypalPaymentPage() {
         });
     };
     return (
-        <div className="paypal-payment-container flex justify-center mt-20">
+        <div className="paypal-payment-container flex justify-center mt-20 shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
             {orderApi?.data?.data?.transaction?.paymentMethod.toLowerCase().includes('paypal') ? (
                 !orderApi?.data?.data?.paymentStatus ? (
                     <div>

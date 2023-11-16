@@ -1,4 +1,10 @@
-import { faCancel, faDownload, faReceipt, faSpinner, faTruck } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCancel,
+    faDownload,
+    faReceipt,
+    faSpinner,
+    faTruck,
+} from '@fortawesome/free-solid-svg-icons';
 
 export const ORDER_STATUS = {
     NOT_PROCESSED: 'NOT_PROCESSED',
@@ -11,33 +17,33 @@ export const ORDER_STATUS = {
 const ORDER_STATUS_OBJ = {
     NOT_PROCESSED: {
         title: 'Chưa xử lý',
-        color: 'blue',
+        color: 'green',
         key: 1,
-        icon: faReceipt
+        icon: faReceipt,
     },
     PROCESSING: {
         title: 'Đang xử lý',
         color: 'green',
         key: 2,
-        icon: faSpinner
+        icon: faSpinner,
     },
     SHIPPED: {
         title: 'Đang giao hàng',
-        color: 'orange',
+        color: 'green',
         key: 3,
-        icon: faTruck
+        icon: faTruck,
     },
     DELIVERED: {
         title: 'Đã giao hàng',
-        color: 'purple',
+        color: 'green',
         key: 4,
-        icon: faDownload
+        icon: faDownload,
     },
     CANCELLED: {
         title: 'Đã hủy',
-        color: 'red',
+        color: 'green',
         key: 5,
-        icon: faCancel
+        icon: faCancel,
     },
 };
 

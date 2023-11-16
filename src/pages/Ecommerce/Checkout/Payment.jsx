@@ -61,7 +61,7 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
     };
 
     return (
-        <div className="payment-container mt-[3.4rem] bg-white rounded-[0.3rem] shadow-[0px_0px_2px_0px_#0000004D]">
+        <div className="payment-container mt-[2rem] bg-white rounded-[0.3rem] shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
             <div className="flex items-center justify-between max-sm:flex-col max-md:gap-[2rem] max-xl:gap-[3rem] max-2xl:gap-[17rem] 2xl:gap-[30rem] p-[2rem] text-black font-medium text-opacity-60 text-[1.6rem]">
                 <p className="text-[2rem] font-medium text-[#537F44]">Phương thức thanh toán</p>
                 <Radio.Group
@@ -110,14 +110,19 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
                 <Input.TextArea
                     placeholder="Ghi chú cho shop"
                     className="text-[1.6rem]"
+                    maxLength={200}
+                    style={{
+                        height: 100,
+                        resize: 'none',
+                    }}
                     onChange={(e) => setNote(e.target.value)}
                     value={note}
                 ></Input.TextArea>
             </div>
             <OrderSummary chosenDelivery={chosenDelivery} totalCartPrice={totalCartPrice} />
             <div className="bg-[#FDF7E8] flex max-md:flex-col-reverse justify-end items-center py-[2rem] px-[1.2rem]">
-                <div className="text-[1.8rem] font-normal text-[#537F44B2]">
-                    <FontAwesomeIcon className="mr-[.3rem]" icon={faArrowLeft} />
+                <div className="text-[1.6rem] font-normal text-[#537F44B2]">
+                    <FontAwesomeIcon className="mr-[0.4rem]" icon={faArrowLeft} />
                     <NavLink to={config.routes.web.cart}>Quay về giỏ hàng</NavLink>
                 </div>
                 <Button

@@ -9,7 +9,7 @@ function Head() {
         isOpen: false,
     });
     return (
-        <div className="border-b-[0.1rem] py-[2.5rem] pl-[1.9rem] pr-[2.1rem] flex justify-between items-center">
+        <div className="border-b-[0.1rem] py-[2rem] pl-[1.9rem] pr-[2rem] flex justify-between items-center">
             <h1 className="capitalize m-0 py-[0.7rem] ">Địa chỉ của tôi</h1>
             <Button
                 icon={<PlusOutlined />}
@@ -18,7 +18,7 @@ function Head() {
             >
                 Thêm địa chỉ mới
             </Button>
-            <AddressForm isFormOpen={isFormOpen} setIsFormOpen={setIsFormOpen}/>
+            <AddressForm isFormOpen={isFormOpen} setIsFormOpen={setIsFormOpen} />
         </div>
     );
 }

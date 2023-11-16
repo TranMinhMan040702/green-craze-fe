@@ -3,7 +3,7 @@ import { Avatar, Image, Rate } from 'antd';
 
 function Rating({ review }) {
     return (
-        <div className="rating p-[2rem] border-b-[1px]">
+        <div className="rating p-[2rem] border-b-[1px] ">
             <div className="flex">
                 <div className="avatar">
                     <Avatar src={images.user} />
@@ -18,7 +18,7 @@ function Rating({ review }) {
                             <span className="font-light">
                                 {review?.updatedAt && new Date(review?.updatedAt).toLocaleString()}
                             </span>
-                            <span className='mx-2'>|</span>
+                            <span className="mx-2">|</span>
                             <span className="font-light">
                                 Phân loại hàng: {review?.variantName}
                             </span>
@@ -36,7 +36,7 @@ function Rating({ review }) {
                             )}
                         </div>
                         {review?.reply && (
-                            <div className="my-[0.6rem] bg-[#f5f5f5] p-[1rem]">
+                            <div className="my-[0.6rem] bg-[#f5f5f5] p-[1rem] rounded-[2px]">
                                 <p className="text-[1.4rem] text-[#000000de] capitalize">
                                     Phản hồi của người bán
                                 </p>

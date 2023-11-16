@@ -23,7 +23,7 @@ function Review({ product }) {
     return (
         <div className="review mt-[3rem] pt-[2rem] border-t-[1px] min-h-[50rem]">
             <h2 className="text-[2.6rem] font-medium">Đánh giá sản phẩm</h2>
-            <div className="grid grid-cols-12 items-center border-[1px] bg-lime-100 py-[2.4rem]">
+            <div className="grid grid-cols-12 items-center border-[1px] bg-lime-100 py-[2.4rem] rounded-[2px]">
                 <div className="infor col-span-2 max-md:col-span-3 max-sm:col-span-6 text-[1.8rem] text-center">
                     <div>
                         <span className="text-[3rem] font-medium mr-[0.5rem]">

@@ -92,6 +92,7 @@ function Info({ cartItems, chosenItem, setChosenItem }) {
     return (
         <div className="w-[75rem] max-md:w-[100%]">
             <Table
+                className="shadow-[0_1px_2px_0_rgba(0,0,0,0.13)] rounded-[5px]"
                 locale={{ emptyText: 'Không có sản phẩm trong giỏ hàng' }}
                 rowSelection={{
                     type: 'checkbox',
