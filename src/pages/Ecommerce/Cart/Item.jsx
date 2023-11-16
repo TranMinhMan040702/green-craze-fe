@@ -55,7 +55,7 @@ function Item({ cartItem }) {
     useEffect(() => {
         setCount(cartItem?.quantity);
     }, [cartItem]);
-    
+
     const onDelete = async (id) => {
         await mutateDelete.mutateAsync(cartItem?.id);
     };
@@ -114,19 +114,19 @@ function Item({ cartItem }) {
                     <div className="flex items-center gap-[0.7rem] mt-[1.2rem]">
                         <button
                             onClick={onDescrease}
-                            className="h-[2.5rem] w-[2.5rem] rounded-sm bg-white text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
+                            className="h-[2.5rem] w-[2.5rem] rounded-[4px] bg-white text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
                         >
                             -
                         </button>
                         <Input
                             onChange={onChange}
-                            className="w-[5rem] h-[3rem] rounded-sm focus:outline-none focus-within:border-none text-center text-black border-none text-[1.5rem] font-medium shadow-[0px_0px_2px_0px_#0000004D]"
+                            className="w-[5rem] h-[2.5rem] rounded-[4px] focus:outline-none focus-within:border-none text-center text-black border-none text-[1.5rem] font-medium shadow-[0px_0px_2px_0px_#0000004D]"
                             value={count}
                             min={1}
                         />
                         <button
                             onClick={onIncrease}
-                            className="h-[2.5rem] w-[2.5rem] rounded-sm bg-white cursor-pointer text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
+                            className="h-[2.5rem] w-[2.5rem] rounded-[4px] bg-white cursor-pointer text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
                         >
                             +
                         </button>

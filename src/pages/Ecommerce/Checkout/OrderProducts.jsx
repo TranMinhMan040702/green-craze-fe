@@ -20,7 +20,7 @@ function OrderProducts({ setTotalCartPrice, setChosenCartItems }) {
         );
     }, [data, isLoading]);
     return (
-        <div className="my-[3.4rem] bg-white rounded-[0.3rem] shadow-[0px_0px_2px_0px_#0000004D]">
+        <div className="my-[2rem] bg-white rounded-[0.3rem] shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
             <div className="grid grid-cols-5 p-[2rem] text-black font-medium text-opacity-60 text-[1.6rem] text-center">
                 <p className="col-span-2 text-left text-[2rem] font-medium text-[#537F44]">
                     Sản phẩm

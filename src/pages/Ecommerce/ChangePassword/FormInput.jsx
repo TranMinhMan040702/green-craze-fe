@@ -45,7 +45,7 @@ function FormInput() {
     };
 
     return (
-        <div className="flex items-center justify-center mt-[8rem]">
+        <div className="flex items-center justify-center mt-[8rem] form-container w-full">
             <Form
                 name="my-profile"
                 labelCol={{
@@ -59,10 +59,9 @@ function FormInput() {
                 }}
                 form={form}
                 autoComplete="off"
-                className=""
                 onFinish={onHandleFormSubmit}
             >
-                <div className="">
+                <div>
                     <Form.Item
                         label="Mật khẩu hiện tại"
                         name="password"
@@ -125,10 +124,10 @@ function FormInput() {
                         />
                     </Form.Item>
                 </div>
-                <div className="text-center ml-[8rem] md:mt-[6rem]">
+                <div className="text-center ml-[5rem] md:mt-[4rem]">
                     <Button
-                        className="submit-btn text-white text-[2rem] pb-[0.5rem] w-[16.8rem] h-[4rem] rounded-lg border-none"
-                        htmlType='submit'
+                        className="submit-btn text-white text-[1.8rem] h-[3rem] leading-4 pb-[0.5rem] px-[4rem] rounded-[5px] border-none"
+                        htmlType="submit"
                         loading={processing}
                     >
                         Xác nhận

@@ -7,7 +7,7 @@ import config from '../../../config';
 function ProfilePage() {
     return (
         <AccountLayout routeKey={config.routes.web.profile}>
-            <div className="profile-container">
+            <div className="profile-container shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
                 <Head />
                 <Info />
             </div>
