@@ -1,10 +1,10 @@
 import Images from './Images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import PriceVariant from './PriceVariant';
 import { useEffect, useState } from 'react';
 import { Button, Rate, notification } from 'antd';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useAddVariantToCart } from '../../../hooks/api/useCartApi';
 import { useFollowProduct } from '../../../hooks/api/useFollowProductApi';
 
@@ -88,9 +88,7 @@ function Information({ product }) {
                 <div className="flex items-center text-[1.4rem]">
                     <div className="pr-[1rem] mr-[1rem] border-r-[1px]">
                         <span className="mr-[0.5rem]">SKU:</span>
-                        <span className="star-color">
-                            {product?.code}-{chosenVariant?.sku}
-                        </span>
+                        <span className="star-color">{chosenVariant?.sku}</span>
                     </div>
                     {/* <div className="pr-[1rem] mr-[1rem] border-r-[1px]">
                         <span className="mr-[0.5rem] star-color">23773</span>
@@ -101,8 +99,8 @@ function Information({ product }) {
                         <span>đã bán</span>
                     </div>
                 </div>
-                <div className="text-[1.6rem] my-[2rem]">
-                    <div className="star-color">
+                <div className="text-[1.6rem] my-[1rem]">
+                    <div className="star-color mb-[1rem]">
                         <Rate
                             allowHalf
                             disabled
@@ -121,7 +119,9 @@ function Information({ product }) {
                         </div>
                         <div className="pr-[1rem] mr-[1rem]">
                             <span className="mr-[0.5rem]">Tình trạng:</span>
-                            <span className="primary-color">{product?.status}</span>
+                            <span className="primary-color">
+                                {product?.status === 'ACTIVE' ? 'Đang bán' : 'Ngưng bán'}
+                            </span>
                         </div>
                     </div>
                     <div className="mt-[3rem]">

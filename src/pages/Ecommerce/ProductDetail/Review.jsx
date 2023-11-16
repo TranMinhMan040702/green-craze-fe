@@ -4,6 +4,7 @@ import FilterRating from './FilterRating';
 import Rating from './Rating';
 import { Pagination, Rate, Spin } from 'antd';
 import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
+import images from '../../../assets/images';
 
 function Review({ product }) {
     const [params, setParams] = useState({
@@ -61,10 +62,7 @@ function Review({ product }) {
                         })}
                         {data?.data?.items?.length === 0 && (
                             <div className="flex flex-col justify-center items-center p-[5rem]">
-                                <img
-                                    className="w-52"
-                                    src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/shoprating/7d900d4dc402db5304b2090a184404cb.png"
-                                />
+                                <img className="w-52" src={images.review_empty} />
                                 <p className="text-[1.6rem] ">Không có đánh giá nào</p>
                             </div>
                         )}

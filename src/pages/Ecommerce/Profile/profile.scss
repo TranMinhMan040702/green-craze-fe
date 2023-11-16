@@ -5,15 +5,16 @@
         }
         .avatar-uploader {
             .ant-upload-select {
-            .ant-upload {
-                display: unset !important;
-                width: 15rem !important;
-                height: 15rem !important;
+                .ant-upload {
+                    display: unset !important;
+                    width: 15rem !important;
+                    height: 15rem !important;
+                }
             }
-        }
-        label,
-        input {
-            font-size: 1.5rem !important;
+            label,
+            input {
+                font-size: 1.5rem !important;
+            }
         }
     }
 }

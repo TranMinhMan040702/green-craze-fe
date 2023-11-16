@@ -5,11 +5,11 @@ import { useContext } from 'react';
 import { NotificationContext } from '../../../App';
 
 function Item({ notification, isRead = false }) {
-    const {refetchNotification} = useContext(NotificationContext);
+    const { refetchNotification } = useContext(NotificationContext);
     const mutateRead = useUpdateNotification({
         success: (data) => {
             refetchNotification();
-        }
+        },
     });
 
     const onReadNotification = async () => {
@@ -24,7 +24,7 @@ function Item({ notification, isRead = false }) {
             <div
                 className={`${
                     !isRead && 'bg-[#fff2ee]'
-                } flex justify-between items-center gap-[2.2rem] p-[2rem] hover:bg-gray-100 transition-all border-b border-solid`}
+                } flex justify-between items-center gap-[2.2rem] p-[2rem] hover:bg-gray-100 transition-all`}
             >
                 <div className="flex items-center gap-[1rem]">
                     <img className="w-[7.9rem] h-[7.9rem] " src={notification?.image} />
@@ -43,9 +43,9 @@ function Item({ notification, isRead = false }) {
                 <NavLink
                     onClick={() => onReadNotification()}
                     to={notification?.anchor}
-                    className="detail-btn text-[1.2rem] border border-solid px-7 py-3 rounded-xl border-gray-500 hover:border-[var(--primary-color)]"
+                    className="detail-btn text-[1.2rem] min-w-[120px] text-center border border-solid px-7 py-[0.5rem] rounded-[5px] border-gray-500 hover:border-[var(--primary-color)]"
                 >
-                    Xem chi tiết
+                    Chi tiết
                 </NavLink>
             </div>
         </NavLink>
