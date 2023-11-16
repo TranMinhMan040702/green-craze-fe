@@ -199,7 +199,7 @@ function DeliveryFormPage() {
                                 <InputNumber
                                     className="w-full"
                                     formatter={(value) => {
-                                        return `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                        return `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                                     }}
                                     parser={(value) => {
                                         return value.replace(/\$\s?|(,*)/g, '');

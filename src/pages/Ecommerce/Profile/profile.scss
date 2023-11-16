@@ -4,6 +4,7 @@
             background-color: var(--primary-color);
         }
         .avatar-uploader {
+            .ant-upload-select {
             .ant-upload {
                 display: unset !important;
                 width: 15rem !important;

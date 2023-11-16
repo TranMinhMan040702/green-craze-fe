@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useGetListProduct } from '../../../hooks/api';
 import { useEffect, useState } from 'react';
+import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Product() {
     const { isLoading, data } = useGetListProduct(null);
@@ -13,6 +14,8 @@ function Product() {
         if (isLoading || !data) return;
         setProducts(data?.data?.items.filter((item) => item.status === 'ACTIVE'));
     }, [isLoading, data]);
+
+    if (isLoading) return <WebLoading />;
 
     return (
         <div className="products">

@@ -38,8 +38,9 @@ const apiRoutes = {
     },
     web: {
         product: '/api/products',
-        cart: 'api/carts',
-        follow_product: 'api/user-follow-products',
+        cart: '/api/carts',
+        follow_product: '/api/user-follow-products',
+        notification: '/api/notifications',
     },
 };
 

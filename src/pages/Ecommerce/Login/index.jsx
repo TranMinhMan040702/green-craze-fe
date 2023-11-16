@@ -3,7 +3,7 @@ import { Button, Form, Input, notification } from 'antd';
 
 import images from '../../../assets/images';
 import './login.scss';
-import { useLogin, useLoginByGoogle } from '../../../hooks/api';
+import { useGetCart, useGetMe, useLogin, useLoginByGoogle } from '../../../hooks/api';
 import config from '../../../config';
 import { getRoles, isTokenStoraged, saveToken } from '../../../utils/storage';
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
@@ -12,6 +12,8 @@ import { useState } from 'react';
 function LoginPage() {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState(false);
+
+
     const handleToken = (token) => {
         saveToken(token);
         let roles = getRoles();

@@ -23,8 +23,10 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error?.config;
+
         if (error?.response?.status === 401 && !originalRequest._retry) {
-            return await refreshToken(originalRequest);
+            if(localStorage.getItem('token'))
+                return await refreshToken(originalRequest);
         }
 
         return Promise.reject(error);
@@ -51,11 +53,12 @@ const refreshToken = async (originalRequest) => {
         }
         const { refreshToken, accessToken } = response.data;
         localStorage.setItem('token', { refreshToken, accessToken });
-        originalRequest.headers.Authorization = `Bearer ${token?.accessToken}`;
+        // originalRequest.headers.Authorization = `Bearer ${token?.accessToken}`;
 
-        return axios(originalRequest);
+        // return axios(originalRequest);
     } catch (error) {
         myHistory.replace(config.routes.web.login);
+        localStorage.removeItem('token');
         notification.error({
             message: 'Thông báo',
             description: 'Bạn vui lòng đăng nhập để tiếp tục',

@@ -25,12 +25,12 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
 
     const mutateAdd = useCreateOrder({
         success: (data) => {
-            notification.success({
-                message: 'Đặt hàng thành công',
-                description: chosenPaymentMethod?.name?.toLowerCase().includes('cod')
-                    ? 'Đơn hàng của quý khách đã được ghi nhận và đang được xử lý. Vui lòng kiểm tra email để xem chi tiết.'
-                    : 'Đơn hàng của quý khách đã được ghi nhận và chưa được xử lý. Vui lòng thanh toán.',
-            });
+            // notification.success({
+            //     message: 'Đặt hàng thành công',
+            //     description: chosenPaymentMethod?.name?.toLowerCase().includes('cod')
+            //         ? 'Đơn hàng của quý khách đã được ghi nhận và đang được xử lý. Vui lòng kiểm tra email để xem chi tiết.'
+            //         : 'Đơn hàng của quý khách đã được ghi nhận và chưa được xử lý. Vui lòng thanh toán.',
+            // });
             localStorage.removeItem('chosenCartItems');
             let url = config.routes.web.order;
             if (chosenPaymentMethod?.name?.toLowerCase().includes('paypal'))

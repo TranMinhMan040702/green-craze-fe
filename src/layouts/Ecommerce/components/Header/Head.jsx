@@ -1,6 +1,6 @@
 import images from '../../../../assets/images';
 import config from '../../../../config';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
     faBars,
     faCartShopping,
@@ -8,16 +8,25 @@ import {
     faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetCart, useGetMe } from '../../../../hooks/api';
-import { Dropdown } from 'antd';
+import { useGetCart, useGetListNotification, useGetMe } from '../../../../hooks/api';
+import { Badge, Dropdown } from 'antd';
 import { clearToken } from '../../../../utils/storage';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import NotificationItem from '../NotificationItem';
+import WebLoading from '../WebLoading';
+import { NotificationContext } from '../../../../App';
 
 function Head() {
-    const navigate = useNavigate();
+    const {countNotify, refetchNotification, notifications} = useContext(NotificationContext);
+
     const [user, setUser] = useState(null);
-    const { isLoading, data } = useGetMe();
-    const { isLoading: isLoadingCart, data: dCart } = useGetCart();
+    const { isLoading, data, refetch: refetchMe } = useGetMe();
+    const {
+        isLoading: isLoadingCart,
+        data: dCart
+    } = useGetCart({
+        pageSize: 1000,
+    });
 
     useEffect(() => {
         if (isLoading || isLoadingCart) return;
@@ -27,8 +36,11 @@ function Head() {
     const onLogout = () => {
         clearToken();
         setUser(null);
-        navigate(config.routes.web.login);
+        window.location.href = config.routes.web.login;
     };
+
+    if (localStorage.getItem('token') && (!data?.data || !dCart?.data))
+        return <WebLoading />;
 
     return (
         <div className="head-container">
@@ -56,10 +68,60 @@ function Head() {
                 <div className="xl:col-span-5 lg:col-span-6 col-span-4 flex items-center lg:justify-center justify-end">
                     <Link>
                         <div className="max-lg:hidden flex items-center">
-                            <div className="w-[28px] h-[28px] mr-[1.5rem]">
-                                <img src={images.bell} alt="bell" />
-                            </div>
-                            <span className="text-[1.4rem]">Thông báo</span>
+                            <Badge
+                                overflowCount={99}
+                                count={countNotify}
+                                className=" mr-[1.5rem]"
+                            >
+                                <div className="w-[28px] h-[28px]">
+                                    <img src={images.bell} alt="bell" />
+                                </div>
+                            </Badge>
+                            <Dropdown
+                                onOpenChange={() => refetchNotification()}
+                                menu={{
+                                    items: [
+                                        {
+                                            key: '-1',
+                                            type: 'group',
+                                            label: 'Thông báo mới nhận',
+                                        },
+                                        ...notifications?.map((item, idx) => {
+                                            if (idx < 4)
+                                                return {
+                                                    key: item?.id,
+                                                    label: (
+                                                        <NotificationItem
+                                                            key={item?.id}
+                                                            notification={item}
+                                                            isRead={item?.status}
+                                                        />
+                                                    ),
+                                                };
+                                        }),
+                                        {
+                                            key: '-3',
+                                            type: 'group',
+                                            label: (
+                                                <div className="flex justify-center">
+                                                    <NavLink
+                                                        className={'text-green-700'}
+                                                        to={config.routes.web.notification}
+                                                    >
+                                                        Xem tất cả
+                                                    </NavLink>
+                                                </div>
+                                            ),
+                                        },
+                                    ],
+                                }}
+                                placement="bottom"
+                                arrow={{
+                                    pointAtCenter: true,
+                                }}
+                            >
+                                <span className="text-[1.4rem]">Thông báo</span>
+                            </Dropdown>
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">

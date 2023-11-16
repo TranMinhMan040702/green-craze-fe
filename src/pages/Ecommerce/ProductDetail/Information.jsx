@@ -4,7 +4,6 @@ import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
 import PriceVariant from './PriceVariant';
 import { useEffect, useState } from 'react';
 import { Button, Rate, notification } from 'antd';
-import Rating from './Rating';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { useAddVariantToCart } from '../../../hooks/api/useCartApi';
 import { useFollowProduct } from '../../../hooks/api/useFollowProductApi';
@@ -21,6 +20,7 @@ function Information({ product }) {
             });
         },
         error: (err) => {
+            console.log(err);
             let description = 'Sản phẩm chưa được thêm vào giỏ hàng, có lỗi xảy ra';
             let detail = err?.response?.data?.detail?.toLowerCase();
             if (detail?.includes('quantity')) {
@@ -30,6 +30,11 @@ function Information({ product }) {
                 message: 'Thêm thất bại',
                 description: description,
             });
+        },
+        obj: {
+            params: {
+                pageSize: 1000,
+            },
         },
     });
 
