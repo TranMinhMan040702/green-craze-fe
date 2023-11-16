@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 function OrderDelivery({ setChosenDelivery, chosenDelivery }) {
     const { data, isLoading } = useGetListDelivery({
-        status: true
+        status: true,
     });
     const onChange = (e) => {
         let id = e.target.value;
@@ -16,7 +16,7 @@ function OrderDelivery({ setChosenDelivery, chosenDelivery }) {
         setChosenDelivery(data?.data?.items[0]);
     }, [data, isLoading]);
     return (
-        <div className="delivery-container my-[3.4rem] bg-white rounded-[0.3rem] shadow-[0px_0px_2px_0px_#0000004D]">
+        <div className="delivery-container my-[2rem] bg-white rounded-[0.3rem] shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
             <div className="flex items-center justify-between max-sm:flex-col max-md:gap-[2rem]  max-2xl:gap-[24rem] 2xl:gap-[34.5rem] p-[2rem] text-black font-medium text-opacity-60 text-[1.6rem]">
                 <p className="text-[2rem] font-medium text-[#537F44]">Phương thức vận chuyển</p>
                 <div className="flex items-center max-md:gap-[3rem] md:gap-[5.1rem] font-normal">

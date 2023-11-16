@@ -19,7 +19,7 @@ function Summary({ cartItems, chosenItem }) {
         setTotalPay(total);
     }, [cartItems, chosenItem]);
     return (
-        <div className="bg-white md:ml-[5.5rem] max-h-[21rem] max-md:my-[3rem] max-md:w-[100%] w-[34rem] rounded-[0.5rem]">
+        <div className="bg-white md:ml-[5.5rem] max-h-[21rem] max-md:my-[3rem] max-md:w-[100%] w-[34rem] rounded-[5px] shadow-[0_1px_2px_0_rgba(0,0,0,0.13)] pb-[1rem]">
             <div className="mx-[2rem] my-[1.1rem] border-b-[0.1rem]">
                 <p className="mb-0 text-[1.9rem] text-[#537F44] font-bold">Giỏ hàng</p>
             </div>
@@ -37,7 +37,7 @@ function Summary({ cartItems, chosenItem }) {
                     }`}
                 >
                     <FontAwesomeIcon icon={faPaypal} />
-                    <span className="block p-4 text-center">Tiến hành thanh toán</span>
+                    <span className="block py-[0.5rem] text-center">Tiến hành thanh toán</span>
                 </NavLink>
                 <div className="text-center text-[1.6rem] max-md:mb-3 font-normal cursor-pointer">
                     <FontAwesomeIcon icon={faArrowLeft} />

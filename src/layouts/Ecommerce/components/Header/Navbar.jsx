@@ -14,7 +14,7 @@ function Navbar() {
                         <Link>Sản phẩm</Link>
                     </li>
                     <li>
-                        <Link>Liên hệ</Link>
+                        <Link to={config.routes.web.contact}>Liên hệ</Link>
                     </li>
                     <li>
                         <Link>Về chúng tôi</Link>

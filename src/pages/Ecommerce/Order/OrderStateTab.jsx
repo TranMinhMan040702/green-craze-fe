@@ -18,7 +18,7 @@ function OrderStateTab({ setChosenStatus }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const onChange = (key) => {
-        navigate('?type=' + (key?.toLowerCase() || 'all'))
+        navigate('?type=' + (key?.toLowerCase() || 'all'));
         setChosenStatus(key);
     };
     useEffect(() => {
@@ -26,8 +26,12 @@ function OrderStateTab({ setChosenStatus }) {
         setChosenStatus(type);
     }, []);
     return (
-        <div className='bg-white'>
-            <Tabs defaultActiveKey={searchParams.get('type')?.toUpperCase()} items={items} onChange={onChange} />
+        <div className="bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
+            <Tabs
+                defaultActiveKey={searchParams.get('type')?.toUpperCase()}
+                items={items}
+                onChange={onChange}
+            />
         </div>
     );
 }

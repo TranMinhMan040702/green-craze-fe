@@ -35,10 +35,10 @@ function AccountLayout({ children, routeKey, isSetMinHeight = true, isSetBackgro
                     <SideBar routeKey={routeKey} />
                     <div
                         className={`container ${
-                            isSetMinHeight && 'min-h-[60rem]'
+                            isSetMinHeight && 'min-h-[50rem]'
                         } max-md:my-7 xl:ml-[5.5rem] ${
                             isSetBackground && 'bg-white'
-                        }  rounded-[0.5rem] `}
+                        }  rounded-[0.2rem] `}
                     >
                         {children}
                     </div>

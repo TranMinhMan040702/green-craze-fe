@@ -32,7 +32,7 @@ function ProductDetailPage() {
         <>
             <BreadCrumb routes={routes} />
             <div className="product-detail-container p-[2rem]">
-                <div className="max-w-[1200px] h-full mx-auto p-[1.2rem] rounded-[10px] bg-white">
+                <div className="max-w-[1200px] h-full mx-auto p-[1.2rem] px-[3rem] rounded-[2px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)] bg-white">
                     {!isLoading ? (
                         data?.data ? (
                             <>

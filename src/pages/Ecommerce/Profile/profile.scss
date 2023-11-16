@@ -4,14 +4,15 @@
             background-color: var(--primary-color);
         }
         .avatar-uploader {
-            .ant-upload{
+            .ant-upload {
                 display: unset !important;
                 width: 15rem !important;
                 height: 15rem !important;
             }
         }
-        label, input {
-            font-size: 1.6rem !important;
+        label,
+        input {
+            font-size: 1.5rem !important;
         }
     }
 }

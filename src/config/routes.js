@@ -71,6 +71,7 @@ const routes = {
         password: '/user/password',
         order: '/user/order',
         notification: '/user/notification',
+        contact: '/contact',
     },
 };
 export default routes;

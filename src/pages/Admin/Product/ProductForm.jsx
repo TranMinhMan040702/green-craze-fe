@@ -15,12 +15,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { faChevronLeft, faEdit, faXmarkSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconSquareRoundedX } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './product.scss';
 import config from '../../../config';
 import {
     useCreateProduct,
-    useCreateProductCategory,
     useGetListBrand,
     useGetListProductCategory,
     useGetListUnit,
@@ -28,6 +27,8 @@ import {
     useUpdateProduct,
 } from '../../../hooks/api';
 import ModalVariant from '../../../layouts/Admin/components/ModalVariant';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -299,6 +300,9 @@ function ProductFormPage() {
         formData.append('slug', form.getFieldValue('slug'));
         formData.append('cost', form.getFieldValue('cost'));
         formData.append('status', form.getFieldValue('status'));
+
+        console.log(form.getFieldValue('description'));
+
         await mutationUpdate.mutateAsync({
             id: id,
             body: formData,
@@ -479,14 +483,21 @@ function ProductFormPage() {
                                     },
                                 ]}
                             >
-                                <Input.TextArea
-                                    showCount
-                                    maxLength={1000}
-                                    style={{
-                                        height: 150,
-                                        resize: 'none',
+                                <CKEditor
+                                    editor={ClassicEditor}
+                                    data={dProduct?.data?.description}
+                                    onReady={(editor) => {
+                                        editor.editing.view.change((write) => {
+                                            write.setStyle(
+                                                'height',
+                                                '200px',
+                                                editor.editing.view.document.getRoot(),
+                                            );
+                                        });
                                     }}
-                                    placeholder="Mô tả"
+                                    onChange={(e, editor) =>
+                                        form.setFieldValue('description', editor.getData())
+                                    }
                                 />
                             </Form.Item>
                         </Col>

@@ -13,7 +13,7 @@ function Order({ order, isLastItem = false }) {
         !order?.paymentStatus;
     return (
         <>
-            <div className="border shadow">
+            <div className="bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
                 <div
                     className={`flex ${
                         isOrderNotProcessed ? 'justify-between' : 'justify-end'

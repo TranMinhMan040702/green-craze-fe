@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import RecommentProduct from '../../../layouts/Ecommerce/components/RecommentProduct';
 import { useState } from 'react';
 import { Typography } from 'antd';
+import DOMPurify from 'dompurify';
 
 const { Paragraph } = Typography;
 
@@ -10,7 +11,7 @@ function Description({ product }) {
     return (
         <div className="description-product mt-[3rem] pt-[2rem] border-t-[1px]">
             <div className="grid grid-cols-12">
-                <div className="col-span-9 max-lg:col-span-12 pr-[1rem] border-r-[1px] max-lg:border-none">
+                <div className="col-span-9 max-lg:col-span-12 pr-[1rem] border-r-[1px] max-lg:border-none px-[1rem]">
                     <h2 className="text-[2.6rem] font-medium">Mô tả sản phẩm</h2>
                     <div className="text-[1.6rem] overflow-hidden">
                         <Paragraph
@@ -18,12 +19,17 @@ function Description({ product }) {
                                 !expand
                                     ? {
                                           expandable: false,
-                                          rows: 3,
+                                          rows: 15,
                                       }
                                     : false
                             }
                         >
-                            {product?.description}
+                            <div
+                                className="font-[roboto]"
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(product?.description),
+                                }}
+                            />
                         </Paragraph>
                     </div>
                     <div className="text-center my-[2.6rem]">

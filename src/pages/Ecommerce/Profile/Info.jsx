@@ -53,7 +53,7 @@ function Info() {
     };
 
     return (
-        <div className="md:p-[5rem] sm:p-[1rem]">
+        <div className="md:p-[5rem] sm:p-[1rem] form-container w-full">
             <Form
                 form={form}
                 onFinish={onEditUser}
@@ -74,7 +74,6 @@ function Info() {
                     <Form.Item
                         label="Họ"
                         name="firstName"
-                        className="text-[1.6rem]"
                         rules={[
                             {
                                 required: true,
@@ -87,7 +86,6 @@ function Info() {
                     <Form.Item
                         label="Tên"
                         name="lastName"
-                        className="text-[1.6rem]"
                         rules={[
                             {
                                 required: true,
@@ -98,7 +96,9 @@ function Info() {
                         <Input className="text-[1.6rem] h-[3rem] bg-white rounded-[0.3rem] shadow outline-none" />
                     </Form.Item>
                     <Form.Item label="Email" name="email">
-                        <p className="text-black text-[1.6rem] font-normal">{profile?.data?.data?.email}</p>
+                        <p className="text-black text-[1.6rem] font-normal">
+                            {profile?.data?.data?.email}
+                        </p>
                     </Form.Item>
                     <Form.Item
                         label="Số điện thoại"
@@ -137,14 +137,18 @@ function Info() {
                     </Form.Item>
                 </div>
                 <div className="">
-                    <UploadAvatar setAvatar={setAvatar} imageUrl={imageUrl} setImageUrl={setImageUrl}/>
+                    <UploadAvatar
+                        setAvatar={setAvatar}
+                        imageUrl={imageUrl}
+                        setImageUrl={setImageUrl}
+                    />
                 </div>
 
                 <Form.Item className="text-center max-md:flex xl:ml-[8rem] mt-2 max-sm:justify-center">
                     <Button
                         loading={processing}
-                        className="submit-btn text-white text-[2rem] leading-4 w-[11rem] h-[4rem] pb-[0.5rem] rounded-lg"
-                        htmlType='submit'
+                        className="submit-btn text-white text-[1.8rem] leading-4 h-[3rem] pb-[0.6rem] px-[4rem] rounded-[5px] border-none"
+                        htmlType="submit"
                     >
                         Lưu
                     </Button>
