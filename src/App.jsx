@@ -15,6 +15,7 @@ export const NotificationContext = createContext();
 function App() {
     const { data, isLoading, refetch } = useGetListNotification();
     const [countNotify, setCountNotify] = useState(0);
+
     useEffect(() => {
         (async () => {
             const connection = await getSignalRConnection();
@@ -27,6 +28,7 @@ function App() {
             });
         })();
     }, []);
+
     useEffect(() => {
         if (data) {
             setCountNotify(data?.data?.items?.filter((item) => !item.status)?.length || 0);
@@ -35,7 +37,11 @@ function App() {
 
     return (
         <NotificationContext.Provider
-            value={{ countNotify, notifications: data?.data?.items || [], refetchNotification: refetch }}
+            value={{
+                countNotify,
+                notifications: data?.data?.items || [],
+                refetchNotification: refetch,
+            }}
         >
             <HistoryRouter history={myHistory}>
                 <div className="App">

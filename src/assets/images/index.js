@@ -42,6 +42,8 @@ const images = {
         news4: require('../../../src/assets/images/news/news4.png'),
     },
     partners: require('../../../src/assets/images/partners/partners.png'),
+    order_empty: require('../../../src/assets/images/order/order-empty.png'),
+    review_empty: require('../../../src/assets/images/review/review-empty.png'),
 };
 
 export default images;

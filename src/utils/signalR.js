@@ -36,6 +36,7 @@ const buildConnection = () => {
         .build();
     return connection;
 };
+
 const getSignalRConnection = async () => {
     let connection = buildConnection();
 

@@ -17,14 +17,11 @@ import WebLoading from '../WebLoading';
 import { NotificationContext } from '../../../../App';
 
 function Head() {
-    const {countNotify, refetchNotification, notifications} = useContext(NotificationContext);
+    const { countNotify, refetchNotification, notifications } = useContext(NotificationContext);
 
     const [user, setUser] = useState(null);
     const { isLoading, data, refetch: refetchMe } = useGetMe();
-    const {
-        isLoading: isLoadingCart,
-        data: dCart
-    } = useGetCart({
+    const { isLoading: isLoadingCart, data: dCart } = useGetCart({
         pageSize: 1000,
     });
 
@@ -39,8 +36,7 @@ function Head() {
         window.location.href = config.routes.web.login;
     };
 
-    if (localStorage.getItem('token') && (!data?.data || !dCart?.data))
-        return <WebLoading />;
+    if (localStorage.getItem('token') && (!data?.data || !dCart?.data)) return <WebLoading />;
 
     return (
         <div className="head-container">
@@ -68,15 +64,6 @@ function Head() {
                 <div className="xl:col-span-5 lg:col-span-6 col-span-4 flex items-center lg:justify-center justify-end">
                     <Link>
                         <div className="max-lg:hidden flex items-center">
-                            <Badge
-                                overflowCount={99}
-                                count={countNotify}
-                                className=" mr-[1.5rem]"
-                            >
-                                <div className="w-[28px] h-[28px]">
-                                    <img src={images.bell} alt="bell" />
-                                </div>
-                            </Badge>
                             <Dropdown
                                 onOpenChange={() => refetchNotification()}
                                 menu={{
@@ -120,7 +107,18 @@ function Head() {
                                     pointAtCenter: true,
                                 }}
                             >
-                                <span className="text-[1.4rem]">Thông báo</span>
+                                <div className="flex items-center">
+                                    <Badge
+                                        overflowCount={99}
+                                        count={countNotify}
+                                        className=" mr-[1.5rem]"
+                                    >
+                                        <div className="w-[28px] h-[28px]">
+                                            <img src={images.bell} alt="bell" />
+                                        </div>
+                                    </Badge>
+                                    <span className="text-[1.4rem]">Thông báo</span>
+                                </div>
                             </Dropdown>
                         </div>
                     </Link>
