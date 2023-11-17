@@ -140,7 +140,7 @@ function Data({ setUnitIds, params, setParams }) {
             pageIndex: pagination.current,
             pageSize: pagination.pageSize,
             columnName: !sorter.column ? 'id' : sorter.field,
-            isSortAccending: sorter.order === 'ascend' || !sorter.order ? true : false,
+            isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
     };
 
