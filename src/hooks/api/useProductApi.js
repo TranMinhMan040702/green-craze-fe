@@ -11,6 +11,14 @@ export const useGetListProduct = (params) => {
     return useFetch({ url: apiRoutes.admin.product, params, key: 'getList' });
 };
 
+export const useGetListFilteringProduct = (params) => {
+    return useFetch({ url: apiRoutes.admin.product + '/filter', params, key: 'getFilteringList' });
+};
+
+export const useGetListSearchingProduct = (params) => {
+    return useFetch({ url: apiRoutes.admin.product + '/search', params, key: 'getSearchingList' });
+};
+
 export const useGetProduct = (id) => {
     return useFetch({ url: `${apiRoutes.admin.product}/${id}`, key: 'getById' });
 };

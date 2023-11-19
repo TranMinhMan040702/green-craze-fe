@@ -48,6 +48,8 @@ const ORDER_STATUS_OBJ = {
 };
 
 export const EXCHANGE_VALUE_USD_VND = 23000;
+export const MIN_PRICE = 0;
+export const MAX_PRICE = 10000000;
 
 export const getOrderStatus = (status) => {
     return ORDER_STATUS_OBJ[status];

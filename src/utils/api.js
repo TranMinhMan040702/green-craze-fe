@@ -1,9 +1,13 @@
+import QueryString from 'qs';
 import axiosInstance from '../api/axiosInstance';
 
 export const api = {
     async get(url, params = {}) {
         let resp = await axiosInstance.get(url, {
             params,
+            paramsSerializer: (params) => {
+                return QueryString.stringify(params);
+            },
         });
         return resp.data;
     },

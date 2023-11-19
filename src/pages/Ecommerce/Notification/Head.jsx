@@ -1,9 +1,12 @@
 import { Button, notification } from 'antd';
 import { useUpdateAllNotification } from '../../../hooks/api';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { NotificationContext } from '../../../App';
 
 function Head({ refetchNotify }) {
     const [processing, setProcessing] = useState(false);
+    const { setCountNotify } = useContext(NotificationContext);
+
     const mutateReadAll = useUpdateAllNotification({
         success: (data) => {
             notification.success({
@@ -11,6 +14,7 @@ function Head({ refetchNotify }) {
                 description: 'Đánh dấu đã đọc tất cả thông báo thành công',
             });
             refetchNotify();
+            setCountNotify(0);
         },
         error: (err) => {
             notification.error({

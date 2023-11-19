@@ -6,7 +6,10 @@ import Wrapper from './Wrapper';
 import './notification.scss';
 
 function NotificationPage() {
-    const { data, isLoading, refetch } = useGetListNotification();
+    const { data, isLoading, refetch } = useGetListNotification({
+        columnName: 'createdAt',
+        isSortAscending: false,
+    });
 
     return (
         <AccountLayout isSetMinHeight={false} routeKey={config.routes.web.notification}>
