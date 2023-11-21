@@ -9,6 +9,7 @@ import { createContext, useEffect, useState } from 'react';
 import getSignalRConnection from './utils/signalR';
 import { notification } from 'antd';
 import { useGetListNotification } from './hooks/api';
+import ScrollToTop from './components/ScrollToTop'
 
 export const NotificationContext = createContext();
 
@@ -50,6 +51,7 @@ function App() {
             }}
         >
             <HistoryRouter history={myHistory}>
+                <ScrollToTop />
                 <div className="App">
                     <Routes>
                         {routes.map((page, index) => {
