@@ -20,6 +20,7 @@ function Item({ dataApi, item, isLastItem = false }) {
                 description: 'Xóa sản phẩm khỏi danh sách yêu thích thành công',
             });
             dataApi.refetch();
+            setIsConfirmPrompt({...isConfirmPrompt, isOpen: false})
         },
         error: () => {
             notification.error({
