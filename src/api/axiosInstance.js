@@ -2,6 +2,7 @@ import axios from 'axios';
 import config from '../config';
 import myHistory from '../utils/myHistory';
 import { notification } from 'antd';
+import { isTokenStoraged } from '../utils/storage';
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -25,8 +26,16 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error?.config;
 
         if (error?.response?.status === 401 && !originalRequest._retry) {
-            if(localStorage.getItem('token'))
+            if (isTokenStoraged() && !localStorage.getItem('isTokenRefreshing')) {
+                originalRequest._retry = true;
                 return await refreshToken(originalRequest);
+            }else{
+                // notification.error({
+                //     message: 'Thông báo',
+                //     description: 'Bạn vui lòng đăng nhập để tiếp tục',
+                // });
+                // myHistory.replace(config.routes.web.login);
+            }
         }
 
         return Promise.reject(error);
@@ -34,35 +43,40 @@ axiosInstance.interceptors.response.use(
 );
 
 const refreshToken = async (originalRequest) => {
-    originalRequest._retry = true;
 
     try {
-        const token = localStorage.getItem('token');
+        localStorage.setItem('isTokenRefreshing', 'true');
+        const token = JSON.parse(localStorage.getItem('token'));
         const response = await axiosInstance.post(config.apiRoutes.common.auth.refresh_token, {
-            refreshToken: token?.refreshToken,
-            accessToken: token?.accessToken,
+            ...token,
         });
-        if (!response) {
+        
+        if (!response || !response?.data?.data) {
             localStorage.removeItem('token');
-            notification.error({
-                message: 'Thông báo',
-                description: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
-            });
+            // window.location.href = config.routes.web.login;
             myHistory.replace(config.routes.web.login);
+
             return Promise.reject();
         }
-        const { refreshToken, accessToken } = response.data;
-        localStorage.setItem('token', { refreshToken, accessToken });
-        // originalRequest.headers.Authorization = `Bearer ${token?.accessToken}`;
 
-        // return axios(originalRequest);
-    } catch (error) {
-        myHistory.replace(config.routes.web.login);
+        const { accessToken } = response?.data?.data;
+        localStorage.removeItem('isTokenRefreshing');
+
         localStorage.removeItem('token');
-        notification.error({
-            message: 'Thông báo',
-            description: 'Bạn vui lòng đăng nhập để tiếp tục',
-        });
+        localStorage.setItem('token', JSON.stringify(response?.data?.data));
+
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+
+        return axiosInstance(originalRequest);
+    } 
+    catch (error) {
+        // notification.error({
+        //     message: 'Thông báo',
+        //     description: 'Bạn vui lòng đăng nhập để tiếp tục',
+        // });
+        myHistory.replace(config.routes.web.login);
+        // window.location.href = config.routes.web.login;
+        localStorage.removeItem('token');
         return Promise.reject(error);
     }
 };

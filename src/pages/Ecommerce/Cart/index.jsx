@@ -8,7 +8,7 @@ import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function CartPage() {
     const { data, isLoading } = useGetCart({
-        pageSize: 1000,
+        all: true
     });
 
     const [chosenItem, setChosenItem] = useState([]);

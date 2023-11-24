@@ -9,7 +9,8 @@ import { createContext, useEffect, useState } from 'react';
 import getSignalRConnection from './utils/signalR';
 import { notification } from 'antd';
 import { useGetListNotification } from './hooks/api';
-import ScrollToTop from './components/ScrollToTop'
+import ScrollToTop from './components/ScrollToTop';
+import { isTokenStoraged } from './utils/storage';
 
 export const NotificationContext = createContext();
 

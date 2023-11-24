@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetCart, useGetListSearchingProduct, useGetMe } from '../../../../hooks/api';
 import { Badge, Dropdown, Input, Spin } from 'antd';
-import { clearToken } from '../../../../utils/storage';
+import { clearToken, isTokenStoraged } from '../../../../utils/storage';
 import { useContext, useEffect, useState } from 'react';
 import NotificationItem from '../NotificationItem';
 import WebLoading from '../WebLoading';
@@ -21,6 +21,7 @@ import { MAX_PRICE, MIN_PRICE } from '../../../../utils/constants';
 
 function Head() {
     const { countNotify, refetchNotification, notifications } = useContext(NotificationContext);
+
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const [searchVal, setSearchValue] = useState(searchParams.get('search') || '');
@@ -40,8 +41,8 @@ function Head() {
 
     const [user, setUser] = useState(null);
     const { isLoading, data, refetch: refetchMe } = useGetMe();
-    const { isLoading: isLoadingCart, data: dCart } = useGetCart({
-        pageSize: 1000,
+    const { isLoading: isLoadingCart, data: dCart, refetch: refetchCart } = useGetCart({
+        all: true
     });
 
     useEffect(() => {
@@ -59,7 +60,13 @@ function Head() {
         setSearchValue(e.target.value);
     };
 
-    if (localStorage.getItem('token') && (!data?.data || !dCart?.data)) return <WebLoading />;
+    if (localStorage.getItem('token')){
+        if((!data?.data || !dCart?.data)){
+            refetchMe();
+            refetchCart();
+            return <WebLoading />;
+        }
+    } 
 
     return (
         <div className="head-container">
@@ -168,39 +175,78 @@ function Head() {
                             <Dropdown
                                 onOpenChange={() => refetchNotification()}
                                 menu={{
-                                    items: [
-                                        {
-                                            key: '-1',
-                                            type: 'group',
-                                            label: 'Thông báo mới nhận',
-                                        },
-                                        ...notifications?.map((item, idx) => {
-                                            return {
-                                                key: item?.id,
-                                                label: (
-                                                    <NotificationItem
-                                                        key={item?.id}
-                                                        notification={item}
-                                                        isRead={item?.status}
-                                                    />
-                                                ),
-                                            };
-                                        }),
-                                        {
-                                            key: '-3',
-                                            type: 'group',
-                                            label: (
-                                                <div className="flex justify-center">
-                                                    <NavLink
-                                                        className={'text-green-700'}
-                                                        to={config.routes.web.notification}
-                                                    >
-                                                        Xem tất cả
-                                                    </NavLink>
-                                                </div>
-                                            ),
-                                        },
-                                    ],
+                                    items:
+                                        isTokenStoraged() && user
+                                            ? [
+                                                  {
+                                                      key: '-1',
+                                                      type: 'group',
+                                                      label: 'Thông báo mới nhận',
+                                                  },
+                                                  ...notifications?.map((item, idx) => {
+                                                      return {
+                                                          key: item?.id,
+                                                          label: (
+                                                              <NotificationItem
+                                                                  key={item?.id}
+                                                                  notification={item}
+                                                                  isRead={item?.status}
+                                                              />
+                                                          ),
+                                                      };
+                                                  }),
+                                                  {
+                                                      key: '-3',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="flex justify-center">
+                                                              <NavLink
+                                                                  className={'text-green-700'}
+                                                                  to={
+                                                                      config.routes.web.notification
+                                                                  }
+                                                              >
+                                                                  Xem tất cả
+                                                              </NavLink>
+                                                          </div>
+                                                      ),
+                                                  },
+                                              ]
+                                            : [
+                                                  {
+                                                      key: '-1',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="min-h-[10rem] flex justify-center items-center">
+                                                              <p>Đăng nhập để xem thông báo</p>
+                                                          </div>
+                                                      ),
+                                                  },
+                                                  {
+                                                      key: '-3',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="flex justify-between items-center gap-[1rem]">
+                                                              <Link
+                                                                  className={
+                                                                      'text-green-700 text-center min-w-[10rem] border border-solid border-[--primary-color] hover:bg-[--primary-color]  hover:text-white py-[0.5rem] rounded-[5px]'
+                                                                  }
+                                                                  to={config.routes.web.login}
+                                                              >
+                                                                  Đăng nhập
+                                                              </Link>
+                                                              <Link
+                                                                  className={
+                                                                      'text-green-700 text-center min-w-[10rem] border border-solid border-[--primary-color]  hover:bg-[--primary-color]  hover:text-white py-[0.5rem] rounded-[5px]'
+                                                                  }
+                                                                  to={config.routes.web.register}
+                                                              >
+                                                                  Đăng ký
+                                                              </Link>
+                                                          </div>
+                                                      ),
+                                                  },
+                                              ],
                                 }}
                                 placement="bottom"
                                 arrow={{
@@ -210,7 +256,7 @@ function Head() {
                                 <div className="flex items-center">
                                     <Badge
                                         overflowCount={99}
-                                        count={countNotify}
+                                        count={isTokenStoraged() && user ? countNotify : 0}
                                         className=" mr-[1.5rem]"
                                     >
                                         <div className="w-[28px] h-[28px]">
@@ -223,7 +269,7 @@ function Head() {
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">
-                        {user ? (
+                        {isTokenStoraged() && user ? (
                             <Dropdown
                                 className="cursor-pointer"
                                 menu={{
@@ -267,7 +313,11 @@ function Head() {
                                 <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                     <img
                                         className="rounded-full"
-                                        src={user?.avatar ? user?.avatar : images.user}
+                                        src={
+                                            isTokenStoraged() && user?.avatar
+                                                ? user?.avatar
+                                                : images.user
+                                        }
                                         alt="bell"
                                     />
                                 </div>

@@ -20,7 +20,6 @@ function findKeyByValue(obj, value) {
 }
 
 function AccountLayout({ children, routeKey, isSetMinHeight = true, isSetBackground = true }) {
-    console.log(routeKey);
 
     return (
         <>

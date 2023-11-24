@@ -21,7 +21,7 @@ function Item({ cartItem }) {
         },
         obj: {
             params: {
-                pageSize: 1000,
+                all: true
             },
         },
     });
@@ -32,14 +32,16 @@ function Item({ cartItem }) {
                 chosenItems = chosenItems?.filter((val) => val !== cartItem?.id);
                 localStorage.setItem('chosenCartItems', JSON.stringify(chosenItems));
             }
+            setIsRemoveOpen({ ...isRemoveOpen, isOpen: false });
             // console.log(data);
         },
         error: (error) => {
             // console.log(error);
+            setIsRemoveOpen({ ...isRemoveOpen, isOpen: false });
         },
         obj: {
             params: {
-                pageSize: 1000,
+                all: true
             },
         },
     });
