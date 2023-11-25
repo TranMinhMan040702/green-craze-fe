@@ -50,6 +50,7 @@ const refreshToken = async (originalRequest) => {
         const response = await axiosInstance.post(config.apiRoutes.common.auth.refresh_token, {
             ...token,
         });
+        localStorage.removeItem('isTokenRefreshing');
         
         if (!response || !response?.data?.data) {
             localStorage.removeItem('token');
@@ -60,7 +61,6 @@ const refreshToken = async (originalRequest) => {
         }
 
         const { accessToken } = response?.data?.data;
-        localStorage.removeItem('isTokenRefreshing');
 
         localStorage.removeItem('token');
         localStorage.setItem('token', JSON.stringify(response?.data?.data));
