@@ -9,12 +9,14 @@ function PrivateRoute({ children, roles }) {
     const { data, isLoading } = useGetMe();
 
     if (!isTokenStoraged()) {
+        localStorage.removeItem("isTokenRefreshing")
         return <Navigate to={config.routes.web.login} replace />;
     }
 
     if (isLoading) return <WebLoading />;
 
     if (!data) {
+        localStorage.removeItem("isTokenRefreshing")
         return <Navigate to={config.routes.web.login} replace />;
     }
 

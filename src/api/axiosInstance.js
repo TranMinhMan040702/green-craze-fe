@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = JSON.parse(localStorage.getItem('token'));
+        
         if (token?.accessToken) {
             config.headers.Authorization = `Bearer ${token.accessToken}`;
         }
@@ -34,7 +35,6 @@ axiosInstance.interceptors.response.use(
                 //     message: 'Thông báo',
                 //     description: 'Bạn vui lòng đăng nhập để tiếp tục',
                 // });
-                // myHistory.replace(config.routes.web.login);
             }
         }
 
@@ -54,7 +54,6 @@ const refreshToken = async (originalRequest) => {
         
         if (!response || !response?.data?.data) {
             localStorage.removeItem('token');
-            // window.location.href = config.routes.web.login;
             myHistory.replace(config.routes.web.login);
 
             return Promise.reject();
@@ -75,7 +74,7 @@ const refreshToken = async (originalRequest) => {
         //     description: 'Bạn vui lòng đăng nhập để tiếp tục',
         // });
         myHistory.replace(config.routes.web.login);
-        // window.location.href = config.routes.web.login;
+        localStorage.removeItem('isTokenRefreshing');
         localStorage.removeItem('token');
         return Promise.reject(error);
     }
