@@ -3,6 +3,7 @@ import './footer.scss';
 import { faLocationPin, faMailBulk, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faInstagram, faTwitch, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
+import images from '../../../../assets/images';
 
 function Footer() {
     return (
@@ -10,13 +11,10 @@ function Footer() {
             <div className="wrapper 2xl:mx-[36rem] mx-[5rem] pt-[4rem] flex justify-center items-center">
                 <div className="grid lg:grid-cols-4 gap-[2rem] md:grid-cols-2 sm:grid-cols-1">
                     <div className="mb-5">
-                        <div className="uppercase mb-7 text-white text-[1.8rem] font-medium leading-snug">
+                        <div className="uppercase text-white text-[1.8rem] font-medium leading-snug">
                             Về chúng tôi
                         </div>
-                        <img
-                            className="w-[10rem] h-[10rem] my-4"
-                            src="https://via.placeholder.com/100x87"
-                        />
+                        <img src={images.logo_footer} alt="logo" />
                         <div className="pr-[0.3rem]">
                             <div className="text-white uppercase text-[1.6rem] my-3 font-normal leading-snug">
                                 Công ty TNHH HTV GreenCraze
@@ -137,7 +135,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='lg:px-[36rem] pt-3 pb-2.5 flex-col bg-white text-center'>
+            <div className="lg:px-[36rem] pt-3 pb-2.5 flex-col bg-white text-center">
                 <div className="text-slate-700 text-[1.6rem] font-normal leading-[2.1rem]">
                     © Bản quyền thuộc về The Green Craze
                 </div>

@@ -21,7 +21,15 @@
             }
         }
     }
-    .brand, .category {
+    .brand,
+    .category {
+        .ant-checkbox-wrapper {
+            &:hover {
+                .ant-checkbox-inner {
+                    border: 1px solid var(--primary-color);
+                }
+            }
+        }
         .ant-checkbox-checked {
             .ant-checkbox-inner {
                 background-color: var(--primary-color) !important;
