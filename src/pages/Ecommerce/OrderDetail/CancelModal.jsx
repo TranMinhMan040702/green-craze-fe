@@ -4,7 +4,7 @@ import { useUpdateOrder } from '../../../hooks/api/useOrderApi';
 import { useEffect, useState } from 'react';
 import { ORDER_STATUS } from '../../../utils/constants';
 
-function CancelModal({ isCancelModelOpen, setIsCancelModelOpen, orderId }) {
+function CancelModal({ isCancelModelOpen, setIsCancelModelOpen, orderId, orderRefetch }) {
     const { data, isLoading } = useGetListOrderCancellationReason({
         status: true,
     });
@@ -32,10 +32,11 @@ function CancelModal({ isCancelModelOpen, setIsCancelModelOpen, orderId }) {
 
     const mutateUpdateOrder = useUpdateOrder({
         success: (data) => {
-            notification.success({
-                message: 'Huỷ đơn hàng thành công',
-                description: 'Đơn hàng của bạn đã được huỷ thành công',
-            })
+            // notification.success({
+            //     message: 'Huỷ đơn hàng thành công',
+            //     description: 'Đơn hàng của bạn đã được huỷ thành công',
+            // })
+            orderRefetch();
             setIsCancelModelOpen(false);
             form.resetFields();
             setReason(null);

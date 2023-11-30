@@ -6,7 +6,7 @@ import { useState } from 'react';
 import CancelModal from './CancelModal';
 import { ORDER_STATUS } from '../../../utils/constants';
 
-function Contact({ order }) {
+function Contact({ order, orderRefetch }) {
     const [isCancelModelOpen, setIsCancelModelOpen] = useState(false);
     return (
         <div className="contact-container h-[9rem] flex justify-end items-center">
@@ -24,6 +24,7 @@ function Contact({ order }) {
                 Liên hệ người bán
             </button>
             <CancelModal
+                orderRefetch={orderRefetch}
                 isCancelModelOpen={isCancelModelOpen}
                 setIsCancelModelOpen={setIsCancelModelOpen}
                 orderId={order?.id}
