@@ -1,15 +1,15 @@
 const apiRoutes = {
     common: {
         auth: {
-            login: '/api/auth/login',
-            google_login: '/api/auth/google-login',
-            register: '/api/auth/register',
-            register_otp_verify: '/api/auth/register/verify',
-            register_resend_otp_verify: '/api/auth/register/resend',
-            forgot_password: '/api/auth/forgot-password',
-            forgot_password_resend_otp_verify: '/api/auth/forgot-password/resend',
-            reset_password: '/api/auth/reset-password',
-            refresh_token: '/api/auth/refresh-token',
+            login: '/api/auths/login',
+            google_login: '/api/auths/google-login',
+            register: '/api/auths/register',
+            register_otp_verify: '/api/auths/register/verify',
+            register_resend_otp_verify: '/api/auths/register/resend',
+            forgot_password: '/api/auths/forgot-password',
+            forgot_password_resend_otp_verify: '/api/auths/forgot-password/resend',
+            reset_password: '/api/auths/reset-password',
+            refresh_token: '/api/auths/refresh-token',
         },
         user: {
             _: '/api/users',
@@ -22,8 +22,8 @@ const apiRoutes = {
     admin: {
         unit: '/api/units',
         delivery: '/api/deliveries',
-        paymentMethod: '/api/paymentMethods',
-        orderCancellationReason: '/api/orderCancellationReasons',
+        paymentMethod: '/api/payment-methods',
+        orderCancellationReason: '/api/order-cancellation-reasons',
         employee: '/api/staffs',
         role: '/api/roles',
         transaction: '/api/transactions',
