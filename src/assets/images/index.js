@@ -1,5 +1,6 @@
 const images = {
     logo: require('../../../src/assets/images/logo.png'),
+    logo_footer: require('../../../src/assets/images/logo-footer.svg'),
     user: require('../../../src/assets/images/user.png'),
     bell: require('../../../src/assets/images/bell.png'),
     community: require('../../../src/assets/images/social/community.gif'),
@@ -13,20 +14,6 @@ const images = {
     facebook: require('../../../src/assets/images/social/facebook.png'),
     google: require('../../../src/assets/images/social/google.png'),
     cart: require('../../../src/assets/images/cart.png'),
-    category: {
-        dia_giay: require('../../../src/assets/images/category/dia_giay.png'),
-        hop_ba_mia: require('../../../src/assets/images/category/hop_ba_mia.png'),
-        hop_giay_trang: require('../../../src/assets/images/category/hop_giay_trang.png'),
-        hop_kraft: require('../../../src/assets/images/category/hop_kraft.png'),
-        khay_giay: require('../../../src/assets/images/category/khay_giay.png'),
-        ly_giay: require('../../../src/assets/images/category/ly_giay.png'),
-        ong_hut: require('../../../src/assets/images/category/ong_hut.png'),
-        phu_kien: require('../../../src/assets/images/category/phu_kien.png'),
-        sanitary: require('../../../src/assets/images/category/sanitary.png'),
-        to_giay: require('../../../src/assets/images/category/to_giay.png'),
-        tui_giay: require('../../../src/assets/images/category/tui_giay.png'),
-    },
-    product: require('../../../src/assets/images/product.png'),
     quality: {
         quality: require('../../../src/assets/images/quality/quality.png'),
         quality1: require('../../../src/assets/images/quality/quality1.png'),
