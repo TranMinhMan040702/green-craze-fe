@@ -5,19 +5,12 @@ import SortProductTab from './SortProductTab';
 import { Pagination } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { useGetListProduct } from '../../../hooks/api';
-import { useEffect, useState } from 'react';
-import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
+import { useGetListFilteringProduct } from '../../../hooks/api';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
+import { useDebounce } from '../../../hooks/custom';
 
-function Product({ params, setParams }) {
-    const { isLoading, data } = useGetListProduct(params);
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        if (isLoading || !data) return;
-        setProducts(data?.data?.items.filter((item) => item.status === 'ACTIVE'));
-        setParams({ ...params, total: data?.data?.totalItems });
-    }, [isLoading, data]);
+function Product({ params, setParams, categoryName }) {
+    const { isLoading, data } = useGetListFilteringProduct(useDebounce(params, 1000));
 
     const handlePagingChange = (page, pageSize) => {
         setParams({
@@ -26,8 +19,6 @@ function Product({ params, setParams }) {
             pageSize: pageSize,
         });
     };
-
-    if (isLoading) return <WebLoading />;
 
     return (
         <div className="product py-[1rem] px-[2.6rem]">
@@ -38,7 +29,7 @@ function Product({ params, setParams }) {
                     alt=""
                 />
             </div>
-            <h2 className="text-[2.6rem] mt-[4rem] mb-[2rem]">Ly Giấy Tái Chế</h2>
+            <h2 className="text-[2.6rem] mt-[4rem] mb-[2rem]">{categoryName}</h2>
             <div className="sort">
                 <div className="max-lg:border-b-[1px] max-lg:pb-[1rem] max-lg:mb-[1rem] flex justify-between items-center">
                     <div>
@@ -50,22 +41,35 @@ function Product({ params, setParams }) {
                         Lọc
                     </label>
                 </div>
-                <SortProductTab />
+                <SortProductTab params={params} setParams={setParams} />
             </div>
             <div className="product-list">
-                <div className="grid grid-cols-4 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[2rem]">
-                    {products.length > 0 &&
-                        products.map((item, index) => <CardProduct key={index} product={item} />)}
+                {!isLoading ? (
+                    data?.data?.items?.length > 0 ? (
+                        <div className="grid grid-cols-4 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[2rem]">
+                            {data?.data?.items?.map((item, index) => (
+                                <CardProduct key={index} product={item} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center text-[2rem]">Không có sản phẩm nào</div>
+                    )
+                ) : (
+                    <div className="text-center">
+                        <SpinLoading />
+                    </div>
+                )}
+            </div>
+            {data?.data?.items?.length > 0 && (
+                <div className="mt-[4rem] text-center">
+                    <Pagination
+                        onChange={handlePagingChange}
+                        pageSize={data?.data?.itemsPerPage}
+                        current={data?.data?.pageIndex}
+                        total={data?.data?.totalItems}
+                    />
                 </div>
-            </div>
-            <div className="mt-[4rem] text-center">
-                <Pagination
-                    showSizeChanger
-                    onChange={handlePagingChange}
-                    defaultCurrent={params.pageIndex}
-                    total={params.total}
-                />
-            </div>
+            )}
         </div>
     );
 }

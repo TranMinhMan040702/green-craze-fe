@@ -187,7 +187,7 @@ function Data({ params, setParams, setReviewIds }) {
             pageIndex: pagination.current,
             pageSize: pagination.pageSize,
             columnName: !sorter.column ? 'updatedAt' : sorter.field,
-            isSortAccending: sorter.order === 'descend' || !sorter.order ? false : true,
+            isSortAscending: sorter.order === 'descend' || !sorter.order ? false : true,
         });
     };
 

@@ -74,7 +74,7 @@ function Info({ cartItems, chosenItem, setChosenItem }) {
         },
         obj: {
             params: {
-                pageSize: 1000,
+                all: true,
             },
         },
     });

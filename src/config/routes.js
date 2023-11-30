@@ -57,6 +57,7 @@ const routes = {
     },
     web: {
         home: '',
+        search: '/search',
         register: '/register',
         login: '/login',
         otp_verify: '/otp-verify',

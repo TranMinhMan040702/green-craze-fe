@@ -1,6 +1,6 @@
 import images from '../../../../assets/images';
 import config from '../../../../config';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
     faBars,
     faCartShopping,
@@ -8,21 +8,41 @@ import {
     faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetCart, useGetListNotification, useGetMe } from '../../../../hooks/api';
-import { Badge, Dropdown } from 'antd';
-import { clearToken } from '../../../../utils/storage';
+import { useGetCart, useGetListSearchingProduct, useGetMe } from '../../../../hooks/api';
+import { Badge, Dropdown, Input, Spin } from 'antd';
+import { clearToken, isTokenStoraged } from '../../../../utils/storage';
 import { useContext, useEffect, useState } from 'react';
 import NotificationItem from '../NotificationItem';
 import WebLoading from '../WebLoading';
 import { NotificationContext } from '../../../../App';
+import { useDebounce } from '../../../../hooks/custom';
+import { encodeQueryData } from '../../../../utils/queryParams';
+import { MAX_PRICE, MIN_PRICE } from '../../../../utils/constants';
 
 function Head() {
     const { countNotify, refetchNotification, notifications } = useContext(NotificationContext);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const [searchVal, setSearchValue] = useState(searchParams.get('search') || '');
+    const debouncedSearchValue = useDebounce(searchVal);
+    const location = useLocation();
+
+    const { data: searchdt, isLoading: isSearchLoading } = useGetListSearchingProduct({
+        search: debouncedSearchValue,
+        pageSize: 5,
+    });
+
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setSearchValue('');
+        }
+    }, [location.pathname]);
+
     const [user, setUser] = useState(null);
     const { isLoading, data, refetch: refetchMe } = useGetMe();
-    const { isLoading: isLoadingCart, data: dCart } = useGetCart({
-        pageSize: 1000,
+    const { isLoading: isLoadingCart, data: dCart, refetch: refetchCart } = useGetCart({
+        all: true
     });
 
     useEffect(() => {
@@ -36,7 +56,17 @@ function Head() {
         window.location.href = config.routes.web.login;
     };
 
-    if (localStorage.getItem('token') && (!data?.data || !dCart?.data)) return <WebLoading />;
+    const onSearch = (e) => {
+        setSearchValue(e.target.value);
+    };
+
+    if (localStorage.getItem('token')){
+        if((!data?.data || !dCart?.data)){
+            refetchMe();
+            refetchCart();
+            return <WebLoading />;
+        }
+    } 
 
     return (
         <div className="head-container">
@@ -49,17 +79,95 @@ function Head() {
                         <img src={images.logo} alt="logo" />
                     </div>
                 </Link>
-                <div className="search xl:col-span-5 lg:col-span-4 col-span-12 max-lg:order-1 flex-1 h-[40px] pl-[1.5rem] pr-[0.5rem] py-2.5 rounded-full justify-between items-center inline-flex">
-                    <input
-                        className="bg-transparent w-full p-[0.5rem] border-hidden text-black text-[1.4rem] placeholder:text-[1.4rem] outline-none"
-                        type="search"
-                        name="search"
-                        id="search-main"
-                        placeholder="Tìm kiếm sản phẩm . . . ."
-                    />
-                    <button className="w-[40px] h-[40px] text-[1.4rem]">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </button>
+                <div className="search xl:col-span-5 lg:col-span-4 col-span-12 max-lg:order-1 flex-1 h-[40px] pl-[1.5rem] pr-[0.5rem] py-2.5 rounded-full  justify-between items-center inline-flex">
+                    <Dropdown
+                        menu={{
+                            items: [
+                                {
+                                    key: '-1',
+                                    type: 'group',
+                                    label: 'Kết quả tìm kiếm',
+                                },
+                                ...(searchdt?.data?.items || [])?.map((item, idx) => {
+                                    return {
+                                        key: item?.slug,
+                                        label: item?.name.toLowerCase(),
+                                    };
+                                }),
+                                searchdt?.data?.items?.length > 0 && {
+                                    key: '-3',
+                                    type: 'group',
+                                    label: (
+                                        <div className="flex justify-center">
+                                            <NavLink
+                                                reloadDocument={location.pathname.includes('-')}
+                                                className={'text-green-700'}
+                                                to={
+                                                    config.routes.web.search +
+                                                    '?' +
+                                                    encodeQueryData({
+                                                        search: searchVal,
+                                                        minPrice: MIN_PRICE,
+                                                        maxPrice: MAX_PRICE,
+                                                        rating: 1,
+                                                        pageIndex: 1,
+                                                        pageSize: 50,
+                                                        isSortAscending: true,
+                                                        columnName: 'name',
+                                                    })
+                                                }
+                                            >
+                                                Xem tất cả
+                                            </NavLink>
+                                        </div>
+                                    ),
+                                },
+                            ],
+                            onClick: (e) => {
+                                setSearchValue('');
+                                navigate(`${config.routes.web.product_detail}/${e.key}`);
+                            },
+                        }}
+                        trigger={['click']}
+                        placement="bottom"
+                        arrow={{
+                            pointAtCenter: true,
+                        }}
+                    >
+                        <div className="flex justify-between w-full items-center">
+                            <input
+                                onChange={onSearch}
+                                value={searchVal}
+                                className="bg-[--search-main] w-full p-[0.5rem] border-hidden text-black text-[1.4rem] placeholder:text-[1.4rem] ring-0"
+                                type="search"
+                                name="search"
+                                id="search-main"
+                                placeholder="Nhập tên sản phẩm . . . ."
+                            />
+                            <Link
+                                reloadDocument={location.pathname.includes('-')}
+                                className={
+                                    'w-[40px] h-[40px] text-[1.4rem] flex items-center justify-center'
+                                }
+                                to={
+                                    config.routes.web.search +
+                                    '?' +
+                                    encodeQueryData({
+                                        search: searchVal,
+                                        minPrice: MIN_PRICE,
+                                        maxPrice: MAX_PRICE,
+                                        rating: 1,
+                                        pageIndex: 1,
+                                        pageSize: 50,
+                                        isSortAscending: true,
+                                        columnName: 'name',
+                                    })
+                                }
+                            >
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </Link>
+                        </div>
+                    </Dropdown>
                 </div>
                 <div className="xl:col-span-5 lg:col-span-6 col-span-4 flex items-center lg:justify-center justify-end">
                     <Link>
@@ -67,40 +175,78 @@ function Head() {
                             <Dropdown
                                 onOpenChange={() => refetchNotification()}
                                 menu={{
-                                    items: [
-                                        {
-                                            key: '-1',
-                                            type: 'group',
-                                            label: 'Thông báo mới nhận',
-                                        },
-                                        ...notifications?.map((item, idx) => {
-                                            if (idx < 4)
-                                                return {
-                                                    key: item?.id,
-                                                    label: (
-                                                        <NotificationItem
-                                                            key={item?.id}
-                                                            notification={item}
-                                                            isRead={item?.status}
-                                                        />
-                                                    ),
-                                                };
-                                        }),
-                                        {
-                                            key: '-3',
-                                            type: 'group',
-                                            label: (
-                                                <div className="flex justify-center">
-                                                    <NavLink
-                                                        className={'text-green-700'}
-                                                        to={config.routes.web.notification}
-                                                    >
-                                                        Xem tất cả
-                                                    </NavLink>
-                                                </div>
-                                            ),
-                                        },
-                                    ],
+                                    items:
+                                        isTokenStoraged() && user
+                                            ? [
+                                                  {
+                                                      key: '-1',
+                                                      type: 'group',
+                                                      label: 'Thông báo mới nhận',
+                                                  },
+                                                  ...notifications?.map((item, idx) => {
+                                                      return {
+                                                          key: item?.id,
+                                                          label: (
+                                                              <NotificationItem
+                                                                  key={item?.id}
+                                                                  notification={item}
+                                                                  isRead={item?.status}
+                                                              />
+                                                          ),
+                                                      };
+                                                  }),
+                                                  {
+                                                      key: '-3',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="flex justify-center">
+                                                              <NavLink
+                                                                  className={'text-green-700'}
+                                                                  to={
+                                                                      config.routes.web.notification
+                                                                  }
+                                                              >
+                                                                  Xem tất cả
+                                                              </NavLink>
+                                                          </div>
+                                                      ),
+                                                  },
+                                              ]
+                                            : [
+                                                  {
+                                                      key: '-1',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="min-h-[10rem] flex justify-center items-center">
+                                                              <p>Đăng nhập để xem thông báo</p>
+                                                          </div>
+                                                      ),
+                                                  },
+                                                  {
+                                                      key: '-3',
+                                                      type: 'group',
+                                                      label: (
+                                                          <div className="flex justify-between items-center gap-[1rem]">
+                                                              <Link
+                                                                  className={
+                                                                      'text-green-700 text-center min-w-[10rem] border border-solid border-[--primary-color] hover:bg-[--primary-color]  hover:text-white py-[0.5rem] rounded-[5px]'
+                                                                  }
+                                                                  to={config.routes.web.login}
+                                                              >
+                                                                  Đăng nhập
+                                                              </Link>
+                                                              <Link
+                                                                  className={
+                                                                      'text-green-700 text-center min-w-[10rem] border border-solid border-[--primary-color]  hover:bg-[--primary-color]  hover:text-white py-[0.5rem] rounded-[5px]'
+                                                                  }
+                                                                  to={config.routes.web.register}
+                                                              >
+                                                                  Đăng ký
+                                                              </Link>
+                                                          </div>
+                                                      ),
+                                                  },
+                                              ],
                                 }}
                                 placement="bottom"
                                 arrow={{
@@ -110,7 +256,7 @@ function Head() {
                                 <div className="flex items-center">
                                     <Badge
                                         overflowCount={99}
-                                        count={countNotify}
+                                        count={isTokenStoraged() && user ? countNotify : 0}
                                         className=" mr-[1.5rem]"
                                     >
                                         <div className="w-[28px] h-[28px]">
@@ -123,7 +269,7 @@ function Head() {
                         </div>
                     </Link>
                     <div className="max-lg:hidden flex items-center mx-[3rem]">
-                        {user ? (
+                        {isTokenStoraged() && user ? (
                             <Dropdown
                                 className="cursor-pointer"
                                 menu={{
@@ -167,7 +313,11 @@ function Head() {
                                 <div className="w-[28px] h-[28px] mr-[1.5rem]">
                                     <img
                                         className="rounded-full"
-                                        src={user?.avatar ? user?.avatar : images.user}
+                                        src={
+                                            isTokenStoraged() && user?.avatar
+                                                ? user?.avatar
+                                                : images.user
+                                        }
                                         alt="bell"
                                     />
                                 </div>

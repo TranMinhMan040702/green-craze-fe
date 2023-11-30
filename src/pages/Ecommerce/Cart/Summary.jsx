@@ -39,10 +39,10 @@ function Summary({ cartItems, chosenItem }) {
                     <FontAwesomeIcon icon={faPaypal} />
                     <span className="block py-[0.5rem] text-center">Tiến hành thanh toán</span>
                 </NavLink>
-                <div className="text-center text-[1.6rem] max-md:mb-3 font-normal cursor-pointer">
+                <NavLink to={"/" + config.routes.web.home} className="flex items-center justify-center text-[1.6rem] max-md:mb-3 font-normal cursor-pointer">
                     <FontAwesomeIcon icon={faArrowLeft} />
                     <span className="ml-2">Tiếp tục mua hàng</span>
-                </div>
+                </NavLink>
             </div>
         </div>
     );

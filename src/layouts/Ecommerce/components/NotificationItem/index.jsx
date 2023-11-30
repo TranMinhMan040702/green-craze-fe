@@ -1,15 +1,17 @@
-import { notification } from "antd";
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { NotificationContext } from "../../../../App";
-import { useUpdateNotification } from "../../../../hooks/api";
+import { Typography, notification } from 'antd';
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { NotificationContext } from '../../../../App';
+import { useUpdateNotification } from '../../../../hooks/api';
 
-function NotificationItem({notification, isRead = false}) {
-    const {refetchNotification} = useContext(NotificationContext);
+
+
+function NotificationItem({ notification, isRead = false }) {
+    const { refetchNotification } = useContext(NotificationContext);
     const mutateRead = useUpdateNotification({
         success: (data) => {
             refetchNotification();
-        }
+        },
     });
 
     const onReadNotification = async () => {
@@ -18,7 +20,7 @@ function NotificationItem({notification, isRead = false}) {
             body: {},
         });
     };
-    
+
     return (
         <NavLink to={notification?.anchor} onClick={onReadNotification}>
             <div
@@ -35,9 +37,11 @@ function NotificationItem({notification, isRead = false}) {
                         <p className="text-black text-[1.4rem] font-normal">
                             {notification?.title}
                         </p>
-                        <p className="text-[1.2rem] mb-[1rem] mt-[.6rem] break-words">
-                            {notification?.content}
-                        </p>
+                        <Typography.Paragraph ellipsis={{ rows: 2 }}>
+                            <p className="text-[1.2rem] mb-[1rem] mt-[.6rem] break-words">
+                                {notification?.content}
+                            </p>
+                        </Typography.Paragraph>
                     </div>
                 </div>
             </div>

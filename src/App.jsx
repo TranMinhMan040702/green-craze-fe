@@ -9,22 +9,29 @@ import { createContext, useEffect, useState } from 'react';
 import getSignalRConnection from './utils/signalR';
 import { notification } from 'antd';
 import { useGetListNotification } from './hooks/api';
+import ScrollToTop from './components/ScrollToTop';
+import { isTokenStoraged } from './utils/storage';
 
 export const NotificationContext = createContext();
 
 function App() {
-    const { data, isLoading, refetch } = useGetListNotification();
+    const { data, isLoading, refetch } = useGetListNotification({
+        pageSize: 5,
+        columnName: 'createdAt',
+        isSortAscending: false,
+    });
     const [countNotify, setCountNotify] = useState(0);
 
     useEffect(() => {
         (async () => {
             const connection = await getSignalRConnection();
-            connection.on('ReceiveNotification', (data) => {
+            connection.on('ReceiveNotification', (data, count) => {
                 refetch();
                 notification.success({
                     message: data.title,
                     description: data.content,
                 });
+                setCountNotify(count);
             });
         })();
     }, []);
@@ -41,9 +48,11 @@ function App() {
                 countNotify,
                 notifications: data?.data?.items || [],
                 refetchNotification: refetch,
+                setCountNotify: setCountNotify
             }}
         >
             <HistoryRouter history={myHistory}>
+                <ScrollToTop />
                 <div className="App">
                     <Routes>
                         {routes.map((page, index) => {

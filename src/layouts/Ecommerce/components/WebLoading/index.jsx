@@ -2,7 +2,7 @@ import './webLoading.scss';
 
 function WebLoading() {
     return (
-        <div className="web-loading-container z-50">
+        <div className="web-loading-container z-[1000]">
             <div>
                 <div class="loading loading07 flex justify-center gap-5">
                     <span data-text="G">G</span>

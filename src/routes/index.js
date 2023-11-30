@@ -467,6 +467,13 @@ const publicRoutes = [
         private: false,
     },
     {
+        path: config.routes.web.search,
+        component: ShopPage,
+        layout: EcommerceLayout,
+        roles: ['USER'],
+        private: false,
+    },
+    {
         path: config.routes.web.product,
         // component: Product,
         layout: EcommerceLayout,

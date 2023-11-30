@@ -113,6 +113,9 @@ function LoginPage() {
 
         return <Navigate to={url} replace />;
     }
+    else{
+        localStorage.removeItem("isTokenRefreshing")
+    }
 
     return (
         <>

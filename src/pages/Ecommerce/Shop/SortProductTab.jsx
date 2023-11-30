@@ -1,34 +1,48 @@
 import { Tabs } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 
-const onChange = (key) => {
-    console.log(key);
-};
 const items = [
     {
-        key: 'a',
+        key: 'name',
         label: 'Tên A -> Z',
     },
     {
-        key: 'b',
+        key: 'name_desc',
         label: 'Tên Z -> A',
     },
     {
-        key: 'c',
+        key: 'price',
         label: 'Giá tăng dần',
     },
     {
-        key: 'd',
+        key: 'price_desc',
         label: 'Giá giảm dần',
     },
     {
-        key: 'e',
-        label: 'Hàng mới',
+        key: 'sold_desc',
+        label: 'Bán chạy',
     },
 ];
-function SortProductTab() {
+function SortProductTab({ params, setParams }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const onChange = (key) => {
+        let temp = key.split('_');
+        setParams({
+            ...params,
+            isSortAscending: temp.length === 1,
+            columnName: temp[0],
+        });
+    }; 
+
     return (
         <div className="max-lg:hidden">
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+            <Tabs
+                defaultActiveKey={`${searchParams.get('columnName')}${
+                    searchParams.get('isSortAscending') === 'true' ? '' : '_desc'
+                }`}
+                items={items}
+                onChange={onChange}
+            />
         </div>
     );
 }

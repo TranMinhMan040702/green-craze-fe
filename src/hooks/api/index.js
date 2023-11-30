@@ -93,6 +93,8 @@ export {
 } from './useProductCategoryApi.js';
 
 export {
+    useGetListSearchingProduct,
+    useGetListFilteringProduct,
     useGetListProduct,
     useGetProduct,
     useCreateProduct,

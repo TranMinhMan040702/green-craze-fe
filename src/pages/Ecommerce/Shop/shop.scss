@@ -21,6 +21,14 @@
             }
         }
     }
+    .brand, .category {
+        .ant-checkbox-checked {
+            .ant-checkbox-inner {
+                background-color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+        }
+    }
     .product {
         .ant-tabs-tab {
             .ant-tabs-tab-btn {
@@ -81,5 +89,28 @@
     }
     input[type='checkbox']#open:checked ~ .slidebar {
         display: flex !important;
+    }
+    .price {
+        .ant-slider-track {
+            background-color: var(--primary-color) !important;
+        }
+        .ant-slider-handle {
+            &::after {
+                box-shadow: 0 0 0 2px var(--primary-color) !important;
+            }
+        }
+    }
+    .rating {
+        .rating-list {
+            .ant-menu-item-selected {
+                background-color: #caefbd !important;
+                color: white !important;
+                .ant-rate-star-zero {
+                    .anticon-star {
+                        color: white !important;
+                    }
+                }
+            }
+        }
     }
 }

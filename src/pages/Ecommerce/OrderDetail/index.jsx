@@ -20,7 +20,7 @@ function OrderDetailPage() {
             <div className="order-detail-container">
                 <Head code={data?.data?.code} status={data?.data?.status} />
                 <OrderStatus order={data?.data} />
-                <Contact order={data?.data}/>
+                <Contact order={data?.data} orderRefetch={refetch}/>
                 <Wrapper orderRefetch={refetch} orderItems={data?.data?.items} status={data?.data?.status}/>
                 <Info order={data?.data} />
             </div>
