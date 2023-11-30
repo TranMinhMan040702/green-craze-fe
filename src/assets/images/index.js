@@ -44,6 +44,8 @@ const images = {
     partners: require('../../../src/assets/images/partners/partners.png'),
     order_empty: require('../../../src/assets/images/order/order-empty.png'),
     review_empty: require('../../../src/assets/images/review/review-empty.png'),
+    not_found: require('../../../src/assets/images/not-found.png'),
+    forbidden: require('../../../src/assets/images/forbidden.png'),
 };
 
 export default images;

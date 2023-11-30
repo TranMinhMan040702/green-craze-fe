@@ -45,7 +45,7 @@ function Head() {
                     <FontAwesomeIcon icon={faBars} />
                 </label>
                 <Link to={'/'} className="lg:col-span-2 col-span-4">
-                    <div className="logo md:w-[110px] md:h-[68px] mx-auto">
+                    <div className="logo md:w-[130px] md:h-[68px] mx-auto">
                         <img src={images.logo} alt="logo" />
                     </div>
                 </Link>

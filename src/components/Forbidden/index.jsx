@@ -1,7 +1,11 @@
-
+import images from '../../assets/images';
 
 function Forbidden() {
-    return <div className="font-bold text-green-950 text-lg h">Forbidden</div>
-  }
-  
-  export default Forbidden;
+    return (
+        <div style={{ height: '100vh', width: '100vw' }}>
+            <img src={images.forbidden} alt="" style={{ height: '100%', width: '100%' }} />
+        </div>
+    );
+}
+
+export default Forbidden;
