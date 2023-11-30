@@ -371,7 +371,11 @@ function ProductFormPage() {
                                     },
                                 ]}
                             >
-                                <Input onChange={(e) => form.setFieldValue('slug', slugify(e.target.value))}/>
+                                <Input
+                                    onChange={(e) =>
+                                        form.setFieldValue('slug', slugify(e.target.value))
+                                    }
+                                />
                             </Form.Item>
                         </Col>
                         <Col span={6}>
@@ -444,7 +448,7 @@ function ProductFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly/>
+                                <Input readOnly />
                             </Form.Item>
                         </Col>
                     </Row>
