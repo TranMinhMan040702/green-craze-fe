@@ -5,52 +5,13 @@ import routes from './routes';
 import './index.css';
 import { HistoryRouter } from './components/HistoryRouter';
 import myHistory from './utils/myHistory';
-import { createContext, useEffect, useState } from 'react';
-import getSignalRConnection from './utils/signalR';
-import { notification } from 'antd';
-import { useGetListNotification } from './hooks/api';
 import ScrollToTop from './components/ScrollToTop';
-import { isTokenStoraged } from './utils/storage';
-
-export const NotificationContext = createContext();
+import NotificationContextProvider from './context/NotificationContext';
 
 function App() {
-    const { data, isLoading, refetch } = useGetListNotification({
-        pageSize: 5,
-        columnName: 'createdAt',
-        isSortAscending: false,
-    });
-    const [countNotify, setCountNotify] = useState(0);
-
-    useEffect(() => {
-        (async () => {
-            const connection = await getSignalRConnection();
-            connection.on('ReceiveNotification', (data, count) => {
-                refetch();
-                notification.success({
-                    message: data.title,
-                    description: data.content,
-                });
-                setCountNotify(count);
-            });
-        })();
-    }, []);
-
-    useEffect(() => {
-        if (data) {
-            setCountNotify(data?.data?.items?.filter((item) => !item.status)?.length || 0);
-        }
-    }, [data, isLoading]);
 
     return (
-        <NotificationContext.Provider
-            value={{
-                countNotify,
-                notifications: data?.data?.items || [],
-                refetchNotification: refetch,
-                setCountNotify: setCountNotify
-            }}
-        >
+        <NotificationContextProvider>
             <HistoryRouter history={myHistory}>
                 <ScrollToTop />
                 <div className="App">
@@ -86,7 +47,7 @@ function App() {
                     </Routes>
                 </div>
             </HistoryRouter>
-        </NotificationContext.Provider>
+        </NotificationContextProvider>
     );
 }
 

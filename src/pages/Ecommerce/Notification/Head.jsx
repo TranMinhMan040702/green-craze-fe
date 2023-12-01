@@ -1,7 +1,7 @@
 import { Button, notification } from 'antd';
 import { useUpdateAllNotification } from '../../../hooks/api';
 import { useContext, useState } from 'react';
-import { NotificationContext } from '../../../App';
+import { NotificationContext } from '../../../context/NotificationContext';
 
 function Head({ refetchNotify }) {
     const [processing, setProcessing] = useState(false);

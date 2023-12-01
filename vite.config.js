@@ -8,6 +8,11 @@ dns.setDefaultResultOrder('verbatim')
 export default defineConfig({
     plugins: [react(), vitePluginRequire.default()],
     server: {
-      host: 'localhost'
+      watch: {
+        usePolling: true,
+      },
+      host: true,
+      strictPort: true,
+      port: 5173,
     }
 });

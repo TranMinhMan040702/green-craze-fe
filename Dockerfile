@@ -10,6 +10,8 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
+RUN chmod 777 node_modules
+
 EXPOSE 5173
 
 CMD ["npm", "run", "dev"]

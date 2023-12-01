@@ -1,8 +1,8 @@
 import { Typography, notification } from 'antd';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { NotificationContext } from '../../../../App';
 import { useUpdateNotification } from '../../../../hooks/api';
+import { NotificationContext } from '../../../../context/NotificationContext';
 
 
 

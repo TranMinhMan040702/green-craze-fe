@@ -14,10 +14,10 @@ import { clearToken, isTokenStoraged } from '../../../../utils/storage';
 import { useContext, useEffect, useState } from 'react';
 import NotificationItem from '../NotificationItem';
 import WebLoading from '../WebLoading';
-import { NotificationContext } from '../../../../App';
 import { useDebounce } from '../../../../hooks/custom';
 import { encodeQueryData } from '../../../../utils/queryParams';
 import { MAX_PRICE, MIN_PRICE } from '../../../../utils/constants';
+import { NotificationContext } from '../../../../context/NotificationContext';
 
 function Head() {
     const { countNotify, refetchNotification, notifications } = useContext(NotificationContext);
