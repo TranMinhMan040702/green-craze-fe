@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useUpdateNotification } from '../../../hooks/api';
 import { useContext } from 'react';
-import { NotificationContext } from '../../../App';
+import { NotificationContext } from '../../../context/NotificationContext';
 
 function Item({ notification, isRead = false }) {
     const { refetchNotification } = useContext(NotificationContext);
