@@ -184,6 +184,7 @@ function ForgotPasswordPage() {
                                         >
                                             <Input.Password
                                                 placeholder="Nhập mật khẩu mới"
+                                                className="focus:border-[--primary-color] focus-within:border-[--primary-color] hover:border-[--primary-color]"
                                                 onChange={(e) => setPassword(e.target.value)}
                                             />
                                         </Form.Item>
@@ -213,6 +214,7 @@ function ForgotPasswordPage() {
                                         >
                                             <Input.Password
                                                 placeholder="Xác nhận mật khẩu"
+                                                className="focus:border-[--primary-color] focus-within:border-[--primary-color] hover:border-[--primary-color]"
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                             />
                                         </Form.Item>
@@ -252,7 +254,7 @@ function ForgotPasswordPage() {
                                                     !confirmPassword ||
                                                     disabledSave
                                                         ? 'bg-gray-400'
-                                                        : 'bg-blue-700'
+                                                        : 'bg-[--primary-color]'
                                                 }  border-none text-white text-[1.6rem] shadow-sm`}
                                             >
                                                 Đặt lại
@@ -263,7 +265,7 @@ function ForgotPasswordPage() {
                                             <p>Bạn không nhận được OTP?</p>
                                             <a
                                                 onClick={onResend}
-                                                className="flex flex-row items-center text-blue-600 cursor-pointer"
+                                                className="flex flex-row items-center text-[--primary-color] cursor-pointer"
                                             >
                                                 Gửi lại
                                             </a>
@@ -301,7 +303,7 @@ function ForgotPasswordPage() {
                                         <Input.TextArea
                                             onChange={(e) => setEmail(e.target.value)}
                                             rows={1}
-                                            className={'w-[40rem]'}
+                                            className={'w-[40rem] focus:border-[--primary-color]'}
                                             autoSize={{
                                                 maxRows: 1,
                                                 minRows: 1,
@@ -316,7 +318,7 @@ function ForgotPasswordPage() {
                                     disabled={disabledSave}
                                     onClick={onForgotPassword}
                                     className={`flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-8 ${
-                                        disabledSave ? 'bg-gray-400' : 'bg-blue-700'
+                                        disabledSave ? 'bg-gray-400' : 'bg-[--primary-color]'
                                     }  border-none text-white text-[1.6rem] shadow-sm`}
                                 >
                                     Kiểm tra
