@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderItem from './OrderItem';
 import { NavLink, useNavigate } from 'react-router-dom';
 import config from '../../../config';
-import { getOrderStatus } from '../../../utils/constants';
+import { ORDER_STATUS, getOrderStatus } from '../../../utils/constants';
 import { numberFormatter } from '../../../utils/formatter';
 import { Tag } from 'antd';
 
 function Order({ order, isLastItem = false }) {
     const isOrderNotProcessed =
         order?.transaction?.paymentMethod?.toLowerCase()?.includes('paypal') &&
-        !order?.paymentStatus;
+        !order?.paymentStatus && order?.status !== ORDER_STATUS.CANCELLED;
     return (
         <>
             <div className="bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">

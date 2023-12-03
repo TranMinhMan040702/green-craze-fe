@@ -7,12 +7,14 @@ import { useEffect, useState } from 'react';
 import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Product() {
-    const { isLoading, data } = useGetListProduct(null);
+    const { isLoading, data } = useGetListProduct({
+        status: true
+    });
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         if (isLoading || !data) return;
-        setProducts(data?.data?.items.filter((item) => item.status === 'ACTIVE'));
+        setProducts(data?.data?.items);
     }, [isLoading, data]);
 
     if (isLoading) return <WebLoading />;

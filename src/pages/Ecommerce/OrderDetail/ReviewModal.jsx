@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Rate, Spin, notification } from 'antd';
 import { useEffect, useState } from 'react';
-import { useCreateReview, useUpdateReview } from '../../../hooks/api/useReviewAPI';
 import UploadImage from './UploadImage';
+import { useCreateReview, useUpdateReview } from '../../../hooks/api';
 
 const desc = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
 function ReviewModal({ isReviewModalOpen, setIsReviewModalOpen, data }) {
