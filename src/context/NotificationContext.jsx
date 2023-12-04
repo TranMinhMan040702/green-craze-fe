@@ -13,25 +13,25 @@ function NotificationContextProvider({ children }) {
     });
     const [countNotify, setCountNotify] = useState(0);
 
-    useEffect(() => {
-        (async () => {
-            const connection = await getSignalRConnection();
-            connection.on('ReceiveNotification', (data, count) => {
-                refetch();
-                notification.success({
-                    message: data.title,
-                    description: data.content,
-                });
-                setCountNotify(count);
-            });
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         const connection = await getSignalRConnection();
+    //         connection.on('ReceiveNotification', (data, count) => {
+    //             refetch();
+    //             notification.success({
+    //                 message: data.title,
+    //                 description: data.content,
+    //             });
+    //             setCountNotify(count);
+    //         });
+    //     })();
+    // }, []);
 
-    useEffect(() => {
-        if (data) {
-            setCountNotify(data?.data?.items?.filter((item) => !item.status)?.length || 0);
-        }
-    }, [data, isLoading]);
+    // useEffect(() => {
+    //     if (data) {
+    //         setCountNotify(data?.data?.items?.filter((item) => !item.status)?.length || 0);
+    //     }
+    // }, [data, isLoading]);
 
     return (
         <NotificationContext.Provider
