@@ -1,4 +1,4 @@
-import { Input, InputNumber } from 'antd';
+import { Input, InputNumber, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { numberFormatter } from '../../../utils/formatter';
 import { useRemoveVariantFromCart, useUpdateCartQuantity } from '../../../hooks/api';
@@ -17,6 +17,10 @@ function Item({ cartItem }) {
             // console.log(data);
         },
         error: (error) => {
+            notification.error({
+                message: 'Không thể cập nhật số lượng sản phẩm, số lượng trong kho không đủ!'
+            });
+            setCount(cartItem?.quantity)
             // console.log(error);
         },
         obj: {
@@ -69,6 +73,10 @@ function Item({ cartItem }) {
         else setCount(count - 1);
     };
     const onChange = (e) => {
+        if(Number.parseInt(e.target.value) < 1) {
+            setCount(1);
+            return;
+        }
         !isNaN(e.target.value) && setCount(Number.parseInt(e.target.value));
     };
 

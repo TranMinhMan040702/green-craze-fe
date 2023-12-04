@@ -2,13 +2,15 @@ import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { useCompletePaypalOrder, useGetOrderByCode } from '../../../hooks/api';
 import config from '../../../config';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EXCHANGE_VALUE_USD_VND } from '../../../utils/constants';
+import { EXCHANGE_VALUE_USD_VND, ORDER_STATUS } from '../../../utils/constants';
 import './checkout.scss';
 import { Alert, Button, Result, Spin, notification } from 'antd';
-import { useCallback } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
+import { NotificationContext } from '../../../context/NotificationContext';
 
 function PaypalPaymentPage() {
+    const {countNotify} = useContext(NotificationContext)
     const navigate = useNavigate();
     const { code } = useParams();
 
@@ -36,6 +38,10 @@ function PaypalPaymentPage() {
             // setProcessing(false);
         },
     });
+
+    useEffect(() => {
+        orderApi?.refetch();
+    }, [countNotify]);
 
     if (orderApi?.isLoading) return <WebLoading />;
 
@@ -127,38 +133,62 @@ function PaypalPaymentPage() {
             description: 'Đã có lỗi xảy ra trong quá trình liên kết Paypal với đơn hàng.',
         });
     };
+
     return (
         <div className="paypal-payment-container flex justify-center mt-20 shadow-[0_1px_2px_0_rgba(0,0,0,0.13)]">
             {orderApi?.data?.data?.transaction?.paymentMethod.toLowerCase().includes('paypal') ? (
                 !orderApi?.data?.data?.paymentStatus ? (
-                    <div>
-                        <div className="text-[2rem] mb-6">
-                            <p>
-                                Bạn đã sử dụng phương thức thanh toán thông qua PayPal cho đơn hàng
-                                <span className="font-bold"> {code}</span>
-                            </p>
-                            <p>
-                                Vui lòng thanh toán để hoàn tất đơn hàng này. Nếu không, đơn hàng sẽ
-                                tự động huỷ sau 24h
-                            </p>
+                    orderApi?.data?.data?.status === ORDER_STATUS.NOT_PROCESSED ? (
+                        <div>
+                            <div className="text-[2rem] mb-6">
+                                <p>
+                                    Bạn đã sử dụng phương thức thanh toán thông qua PayPal cho đơn
+                                    hàng
+                                    <span className="font-bold"> {code}</span>
+                                </p>
+                                <p>
+                                    Vui lòng thanh toán để hoàn tất đơn hàng này. Nếu không, đơn
+                                    hàng sẽ tự động huỷ sau 24h
+                                </p>
+                            </div>
+                            <div className="text-center relative h-full">
+                                <PayPalScriptProvider
+                                    options={{
+                                        'client-id': `AanwBJHPgHiuWHMM74g6ECSph0hptxt-M8Ax-XOZXW31QnWmiqjCGITfkOGrUC5BoX_ItoXG9Np0gwx4`,
+                                    }}
+                                >
+                                    <PayPalButtons
+                                        className="flex justify-center w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                        createOrder={createPaypalOrder}
+                                        onApprove={onApprove}
+                                        onError={onError}
+                                        containerWidth={'100px'}
+                                        style={{ layout: 'horizontal', label: 'checkout' }}
+                                    />
+                                </PayPalScriptProvider>
+                            </div>
                         </div>
-                        <div className="text-center relative h-full">
-                            <PayPalScriptProvider
-                                options={{
-                                    'client-id': `AanwBJHPgHiuWHMM74g6ECSph0hptxt-M8Ax-XOZXW31QnWmiqjCGITfkOGrUC5BoX_ItoXG9Np0gwx4`,
-                                }}
-                            >
-                                <PayPalButtons
-                                    className="flex justify-center w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                    createOrder={createPaypalOrder}
-                                    onApprove={onApprove}
-                                    onError={onError}
-                                    containerWidth={'100px'}
-                                    style={{ layout: 'horizontal', label: 'checkout' }}
-                                />
-                            </PayPalScriptProvider>
-                        </div>
-                    </div>
+                    ) : (
+                        <Result
+                            status="error"
+                            title="Yêu cầu không hợp lệ"
+                            subTitle={
+                                <div className="text-[1.6rem]">
+                                    <p>
+                                        Đơn hàng <strong>{code}</strong> đã bị huỷ.
+                                    </p>
+                                </div>
+                            }
+                            extra={[
+                                <Button
+                                    onClick={() => navigate(config.routes.web.order)}
+                                    className="text-green-400 border border-solide border-green-400"
+                                >
+                                    Danh sách đơn hàng
+                                </Button>,
+                            ]}
+                        />
+                    )
                 ) : (
                     <Result
                         status="success"

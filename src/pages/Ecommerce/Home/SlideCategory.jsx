@@ -6,7 +6,9 @@ import config from '../../../config';
 
 function SlideCategory() {
     const navigate = useNavigate();
-    const { isLoading, data } = useGetListProductCategory(null);
+    const { isLoading, data } = useGetListProductCategory({
+        status: true
+    });
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {

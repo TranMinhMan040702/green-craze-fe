@@ -12,6 +12,8 @@ function OrderPage() {
     const [chosenStatus, setChosenStatus] = useState(null);
     const { data, isLoading } = useGetListUserOrder({
         orderStatus: chosenStatus,
+        columnName: 'createdAt',
+        isSortAscending: false,
     });
 
     return (

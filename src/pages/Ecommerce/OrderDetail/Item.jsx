@@ -48,7 +48,7 @@ function Item({ item, status,orderRefetch, isLastItem = false }) {
                         className="text-blue-500 border-blue-500"
                         onClick={() => setIsReviewModalOpen({ item: item, isOpen: true })}
                     >
-                        {data?.data ? 'Xem lại': 'Đánh giá'}
+                        {data?.data ? 'Xem lại' : 'Đánh giá'}
                     </Button>
                     {isReviewModalOpen.item && (
                         <ReviewModal
