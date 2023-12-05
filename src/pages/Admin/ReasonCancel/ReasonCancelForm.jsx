@@ -11,6 +11,7 @@ import {
     useGetOrderCancellationReason,
     useUpdateOrderCancellationReason,
 } from '../../../hooks/api';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 function ReasonCancelFormPage() {
     let { id } = useParams();
@@ -103,7 +104,12 @@ function ReasonCancelFormPage() {
             },
         });
     };
-    if (isLoading && id) return <div>Loading...</div>;
+    if (isLoading && id)
+        return (
+            <div className="flex justify-center">
+                <SpinLoading />
+            </div>
+        );
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">
@@ -176,7 +182,13 @@ function ReasonCancelFormPage() {
                     </Row>
                     <Row gutter={16}>
                         <Col span={24}>
-                            <Form.Item label="Ghi chú lý do hủy đơn hàng" name="note">
+                            <Form.Item label="Ghi chú lý do hủy đơn hàng" name="note" 
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Nhập ghi chú lý do hủy đơn hàng!',
+                                    },
+                                ]}>
                                 <Input.TextArea
                                     showCount
                                     maxLength={200}

@@ -13,6 +13,7 @@ import {
     useGetPaymentMethod,
 } from '../../../hooks/api';
 import { objectToFormData } from '../../../utils/formValidation';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -127,7 +128,12 @@ function PaymentMethodFormPage() {
             body: formDt,
         });
     };
-    if (isLoading && id) return <div>Loading...</div>;
+    if (isLoading && id)
+        return (
+            <div className="flex justify-center">
+                <SpinLoading />
+            </div>
+        );
 
     return (
         <div className="form-container">

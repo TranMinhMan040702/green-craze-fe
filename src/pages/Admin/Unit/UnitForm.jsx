@@ -6,6 +6,7 @@ import './unit.scss';
 import config from '../../../config';
 import { useCreateUnit, useGetUnit, useUpdateUnit } from '../../../hooks/api';
 import { useEffect, useState } from 'react';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 function UnitFormPage() {
     let { id } = useParams();
@@ -93,7 +94,12 @@ function UnitFormPage() {
         });
     };
 
-    if (isLoading && id) return <div>Loading...</div>;
+    if (isLoading && id)
+        return (
+            <div className="flex justify-center">
+                <SpinLoading />
+            </div>
+        );
 
     return (
         <div className="form-container">

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import './brand.scss';
 import config from '../../../config';
 import { useCreateBrand, useGetBrand, useUpdateBrand } from '../../../hooks/api';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -121,7 +122,12 @@ function BrandFormPage() {
         }
     };
 
-    if (isLoading && id) return <div>Loading...</div>;
+    if (isLoading && id)
+        return (
+            <div className="flex justify-center">
+                <SpinLoading />
+            </div>
+        );
 
     return (
         <div className="form-container">
