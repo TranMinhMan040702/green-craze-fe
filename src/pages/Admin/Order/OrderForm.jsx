@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useGetListOrderCancellationReason, useGetOrder, useUpdateOrder } from '../../../hooks/api';
 import { numberFormatter } from '../../../utils/formatter';
 import { ORDER_STATUS, getAllOrderStatusSelect } from '../../../utils/constants';
+import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
 
 const columns = [
     {
@@ -98,7 +99,7 @@ function OrderFormPage() {
             let detail = err?.response?.data?.detail?.toLowerCase();
             if (detail?.includes('paypal')) {
                 description = 'Người dùng chưa thanh toán PayPal cho đơn hàng này';
-            }else if (detail?.includes('delivered')) {
+            } else if (detail?.includes('delivered')) {
                 description = 'Đơn hàng đã được giao, không thể thay đổi trạng thái';
             }
             notification.error({
@@ -142,7 +143,12 @@ function OrderFormPage() {
             },
         });
     };
-    if (isLoading && id) return <div>Loading...</div>;
+    if (isLoading && id)
+        return (
+            <div className="flex justify-center">
+                <SpinLoading />
+            </div>
+        );
 
     return (
         <div className="form-container w-full">

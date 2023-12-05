@@ -23,7 +23,7 @@ const apiRoutes = {
         unit: '/api/units',
         delivery: '/api/deliveries',
         paymentMethod: '/api/payment-methods',
-        orderCancellationReason: '/api/order-cancellation-reasons',
+        orderCancellationReason: '/api/order-cancel-reasons',
         employee: '/api/staffs',
         role: '/api/roles',
         transaction: '/api/transactions',

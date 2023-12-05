@@ -100,7 +100,7 @@ function LoginPage() {
         }
 
         await mutationLogin.mutateAsync({
-            email: form.getFieldValue('email'),
+            username: form.getFieldValue('email'),
             password: form.getFieldValue('password'),
         });
     };
