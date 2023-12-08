@@ -8,8 +8,8 @@ function EmployeePage() {
     const [employeeIds, setEmployeeIds] = useState([]);
 
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="employee-container">

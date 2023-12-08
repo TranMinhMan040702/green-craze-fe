@@ -79,19 +79,22 @@ function OTPVerificationPage() {
     const onChange = (value) => {
         setOtp(value);
     };
+
     const onVerify = async () => {
         await mutateOTPVefirication.mutateAsync({
             otp,
             email: searchParams.get('email'),
+            type: 'REGISTER_OTP',
         });
     };
 
     const onResend = async () => {
         await mutateResendOTPVefirication.mutateAsync({
             email: searchParams.get('email'),
+            type: 'REGISTER_OTP',
         });
     };
-    
+
     if (isTokenStoraged()) {
         let roles = getRoles();
         let url = config.routes.web.home;

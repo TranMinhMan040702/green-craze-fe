@@ -7,7 +7,8 @@ import config from '../../../config';
 function SlideCategory() {
     const navigate = useNavigate();
     const { isLoading, data } = useGetListProductCategory({
-        status: true
+        status: true,
+        all: true,
     });
     const [categories, setCategories] = useState([]);
 

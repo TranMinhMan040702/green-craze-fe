@@ -75,7 +75,7 @@ function transformData(sale) {
         {
             key: '11',
             property: 'Áp dụng',
-            value: sale.all ? (
+            value: sale.allProductCategory ? (
                 <Tag className="w-fit uppercase" color="yellow">
                     Áp dụng cho tất cả sản phẩm
                 </Tag>
@@ -96,8 +96,11 @@ function SaleDetail({ isDetailOpen, setIsDetailOpen }) {
 
     useEffect(() => {
         if (isLoading || !data) return;
+        console.log(data);
         setSale(transformData(data?.data));
     }, [isLoading, data]);
+
+    console.log(sale);
 
     return <Detail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} rawData={sale} />;
 }

@@ -4,10 +4,10 @@ import CardProductRecomment from '../../components/CardProductRecomment';
 import { useGetListProduct } from '../../../../hooks/api';
 
 function RecommentProduct() {
-    const {data, isLoading} = useGetListProduct({
-        pageIndex: 1,
-        pageSize: 5,
-        status: true
+    const { data, isLoading } = useGetListProduct({
+        page: 1,
+        size: 5,
+        status: true,
     });
     return (
         <div className="recomment">
@@ -15,11 +15,9 @@ function RecommentProduct() {
                 Có thể bạn sẽ thích
             </Button>
             <div className="card-list">
-                {
-                    data?.data?.items?.map((product) => {
-                        return <CardProductRecomment key={product?.id} product={product}/>
-                    })
-                }
+                {data?.data?.items?.map((product) => {
+                    return <CardProductRecomment key={product?.id} product={product} />;
+                })}
             </div>
         </div>
     );

@@ -6,8 +6,8 @@ import './product.scss';
 function ProductPage() {
     const [productIds, setProductIds] = useState();
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
 
     return (

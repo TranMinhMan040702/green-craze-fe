@@ -67,7 +67,7 @@ function SaleFormPage() {
                     dayjs(new Date(sale.endDate).toLocaleString()),
                 ],
             });
-            setChecked(sale.all);
+            setChecked(sale.allProductCategory);
             setImageUrl(sale.image);
             setChosenCategoryList(sale.productCategories);
         }
@@ -137,11 +137,11 @@ function SaleFormPage() {
         formData.append('name', form.getFieldValue('name'));
         formData.append('description', form.getFieldValue('description'));
         formData.append('image', imageFile);
-        formData.append('startDate', daterange[0].$d.toLocaleString());
-        formData.append('endDate', daterange[1].$d.toLocaleString());
+        formData.append('startDate', daterange[0].$d.toISOString());
+        formData.append('endDate', daterange[1].$d.toISOString());
         formData.append('promotionalPercent', form.getFieldValue('promotionalPercent'));
         formData.append('slug', form.getFieldValue('slug'));
-        formData.append('all', !!form.getFieldValue('all'));
+        formData.append('allProductCategory', !!form.getFieldValue('all'));
         chosenCategoryList
             .map((item) => item.id)
             .forEach((id) => formData.append('categoryIds', id));
@@ -157,15 +157,16 @@ function SaleFormPage() {
         const daterange = form.getFieldValue('daterange');
         formData.append('name', form.getFieldValue('name'));
         formData.append('description', form.getFieldValue('description'));
-        formData.append('image', imageFile);
-        formData.append('startDate', daterange[0].$d.toLocaleString());
-        formData.append('endDate', daterange[1].$d.toLocaleString());
+        imageFile && formData.append('image', imageFile);
+        formData.append('startDate', daterange[0].$d.toISOString());
+        formData.append('endDate', daterange[1].$d.toISOString());
         formData.append('promotionalPercent', form.getFieldValue('promotionalPercent'));
         formData.append('slug', form.getFieldValue('slug'));
-        formData.append('all', !!form.getFieldValue('all'));
-        chosenCategoryList
-            .map((item) => item.id)
-            .forEach((id) => formData.append('categoryIds', id));
+        formData.append('allProductCategory', !!form.getFieldValue('all'));
+        formData.append('categoryIds', chosenCategoryList.map((item) => item.id).join(','));
+        console.log([...formData]);
+        // console.log(daterange[0]);
+        // console.log(daterange[0].$d.toISOString());
         await mutationEdit.mutateAsync({
             id: id,
             body: formData,
@@ -254,7 +255,11 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <Input  onChange={(e) => form.setFieldValue('slug', slugify(e.target.value))}/>
+                                <Input
+                                    onChange={(e) =>
+                                        form.setFieldValue('slug', slugify(e.target.value))
+                                    }
+                                />
                             </Form.Item>
                             <Form.Item
                                 label="Slug"
@@ -266,7 +271,7 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly/>
+                                <Input readOnly />
                             </Form.Item>
                             <Form.Item
                                 label="Phần trăm giảm giá"

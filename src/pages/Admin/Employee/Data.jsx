@@ -32,7 +32,7 @@ const baseColumns = [
         title: 'Email',
         dataIndex: 'email',
         sorter: true,
-        width: 100,
+        width: 200,
     },
     {
         title: 'Họ',
@@ -69,13 +69,16 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             key: item?.id,
             id: item?.id,
             createdAt: new Date(item?.createdAt)?.toLocaleString(),
-            email: item?.user?.email,
-            firstName: item?.user?.firstName,
-            lastName: item?.user?.lastName,
-            avatar: <img className="w-20 h-20 rounded-xl" src={item?.user?.avatar} />,
+            email: item?.email,
+            firstName: item?.firstName,
+            lastName: item?.lastName,
+            avatar: <img className="w-20 h-20 rounded-xl" src={item?.avatar} />,
             status: (
-                <Tag className="w-fit uppercase" color={item?.user?.status ? 'green' : 'red'}>
-                    {item?.user?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                <Tag
+                    className="w-fit uppercase"
+                    color={item?.status === 'ACTIVE' ? 'green' : 'red'}
+                >
+                    {item?.status === 'ACTIVE' ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             type: (
@@ -85,7 +88,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             ),
             roles: (
                 <div className="flex flex-col gap-[1rem]">
-                    {item?.user?.roles.map((r) => (
+                    {item?.roles.map((r) => (
                         <Tag key={r} className="w-fit uppercase">
                             {r}
                         </Tag>
@@ -110,13 +113,13 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     </Button>
                     <Button
                         className={`border ${
-                            item?.user?.status
+                            item?.status === 'ACTIVE'
                                 ? ' text-red-500  border-red-500'
                                 : 'text-green-500 border-green-500'
                         }`}
                         onClick={() => setIsDisableOpen({ id: item?.id, isOpen: true })}
                     >
-                        <FontAwesomeIcon icon={item?.user?.status ? faEyeSlash : faEye} />
+                        <FontAwesomeIcon icon={item?.status === 'ACTIVE' ? faEyeSlash : faEye} />
                     </Button>
                 </div>
             ),
@@ -159,8 +162,8 @@ function Data({ params, setParams, setEmployeeIds }) {
 
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -208,8 +211,8 @@ function Data({ params, setParams, setEmployeeIds }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

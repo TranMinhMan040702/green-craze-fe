@@ -54,7 +54,9 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             id: item.id,
             name: item.name,
             slug: item.slug,
-            image: <Image width={80} src={item.image} />,
+            image: (
+                <Image className="bg-[--primary-color] rounded-full" width={80} src={item.image} />
+            ),
             parentName: (
                 <>
                     {item.parentName ? (
@@ -110,8 +112,8 @@ function Data({ setProductCategoryIds, params, setParams }) {
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -136,7 +138,7 @@ function Data({ setProductCategoryIds, params, setParams }) {
             setProductCategoryIds(selectedRows.map((item) => item.id));
         },
         getCheckboxProps: (record) => ({
-            name: record.name, 
+            name: record.name,
         }),
     };
 
@@ -155,8 +157,8 @@ function Data({ setProductCategoryIds, params, setParams }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

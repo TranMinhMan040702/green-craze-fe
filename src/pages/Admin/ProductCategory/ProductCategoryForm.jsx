@@ -123,7 +123,7 @@ function ProductCategoryFormPage() {
         form.getFieldValue('parentId') &&
             formData.append('parentId', form.getFieldValue('parentId'));
         formData.append('status', form.getFieldValue('status'));
-        formData.append('image', imageFile);
+        imageFile && formData.append('image', imageFile);
         await mutationUpdate.mutateAsync({
             id: id,
             body: formData,
@@ -194,7 +194,11 @@ function ProductCategoryFormPage() {
                                     },
                                 ]}
                             >
-                                <Input onChange={(e) => form.setFieldValue('slug', slugify(e.target.value))}/>
+                                <Input
+                                    onChange={(e) =>
+                                        form.setFieldValue('slug', slugify(e.target.value))
+                                    }
+                                />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -208,7 +212,7 @@ function ProductCategoryFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly/>
+                                <Input readOnly />
                             </Form.Item>
                         </Col>
                     </Row>

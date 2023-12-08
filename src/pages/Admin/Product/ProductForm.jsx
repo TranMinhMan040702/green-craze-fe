@@ -160,7 +160,7 @@ function ProductFormPage() {
                 slug: product.slug,
                 shortDescription: product.shortDescription,
                 description: product.description,
-                categoryId: product.category.id,
+                categoryId: product.productCategory.id,
                 brandId: product.brand.id,
                 status: product.status,
             });

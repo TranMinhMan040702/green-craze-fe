@@ -33,7 +33,7 @@ const baseColumns = [
     },
     {
         title: 'Tên danh mục',
-        dataIndex: 'category',
+        dataIndex: 'productCategory',
         sorter: true,
     },
     {
@@ -66,7 +66,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     />
                 </>
             ),
-            category: item.category.name,
+            productCategory: item.productCategory.name,
             status: (
                 <Tag
                     className="w-fit uppercase"
@@ -170,8 +170,8 @@ function Data({ setProductIds, params, setParams }) {
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -215,8 +215,8 @@ function Data({ setProductIds, params, setParams }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

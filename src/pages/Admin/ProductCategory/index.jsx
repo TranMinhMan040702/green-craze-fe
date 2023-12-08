@@ -6,8 +6,8 @@ import { useState } from 'react';
 function ProductCategoryPage() {
     const [productCategoryIds, setProductCategoryIds] = useState([]);
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
 
     return (

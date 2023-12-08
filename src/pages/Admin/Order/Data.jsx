@@ -86,10 +86,12 @@ function transformData(dt, navigate, setIsDetailOpen) {
                 <div className="action-btn flex gap-3">
                     <Button
                         className="text-blue-500 border border-blue-500"
-                        onClick={() => setIsDetailOpen({
-                            id: item?.id,
-                            isOpen: true,
-                        })}
+                        onClick={() =>
+                            setIsDetailOpen({
+                                id: item?.id,
+                                isOpen: true,
+                            })
+                        }
                     >
                         <FontAwesomeIcon icon={faSearch} />
                     </Button>
@@ -107,8 +109,8 @@ function transformData(dt, navigate, setIsDetailOpen) {
 
 function Data() {
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     const [tdata, setTData] = useState([]);
     const navigate = useNavigate();
@@ -121,8 +123,8 @@ function Data() {
 
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -154,8 +156,8 @@ function Data() {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

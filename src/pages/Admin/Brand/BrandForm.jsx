@@ -106,7 +106,7 @@ function BrandFormPage() {
         formData.append('code', form.getFieldValue('code'));
         formData.append('description', form.getFieldValue('description'));
         formData.append('status', form.getFieldValue('status'));
-        formData.append('image', imageFile);
+        imageFile && formData.append('image', imageFile);
         await mutationUpdate.mutateAsync({
             id: id,
             body: formData,

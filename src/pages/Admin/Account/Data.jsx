@@ -67,8 +67,11 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
             lastName: item?.lastName,
             avatar: <img className="w-20 h-20 rounded-xl" src={item?.avatar} />,
             status: (
-                <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
-                    {item?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                <Tag
+                    className="w-fit uppercase"
+                    color={item?.status === 'ACTIVE' ? 'green' : 'red'}
+                >
+                    {item?.status === 'ACTIVE' ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
             roles: (
@@ -88,7 +91,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     </Button>
                     <Button
                         className={`border ${
-                            item?.status
+                            item?.status === 'ACTIVE'
                                 ? ' text-red-500  border-red-500'
                                 : 'text-green-500 border-green-500'
                         }`}
@@ -138,8 +141,8 @@ function Data({ params, setParams, setAccountIds }) {
 
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -186,8 +189,8 @@ function Data({ params, setParams, setAccountIds }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
