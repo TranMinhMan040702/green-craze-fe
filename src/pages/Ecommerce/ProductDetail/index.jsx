@@ -20,8 +20,8 @@ function ProductDetailPage() {
         if (isLoading || !data) return;
         setRoutes([
             {
-                title: data?.data?.category.name,
-                href: config.routes.web.home + '/' + data?.data?.category.slug,
+                title: data?.data?.productCategory.name,
+                href: config.routes.web.home + '/' + data?.data?.productCategory.slug,
             },
             {
                 title: data?.data?.name,

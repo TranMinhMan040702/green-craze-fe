@@ -9,6 +9,9 @@
             border: 1px var(--primary-color) solid;
         }
     }
+    input[type="search"] {
+        font-size: 1.6rem;
+    }
 }
 .ant-modal-content {
     .ant-select-selection-search-input {

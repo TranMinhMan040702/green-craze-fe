@@ -112,14 +112,13 @@ function DeliveryFormPage() {
         } catch {
             return;
         }
-
-        let formDt = objectToFormData({
+        let obj = {
             name: form.getFieldValue('name'),
             description: form.getFieldValue('description'),
             price: form.getFieldValue('price'),
             status: form.getFieldValue('status'),
-            image: image,
-        });
+        };
+        let formDt = objectToFormData(image ? { ...obj, image: image } : obj);
 
         await mutationUpdate.mutateAsync({
             id: id,

@@ -20,7 +20,7 @@ function Item({ dataApi, item, isLastItem = false }) {
                 description: 'Xóa sản phẩm khỏi danh sách yêu thích thành công',
             });
             dataApi.refetch();
-            setIsConfirmPrompt({...isConfirmPrompt, isOpen: false})
+            setIsConfirmPrompt({ ...isConfirmPrompt, isOpen: false });
         },
         error: () => {
             notification.error({
@@ -52,28 +52,41 @@ function Item({ dataApi, item, isLastItem = false }) {
                 <div className="flex justify-center items-center gap-[2.2rem]">
                     <img
                         className="w-[7.9rem] h-[7.9rem] border border-solid"
-                        src={item?.images?.find((x) => x.isDefault)?.image}
+                        src={
+                            item?.images?.find((x) => x.isDefault)?.image || item?.images[0]?.image
+                        }
                     />
                     <div className="text-black font-normal">
                         <div className="flex flex-col">
                             <NavLink
-                                to={`/${config.routes.web.product_detail}/${item?.slug}`}
+                                to={`${config.routes.web.product_detail}/${item?.slug}`}
                                 className="text-[1.8rem] hover:text-red-400 transition-colors"
                             >
                                 {item?.name}
                             </NavLink>
-                            <Rate className="my-2 text-[1.5rem]" disabled value={item?.rating} />
+                            <Rate
+                                className="my-2 text-[1.5rem]"
+                                disabled
+                                value={
+                                    item?.rating - 0.5 < Math.floor(item?.rating)
+                                        ? Math.ceil(item?.rating * 2) / 2
+                                        : Math.floor(item?.rating * 2) / 2
+                                }
+                                allowHalf
+                            />
                         </div>
                         <div className="flex gap-[1rem]">
                             <p className="text-[1.2rem]">Mã: {item?.code}</p>
-                            <p className="text-[1.2rem]">Phân loại: {item?.category?.name}</p>
+                            <p className="text-[1.2rem]">
+                                Phân loại: {item?.productCategory?.name}
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="text-right">
                 <Button
-                    onClick={() => setIsConfirmPrompt({...isConfirmPrompt, isOpen: true})}
+                    onClick={() => setIsConfirmPrompt({ ...isConfirmPrompt, isOpen: true })}
                     loading={processing}
                     icon={<FontAwesomeIcon icon={faTrash} />}
                     className="text-red-600 text-[1.6rem] h-[4rem] border-red-600"
