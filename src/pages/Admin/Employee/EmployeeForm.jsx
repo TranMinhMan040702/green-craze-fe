@@ -158,8 +158,7 @@ function EmployeeFormPage() {
         });
     };
 
-    if ((isLoading && id) || provinceApi.isLoading || wardApi.isLoading || districtApi.isLoading)
-        return <Spin className="flex justify-center" />;
+    if (isLoading && id) return <Spin className="flex justify-center" />;
     return (
         <div className="form-container">
             <div className="flex items-center gap-[1rem]">

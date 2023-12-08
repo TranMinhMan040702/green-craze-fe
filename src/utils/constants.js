@@ -35,13 +35,13 @@ const ORDER_STATUS_OBJ = {
     },
     DELIVERED: {
         title: 'Đã giao hàng',
-        color: 'green',
+        color: 'orange',
         key: 4,
         icon: faDownload,
     },
     CANCELLED: {
         title: 'Đã hủy',
-        color: 'green',
+        color: 'red',
         key: 5,
         icon: faCancel,
     },

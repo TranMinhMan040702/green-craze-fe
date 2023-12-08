@@ -130,7 +130,7 @@ function Data({ params, setParams, setReviewIds }) {
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: params.page,
-            size: params.size,
+            pageSize: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -185,7 +185,7 @@ function Data({ params, setParams, setReviewIds }) {
         setParams({
             ...params,
             page: pagination.current,
-            size: pagination.size,
+            size: pagination.pageSize,
             columnName: !sorter.column ? 'updatedAt' : sorter.field,
             isSortAscending: sorter.order === 'descend' || !sorter.order ? false : true,
         });
