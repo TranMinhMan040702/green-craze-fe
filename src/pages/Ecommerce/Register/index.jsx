@@ -19,7 +19,7 @@ function RegisterPage() {
                 description:
                     'Bạn đã đăng ký thành công tài khoản, vui lòng lấy mã OTP để xác thực tài khoản',
             });
-            // navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
+            navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
         },
         error: (err) => {
             let description = 'Có lỗi xảy ra khi đăng ký, vui lòng thử lại sau';

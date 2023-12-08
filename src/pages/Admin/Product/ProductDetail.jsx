@@ -59,7 +59,7 @@ function transformData(product) {
         {
             key: '10',
             property: 'Tên danh mục',
-            value: product.category.name,
+            value: product.productCategory.name,
         },
         {
             key: '11',

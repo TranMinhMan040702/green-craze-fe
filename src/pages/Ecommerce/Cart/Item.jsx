@@ -14,18 +14,17 @@ function Item({ cartItem }) {
     });
     const mutateUpdate = useUpdateCartQuantity({
         success: (data) => {
-            // console.log(data);
         },
         error: (error) => {
             notification.error({
-                message: 'Không thể cập nhật số lượng sản phẩm, số lượng trong kho không đủ!'
+                message: 'Không thể cập nhật số lượng sản phẩm',
+                description: 'Có thể do số lượng trong kho không đủ!',
             });
-            setCount(cartItem?.quantity)
-            // console.log(error);
+            setCount(cartItem?.quantity);
         },
         obj: {
             params: {
-                all: true
+                all: true,
             },
         },
     });
@@ -45,19 +44,25 @@ function Item({ cartItem }) {
         },
         obj: {
             params: {
-                all: true
+                all: true,
             },
         },
     });
     useEffect(() => {
         if (count < 1) return;
-        mutateUpdate.mutate({
-            id: cartItem?.id,
-            body: {
-                quantity: count,
-            },
-        });
+
+        async function updateCartItem() {
+            await mutateUpdate.mutateAsync({
+                id: cartItem?.id,
+                body: {
+                    quantity: count,
+                },
+            });
+        }
+
+        updateCartItem();
     }, [count]);
+
     useEffect(() => {
         setCount(cartItem?.quantity);
     }, [cartItem]);
@@ -73,7 +78,7 @@ function Item({ cartItem }) {
         else setCount(count - 1);
     };
     const onChange = (e) => {
-        if(Number.parseInt(e.target.value) < 1) {
+        if (Number.parseInt(e.target.value) < 1) {
             setCount(1);
             return;
         }

@@ -6,11 +6,11 @@ import getSignalRConnection from '../utils/signalR';
 export const NotificationContext = createContext();
 
 function NotificationContextProvider({ children }) {
-    const { data, isLoading, refetch } = useGetListNotification({
-        pageSize: 5,
-        columnName: 'createdAt',
-        isSortAscending: false,
-    });
+    // const { data, isLoading, refetch } = useGetListNotification({
+    //     pageSize: 5,
+    //     columnName: 'createdAt',
+    //     isSortAscending: false,
+    // });
     const [countNotify, setCountNotify] = useState(0);
 
     // useEffect(() => {
@@ -37,8 +37,8 @@ function NotificationContextProvider({ children }) {
         <NotificationContext.Provider
             value={{
                 countNotify,
-                notifications: data?.data?.items || [],
-                refetchNotification: refetch,
+                notifications: /*data?.data?.items ||*/ [],
+                // refetchNotification: refetch,
                 setCountNotify: setCountNotify,
             }}
         >

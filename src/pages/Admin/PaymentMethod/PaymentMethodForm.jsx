@@ -115,13 +115,12 @@ function PaymentMethodFormPage() {
         } catch {
             return;
         }
-
-        let formDt = objectToFormData({
+        let obj = {
             name: form.getFieldValue('name'),
             code: form.getFieldValue('code'),
             status: form.getFieldValue('status'),
-            image: image,
-        });
+        };
+        let formDt = objectToFormData(image ? { ...obj, image: image } : obj);
 
         await mutationUpdate.mutateAsync({
             id: id,

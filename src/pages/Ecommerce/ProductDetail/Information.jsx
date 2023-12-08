@@ -9,6 +9,8 @@ import { useAddVariantToCart } from '../../../hooks/api/useCartApi';
 import { useFollowProduct } from '../../../hooks/api/useFollowProductApi';
 
 function Information({ product }) {
+    const [processingCart, setProcessingCart] = useState(false);
+    const [processingFollow, setProcessingFollow] = useState(false);
     const [count, setCount] = useState(1);
     const [chosenVariant, setChosenVariant] = useState(product?.variants[0]);
 
@@ -31,9 +33,15 @@ function Information({ product }) {
                 description: description,
             });
         },
+        mutate: (data) => {
+            setProcessingCart(true);
+        },
+        settled: (data) => {
+            setProcessingCart(false);
+        },
         obj: {
             params: {
-                // pageSize: 1000,
+                all: true
             },
         },
     });
@@ -55,6 +63,12 @@ function Information({ product }) {
                 message: 'Thêm thất bại',
                 description,
             });
+        },
+        mutate: (data) => {
+            setProcessingFollow(true);
+        },
+        settled: (data) => {
+            setProcessingFollow(false);
         },
     });
 
@@ -158,6 +172,7 @@ function Information({ product }) {
                 </div>
                 <div className="option mt-[2.6rem] max-sm:mt-[2rem] flex max-sm:flex-col max-sm:items-start items-center">
                     <Button
+                        loading={processingFollow}
                         onClick={onFollowProduct}
                         className="add-product-like max-sm:mb-[1rem]"
                         block
@@ -166,6 +181,7 @@ function Information({ product }) {
                         Yêu thích
                     </Button>
                     <Button
+                        loading={processingCart}
                         onClick={onAddToCart}
                         className="add-to-cart"
                         block

@@ -66,7 +66,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
                     />
                 </>
             ),
-            category: item.category.name,
+            category: item.productCategory.name,
             status: (
                 <Tag
                     className="w-fit uppercase"
