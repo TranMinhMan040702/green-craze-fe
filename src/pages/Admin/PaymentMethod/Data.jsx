@@ -1,4 +1,4 @@
-import { faEdit} from '@fortawesome/free-regular-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, Table, Tag, notification } from 'antd';
@@ -106,7 +106,7 @@ function Data({ params, setParams, setPaymentMethodIds }) {
     const mutationDelete = useDeletePaymentMethod({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
-            
+
             notification.success({
                 message: 'Vô hiệu hoá thành công',
                 description: 'Phương thức thanh toán đã được vô hiệu hoá',
@@ -128,8 +128,8 @@ function Data({ params, setParams, setPaymentMethodIds }) {
 
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -176,8 +176,8 @@ function Data({ params, setParams, setPaymentMethodIds }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
@@ -209,7 +209,10 @@ function Data({ params, setParams, setPaymentMethodIds }) {
                 onChange={handleTableChange}
             />
             {isDetailOpen.id !== 0 && (
-                <PaymentMethodDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+                <PaymentMethodDetail
+                    isDetailOpen={isDetailOpen}
+                    setIsDetailOpen={setIsDetailOpen}
+                />
             )}
             {isDisableOpen.id !== 0 && (
                 <ConfirmPrompt

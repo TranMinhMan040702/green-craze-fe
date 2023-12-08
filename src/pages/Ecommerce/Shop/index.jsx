@@ -14,8 +14,8 @@ function ShopPage() {
     let { productCategory } = useParams();
 
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 50,
+        page: 1,
+        size: 50,
         status: true,
         categorySlug: productCategory,
         minPrice: MIN_PRICE,
@@ -61,8 +61,8 @@ function ShopPage() {
     useEffect(() => {
         let obj = {
             ...params,
-            pageIndex: searchParams.get('pageIndex') || params.pageIndex,
-            pageSize: searchParams.get('pageSize') || params.pageSize,
+            page: searchParams.get('page') || params.page,
+            size: searchParams.get('size') || params.size,
             minPrice: searchParams.get('minPrice') || params.minPrice,
             maxPrice: searchParams.get('maxPrice') || params.maxPrice,
             rating: searchParams.get('rating') || params?.rating,

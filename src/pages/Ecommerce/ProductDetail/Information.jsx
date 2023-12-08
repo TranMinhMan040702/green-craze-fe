@@ -56,7 +56,7 @@ function Information({ product }) {
         error: (err) => {
             let description = 'Có lỗi xảy ra khi thêm sản phẩm vào danh sách yêu thích';
             let detail = err?.response?.data?.detail;
-            if(detail?.includes('already')) {
+            if (detail?.includes('already')) {
                 description = 'Sản phẩm đã tồn tại trong danh sách yêu thích';
             }
             notification.error({

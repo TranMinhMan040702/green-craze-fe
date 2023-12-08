@@ -5,8 +5,8 @@ import './inventory.scss';
 
 function InventoryPage() {
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 10,
+        page: 1,
+        size: 10,
     });
 
     return (

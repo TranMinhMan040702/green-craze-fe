@@ -75,8 +75,7 @@ function EmployeeFormPage() {
 
     useEffect(() => {
         if (isLoading || !data) return;
-        let employee = data.data;
-        let user = employee?.user;
+        let user = data.data;
         let address = user?.addresses?.find((item) => item?.isDefault);
         form.setFieldsValue({
             firstName: user?.firstName,
@@ -90,7 +89,7 @@ function EmployeeFormPage() {
             district: address?.district?.id,
             ward: address?.ward?.id,
             street: address?.street,
-            type: employee?.type,
+            type: user?.type,
         });
         setChosenProvince(address?.province?.id);
         setChosenDistrict(address?.district?.id);
@@ -129,7 +128,9 @@ function EmployeeFormPage() {
         } catch {
             return;
         }
-        let address = data?.data?.user?.addresses?.find((item) => item?.isDefault);
+        let address = data?.data?.addresses?.find((item) => item?.isDefault);
+
+        console.log(address);
 
         await mutationUpdate.mutateAsync({
             id: id,
@@ -251,20 +252,6 @@ function EmployeeFormPage() {
                         </Col>
                         <Col span={8}>
                             <Form.Item
-                                label="Ngày sinh"
-                                name="dob"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Chọn ngày sinh của bạn!',
-                                    },
-                                ]}
-                            >
-                                <DatePicker format={'YYYY-MM-DD'} className="w-full" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                            <Form.Item
                                 label="Tên"
                                 name="lastName"
                                 rules={[
@@ -275,6 +262,20 @@ function EmployeeFormPage() {
                                 ]}
                             >
                                 <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="Ngày sinh"
+                                name="dob"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Chọn ngày sinh của bạn!',
+                                    },
+                                ]}
+                            >
+                                <DatePicker format={'YYYY-MM-DD'} className="w-full" />
                             </Form.Item>
                         </Col>
                     </Row>

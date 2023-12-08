@@ -10,15 +10,15 @@ function Review({ product }) {
     const [params, setParams] = useState({
         productId: product?.id,
         rating: null,
-        pageIndex: 1,
-        pageSize: 10,
+        page: 1,
+        size: 10,
         status: true,
     });
     const { data, isLoading } = useGetListReview(params);
     const countAPI = useGetCountReview(product?.id);
     const [totalItem, setTotalItem] = useState(data?.data?.totalItems);
     const onChange = (value) => {
-        setParams((prev) => ({ ...prev, pageIndex: value }));
+        setParams((prev) => ({ ...prev, page: value }));
     };
 
     return (
@@ -73,9 +73,9 @@ function Review({ product }) {
                 <div className="flex justify-center my-7">
                     <Pagination
                         onChange={onChange}
-                        current={params.pageIndex}
+                        current={params.page}
                         total={data?.data?.totalItems}
-                        pageSize={params.pageSize}
+                        size={params.size}
                     />
                 </div>
             )}

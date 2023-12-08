@@ -30,7 +30,7 @@ function Head() {
 
     const { data: searchdt, isLoading: isSearchLoading } = useGetListSearchingProduct({
         search: debouncedSearchValue,
-        pageSize: 5,
+        size: 5,
     });
 
     useEffect(() => {
@@ -41,8 +41,12 @@ function Head() {
 
     const [user, setUser] = useState(null);
     const { isLoading, data, refetch: refetchMe } = useGetMe();
-    const { isLoading: isLoadingCart, data: dCart, refetch: refetchCart } = useGetCart({
-        all: true
+    const {
+        isLoading: isLoadingCart,
+        data: dCart,
+        refetch: refetchCart,
+    } = useGetCart({
+        all: true,
     });
 
     useEffect(() => {
@@ -60,13 +64,13 @@ function Head() {
         setSearchValue(e.target.value);
     };
 
-    if (localStorage.getItem('token')){
-        if((!data?.data || !dCart?.data)){
+    if (localStorage.getItem('token')) {
+        if (!data?.data || !dCart?.data) {
             refetchMe();
             refetchCart();
             return <WebLoading />;
         }
-    } 
+    }
 
     return (
         <div className="head-container">
@@ -110,8 +114,8 @@ function Head() {
                                                         minPrice: MIN_PRICE,
                                                         maxPrice: MAX_PRICE,
                                                         rating: 1,
-                                                        pageIndex: 1,
-                                                        pageSize: 50,
+                                                        page: 1,
+                                                        size: 50,
                                                         isSortAscending: true,
                                                         columnName: 'name',
                                                     })
@@ -157,8 +161,8 @@ function Head() {
                                         minPrice: MIN_PRICE,
                                         maxPrice: MAX_PRICE,
                                         rating: 1,
-                                        pageIndex: 1,
-                                        pageSize: 50,
+                                        page: 1,
+                                        size: 50,
                                         isSortAscending: true,
                                         columnName: 'name',
                                     })

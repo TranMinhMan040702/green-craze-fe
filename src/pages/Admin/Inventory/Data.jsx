@@ -103,8 +103,8 @@ function Data({ params, setParams }) {
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex + 1,
-            pageSize: params.pageSize,
+            current: params.page + 1,
+            size: params.size,
             totalPages: data?.data?.totalItems,
         },
     });
@@ -144,8 +144,8 @@ function Data({ params, setParams }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

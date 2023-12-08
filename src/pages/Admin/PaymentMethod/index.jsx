@@ -7,8 +7,8 @@ function PaymentMethodPage() {
     const [paymentMethodIds, setPaymentMethodIds] = useState([]);
 
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="payment-method-container">

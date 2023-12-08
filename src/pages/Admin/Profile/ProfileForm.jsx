@@ -43,7 +43,7 @@ function ProfileForm({ user, refetch }) {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            phone: user.phone,
+            phone: user.phone !== 'null' ? user.phone : '',
         });
     }, [user]);
 
@@ -106,7 +106,7 @@ function ProfileForm({ user, refetch }) {
         formData.append('phone', form.getFieldValue('phone'));
         formData.append('gender', form.getFieldValue('gender'));
         formData.append('dob', form.getFieldValue('dob').$d.toISOString());
-        formData.append('avatar', imageFile);
+        imageFile && formData.append('avatar', imageFile);
         await mutationUpdate.mutateAsync(formData);
     };
 
