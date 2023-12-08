@@ -145,7 +145,9 @@ function ProductFormPage() {
         ? useGetProduct(id)
         : { isLoading: null, data: null };
     const { isLoading: isLoadingUnits, data: dUnits } = useGetListUnit();
-    const { isLoading: isLoadingCategories, data: dCategories } = useGetListProductCategory();
+    const { isLoading: isLoadingCategories, data: dCategories } = useGetListProductCategory({
+        all: true,
+    });
     const { isLoading: isLoadingBrands, data: dBrands } = useGetListBrand();
 
     useEffect(() => {

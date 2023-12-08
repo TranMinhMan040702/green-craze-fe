@@ -171,7 +171,7 @@ function Data({ setProductIds, params, setParams }) {
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: params.page,
-            size: params.size,
+            pageSize: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -216,7 +216,7 @@ function Data({ setProductIds, params, setParams }) {
         setParams({
             ...params,
             page: pagination.current,
-            size: pagination.size,
+            size: pagination.pageSize,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });
