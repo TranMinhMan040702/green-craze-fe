@@ -41,11 +41,6 @@ function transformData(product) {
             value: product.shortDescription,
         },
         {
-            key: '8',
-            property: 'Mô tả sản phẩm',
-            value: product.description,
-        },
-        {
             key: '9',
             property: 'Hình ảnh',
             value: (
@@ -59,7 +54,7 @@ function transformData(product) {
         {
             key: '10',
             property: 'Tên danh mục',
-            value: product.category.name,
+            value: product.productCategory.name,
         },
         {
             key: '11',

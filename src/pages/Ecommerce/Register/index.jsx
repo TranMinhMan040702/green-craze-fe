@@ -19,7 +19,7 @@ function RegisterPage() {
                 description:
                     'Bạn đã đăng ký thành công tài khoản, vui lòng lấy mã OTP để xác thực tài khoản',
             });
-            // navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
+            navigate(config.routes.web.otp_verify + '?email=' + form.getFieldValue('email'));
         },
         error: (err) => {
             let description = 'Có lỗi xảy ra khi đăng ký, vui lòng thử lại sau';
@@ -27,7 +27,7 @@ function RegisterPage() {
             if (detail?.includes('already taken')) {
                 description = 'Email đã tồn tại, vui lòng sử dụng email khác';
             }
-            console.log(detail)
+            console.log(detail);
             notification.error({
                 message: 'Đăng ký thất bại',
                 description: description,
@@ -206,7 +206,9 @@ function RegisterPage() {
                     </div>
                     <div class="h-[15px] relative flex items-center justify-between">
                         <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
-                        <div class="text-center text-black text-opacity-40 text-[1.3rem]">ĐIỀU KHOẢN</div>
+                        <div class="text-center text-black text-opacity-40 text-[1.3rem]">
+                            ĐIỀU KHOẢN
+                        </div>
                         <div class="w-[38%] h-px bg-stone-600 opacity-[0.3]"></div>
                     </div>
                     <div className="text-center text-[1.2rem] mt-2">

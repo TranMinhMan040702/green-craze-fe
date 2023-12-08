@@ -6,13 +6,13 @@ import Data from './Data';
 
 function TransactionPage() {
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="transaction-container">
             <Head title="Quản lý giao dịch" isDisableAll={false} isAdd={false} />
-            <Data params={params} setParams={setParams}/>
+            <Data params={params} setParams={setParams} />
         </div>
     );
 }

@@ -7,7 +7,7 @@ export const NotificationContext = createContext();
 
 function NotificationContextProvider({ children }) {
     const { data, isLoading, refetch } = useGetListNotification({
-        pageSize: 5,
+        size: 5,
         columnName: 'createdAt',
         isSortAscending: false,
     });

@@ -32,7 +32,7 @@ const apiRoutes = {
         product: '/api/products',
         product_image: '/api/products/images',
         variant: '/api/variants',
-        inventory: '/api/inventories',
+        inventory: '/api/dockets',
         sale: '/api/sales',
         statistic: '/api/statistics',
     },

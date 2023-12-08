@@ -12,11 +12,11 @@ import { useDebounce } from '../../../hooks/custom';
 function Product({ params, setParams, categoryName }) {
     const { isLoading, data } = useGetListFilteringProduct(useDebounce(params, 1000));
 
-    const handlePagingChange = (page, pageSize) => {
+    const handlePagingChange = (page, size) => {
         setParams({
             ...params,
-            pageIndex: page,
-            pageSize: pageSize,
+            page: page,
+            size: size,
         });
     };
 
@@ -64,8 +64,8 @@ function Product({ params, setParams, categoryName }) {
                 <div className="mt-[4rem] text-center">
                     <Pagination
                         onChange={handlePagingChange}
-                        pageSize={data?.data?.itemsPerPage}
-                        current={data?.data?.pageIndex}
+                        size={data?.data?.itemsPerPage}
+                        current={data?.data?.page}
                         total={data?.data?.totalItems}
                     />
                 </div>

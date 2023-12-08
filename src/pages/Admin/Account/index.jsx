@@ -8,13 +8,13 @@ function AccountPage() {
     const [accountIds, setAccountIds] = useState([]);
 
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="account-container">
-            <AccountHead params={params} accountIds={accountIds}/>
-            <Data params={params} setParams={setParams} setAccountIds={setAccountIds}/>
+            <AccountHead params={params} accountIds={accountIds} />
+            <Data params={params} setParams={setParams} setAccountIds={setAccountIds} />
         </div>
     );
 }

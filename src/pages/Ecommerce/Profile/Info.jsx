@@ -46,9 +46,8 @@ function Info() {
     const onEditUser = async (values) => {
         let data = {
             ...values,
-            status: 1,
             avatar: avatar,
-            dob: values.dob.format('YYYY-MM-DD'),
+            dob: values.dob.$d.toISOString(),
         };
         await mutateEditUser.mutateAsync(data);
     };

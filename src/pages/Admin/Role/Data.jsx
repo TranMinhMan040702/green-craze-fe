@@ -51,7 +51,6 @@ function transformData(dt, setIsDetailOpen) {
     });
 }
 function Data({ params, setParams }) {
-
     const [isDetailOpen, setIsDetailOpen] = useState({
         id: 0,
         isOpen: false,
@@ -61,8 +60,8 @@ function Data({ params, setParams }) {
 
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.pageIndex,
-            pageSize: params.pageSize,
+            current: params.page,
+            size: params.size,
             total: data?.data?.totalItems,
         },
     });
@@ -97,8 +96,8 @@ function Data({ params, setParams }) {
         });
         setParams({
             ...params,
-            pageIndex: pagination.current,
-            pageSize: pagination.pageSize,
+            page: pagination.current,
+            size: pagination.size,
             columnName: !sorter.column ? 'id' : sorter.field,
             isSortAscending: sorter.order === 'ascend' || !sorter.order ? true : false,
         });

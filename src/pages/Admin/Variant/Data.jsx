@@ -1,7 +1,7 @@
 import { faEdit, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faAdd, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Table, Tag } from 'antd';
+import { Button, Table, Tag, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
@@ -183,9 +183,16 @@ function Data({ setVariantIds, setProductId }) {
                 },
                 isOpen: false,
             });
+            notification.success({
+                message: 'Tạo dạng sản phẩm bán ra thành công',
+                description: 'Dạng sản phẩm bán ra đã được tạo',
+            });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Tạo dạng sản phẩm bán ra thất bại',
+                description: 'Có lỗi xảy ra khi tạo dạng sản phẩm bán ra',
+            });
         },
         mutate: () => {
             setProcessing(true);
@@ -209,9 +216,16 @@ function Data({ setVariantIds, setProductId }) {
                 },
                 isOpen: false,
             });
+            notification.success({
+                message: 'Chỉnh sửa dạng sản phẩm bán ra thành công',
+                description: 'Dạng sản phẩm bán ra đã được chỉnh sửa',
+            });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Chỉnh sửa dạng sản phẩm bán ra thất bại',
+                description: 'Có lỗi xảy ra khi chỉnh sửa dạng sản phẩm bán ra',
+            });
         },
         mutate: () => {
             setProcessing(true);
@@ -228,9 +242,16 @@ function Data({ setVariantIds, setProductId }) {
     const mutationDelete = useDeleteVariant({
         success: () => {
             setIsDisableOpen({ ...isDisableOpen, isOpen: false });
+            notification.success({
+                message: 'Vô hiệu dạng sản phẩm bán ra thành công',
+                description: 'Dạng sản phẩm bán ra đã được vô hiệu hóa',
+            });
         },
         error: (err) => {
-            console.log(err);
+            notification.error({
+                message: 'Vô hiệu hóa dạng sản phẩm bán ra thất bại',
+                description: 'Có lỗi xảy ra khi vô hiệu hóa dạng sản phẩm bán ra',
+            });
         },
         mutate: () => {
             setProcessing(true);

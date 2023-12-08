@@ -8,13 +8,17 @@ function ReasonCancelPage() {
     const [reasonCancellationIds, setReasonCancellationIds] = useState([]);
 
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="cancel-reason-container">
-            <ReasonCancelHead params={params} reasonCancellationIds={reasonCancellationIds}/>
-            <Data params={params} setParams={setParams} setReasonCancellationIds={setReasonCancellationIds}/>
+            <ReasonCancelHead params={params} reasonCancellationIds={reasonCancellationIds} />
+            <Data
+                params={params}
+                setParams={setParams}
+                setReasonCancellationIds={setReasonCancellationIds}
+            />
         </div>
     );
 }

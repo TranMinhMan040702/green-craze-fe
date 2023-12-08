@@ -72,8 +72,11 @@ function transformData(user) {
             key: '11',
             property: 'Trạng thái',
             value: (
-                <Tag className="w-fit uppercase" color={user?.status ? 'green' : 'red'}>
-                    {user?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                <Tag
+                    className="w-fit uppercase"
+                    color={user?.status === 'ACTIVE' ? 'green' : 'red'}
+                >
+                    {user?.status === 'ACTIVE' ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
         },

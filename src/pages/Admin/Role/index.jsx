@@ -5,13 +5,13 @@ import RoleHead from './RoleHead';
 
 function RolePage() {
     const [params, setParams] = useState({
-        pageIndex: 1,
-        pageSize: 5,
+        page: 1,
+        size: 5,
     });
     return (
         <div className="Role-container">
             <RoleHead />
-            <Data params={params} setParams={setParams}/>
+            <Data params={params} setParams={setParams} />
         </div>
     );
 }

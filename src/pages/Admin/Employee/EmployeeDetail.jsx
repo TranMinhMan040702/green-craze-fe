@@ -5,7 +5,7 @@ import Detail from '../../../layouts/Admin/components/Detail';
 import { useGetEmployee } from '../../../hooks/api';
 
 function transformData(employee) {
-    let address = employee?.user?.addresses.find((a) => a.isDefault);
+    let address = employee?.addresses.find((a) => a.isDefault);
     return [
         {
             key: '1',
@@ -25,32 +25,32 @@ function transformData(employee) {
         {
             key: '4',
             property: 'Email',
-            value: employee?.user?.email,
+            value: employee?.email,
         },
         {
             key: '5',
             property: 'Họ',
-            value: employee?.user?.firstName,
+            value: employee?.firstName,
         },
         {
             key: '6',
             property: 'Tên',
-            value: employee?.user?.lastName,
+            value: employee?.lastName,
         },
         {
             key: '7',
             property: 'Số điện thoại',
-            value: employee?.user?.phone,
+            value: employee?.phone,
         },
         {
             key: '8',
             property: 'Giới tính',
-            value: employee?.user?.gender,
+            value: employee?.gender,
         },
         {
             key: '9',
             property: 'Ngày sinh',
-            value: employee?.user?.dob && new Date(employee?.user?.dob).toLocaleDateString(),
+            value: employee?.dob && new Date(employee?.dob).toLocaleDateString(),
         },
         {
             key: '10',
@@ -75,14 +75,14 @@ function transformData(employee) {
         {
             key: '14',
             property: 'Ảnh đại diện',
-            value: <img className="w-20 h-20 rounded-xl" src={employee?.user?.avatar} />,
+            value: <img className="w-20 h-20 rounded-xl" src={employee?.avatar} />,
         },
         {
             key: '15',
             property: 'Trạng thái',
             value: (
-                <Tag className="w-fit uppercase" color={employee?.user?.status ? 'green' : 'red'}>
-                    {employee?.user?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
+                <Tag className="w-fit uppercase" color={employee?.status ? 'green' : 'red'}>
+                    {employee?.status ? 'Kích hoạt' : 'Vô hiệu hóa'}
                 </Tag>
             ),
         },
@@ -100,7 +100,7 @@ function transformData(employee) {
             property: 'Vai trò',
             value: (
                 <div className="flex flex-col gap-[1rem]">
-                    {employee?.user?.roles.map((r) => (
+                    {employee?.roles.map((r) => (
                         <Tag className="w-fit uppercase">{r}</Tag>
                     ))}
                 </div>

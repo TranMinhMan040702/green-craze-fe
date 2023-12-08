@@ -12,8 +12,6 @@ import { useState } from 'react';
 function LoginPage() {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState(false);
-
-
     const handleToken = (token) => {
         saveToken(token);
         let roles = getRoles();
@@ -112,9 +110,8 @@ function LoginPage() {
         if (roles?.includes('ADMIN')) url = config.routes.admin.dashboard;
 
         return <Navigate to={url} replace />;
-    }
-    else{
-        localStorage.removeItem("isTokenRefreshing")
+    } else {
+        localStorage.removeItem('isTokenRefreshing');
     }
 
     return (

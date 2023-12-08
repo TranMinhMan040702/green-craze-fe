@@ -11,12 +11,12 @@ function NotificationPage() {
     const [params, setParams] = useState({
         columnName: 'createdAt',
         isSortAscending: false,
-        pageIndex: 1,
-        pageSize: 5
-    })
+        page: 1,
+        size: 5,
+    });
     const { data, isLoading, refetch } = useGetListNotification(params);
     const onChange = (value) => {
-        setParams((prev) => ({ ...prev, pageIndex: value }));
+        setParams((prev) => ({ ...prev, page: value }));
     };
 
     return (
@@ -25,15 +25,15 @@ function NotificationPage() {
                 <Head refetchNotify={refetch} />
                 <Wrapper notifications={data?.data?.items} />
                 {data?.data?.items?.length > 0 && (
-                <div className="flex justify-center my-7">
-                    <Pagination
-                        onChange={onChange}
-                        current={params.pageIndex}
-                        total={data?.data?.totalItems}
-                        pageSize={params.pageSize}
-                    />
-                </div>
-            )}
+                    <div className="flex justify-center my-7">
+                        <Pagination
+                            onChange={onChange}
+                            current={params.page}
+                            total={data?.data?.totalItems}
+                            size={params.size}
+                        />
+                    </div>
+                )}
             </div>
         </AccountLayout>
     );
