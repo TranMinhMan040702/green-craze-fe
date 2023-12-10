@@ -21,13 +21,6 @@ export const useGetListUserOrder = (params) => {
     });
 };
 
-export const useGetTop5OrderLatest = () => {
-    return useFetch({
-        url: apiRoutes.common.order + '/top5-order-latest',
-        key: 'getUserList',
-    });
-};
-
 export const useGetOrder = (id) => {
     return useFetch({
         url: `${apiRoutes.common.order}/${id}`,

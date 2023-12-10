@@ -13,7 +13,7 @@ function Description({ product }) {
             <div className="grid grid-cols-12">
                 <div className="col-span-9 max-lg:col-span-12 pr-[1rem] border-r-[1px] max-lg:border-none px-[1rem]">
                     <h2 className="text-[2.6rem] font-medium">Mô tả sản phẩm</h2>
-                    <div className="text-[1.6rem] overflow-hidden">
+                    <div className="text-[1.6rem] mt-[1.5rem] overflow-hidden">
                         <Paragraph
                             ellipsis={
                                 !expand
@@ -25,7 +25,7 @@ function Description({ product }) {
                             }
                         >
                             <div
-                                className="font-[roboto]"
+                                className="font-[roboto] text-[--text-color]"
                                 dangerouslySetInnerHTML={{
                                     __html: DOMPurify.sanitize(product?.description),
                                 }}

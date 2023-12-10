@@ -8,10 +8,3 @@ export const useGetTransaction = (id) => {
 export const useGetListTransaction = (params) => {
     return useFetch({ url: apiRoutes.admin.transaction, params, key: 'getList' });
 };
-
-export const usGetTop5TransactionLatest = () => {
-    return useFetch({
-        url: `${apiRoutes.admin.transaction}/top5-tracsaction-latest`,
-        key: 'getList',
-    });
-};

@@ -144,7 +144,11 @@ function params({ params, setParams, categoryId }) {
             <div className="rating pt-[1.5rem] pb-[2.8rem]">
                 <h3 className="text-[1.6rem] uppercase mb-[1.4rem]">Đánh giá</h3>
                 <div className="rating-list flex flex-col">
-                    <Menu onSelect={onRatingSelect} selectedKeys={[params.rating]}>
+                    <Menu
+                        className="border-none"
+                        onSelect={onRatingSelect}
+                        selectedKeys={[params.rating]}
+                    >
                         <Menu.Item key={5}>
                             <Rate value={5} disabled />
                         </Menu.Item>

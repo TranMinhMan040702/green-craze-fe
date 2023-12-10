@@ -39,15 +39,17 @@ function StatisticTopSellingProduct() {
         dayjs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)),
         dayjs(currentDate),
     ]);
-    const [params, setParams] = useState({
-        startDate: daterange[0].format('YYYY-MM-DD'),
-        endDate: daterange[1].format('YYYY-MM-DD'),
+    const { isLoading, data } = useStatisticTopSellingProduct({
+        startDate: daterange[0].$d.toISOString(),
+        endDate: daterange[1].$d.toISOString(),
     });
-    const { data, isLoading } = useStatisticTopSellingProduct(params);
+
     const onChange = (value) => {
-        let startDate = value[0].format('YYYY-MM-DD');
-        let endDate = value[1].format('YYYY-MM-DD');
-        setParams({ startDate, endDate });
+        if (value == null) {
+            setDaterange(daterange);
+            return;
+        }
+        setDaterange(value);
     };
 
     return (
@@ -58,10 +60,10 @@ function StatisticTopSellingProduct() {
                 </h5>
                 <DatePicker.RangePicker
                     defaultValue={daterange}
+                    value={daterange}
                     format="YYYY-MM-DD"
                     onChange={onChange}
                 />
-                ;
             </div>
             <PieChart width={340} height={300}>
                 <Pie

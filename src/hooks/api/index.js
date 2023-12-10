@@ -67,11 +67,7 @@ export {
 
 export { useGetRole, useGetListRole } from './useRoleApi.js';
 
-export {
-    useGetTransaction,
-    usGetTop5TransactionLatest,
-    useGetListTransaction,
-} from './useTransactionApi.js';
+export { useGetTransaction, useGetListTransaction } from './useTransactionApi.js';
 
 export {
     useGetListBrand,
@@ -151,7 +147,6 @@ export {
     useCreateOrder,
     useGetListUserOrder,
     useGetListOrder,
-    useGetTop5OrderLatest,
     useGetOrder,
     useUpdateOrder,
     useGetOrderByCode,
@@ -163,7 +158,6 @@ export { useImportProduct, useGetListDocketByProductId } from './useInventoryApi
 export {
     useGetListSale,
     useGetSale,
-    useGetSaleLatest,
     useCreateSale,
     useUpdateSale,
     useApplySale,
@@ -181,7 +175,6 @@ export {
     useReplyReview,
     useToggleReview,
     useGetCountReview,
-    useGetTop5ReviewLatest,
 } from './useReviewApi.js';
 
 export {
@@ -191,6 +184,14 @@ export {
     useStatisticOrderStatus,
     useStatisticRating,
     useStatisticTopSellingProduct,
+    useGetTop5OrderLatest,
+    usGetTop5TransactionLatest,
+    useGetTop5ReviewLatest,
+    useGetSaleLatest,
 } from './useStatisticApi.js';
 
-export { useGetListNotification, useUpdateNotification, useUpdateAllNotification } from './useNotificationApi.js';
+export {
+    useGetListNotification,
+    useUpdateNotification,
+    useUpdateAllNotification,
+} from './useNotificationApi.js';

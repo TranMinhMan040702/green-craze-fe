@@ -38,7 +38,7 @@ function transformData(dt) {
             id: item?.id,
             createdAt: new Date(item?.createdAt)?.toLocaleString(),
             title: item?.title,
-            product: item?.product?.name,
+            product: item?.productName,
             rating: <Rate className="text-2xl" disabled defaultValue={item?.rating} />,
             status: (
                 <Tag className="w-fit uppercase" color={item?.status ? 'green' : 'red'}>
