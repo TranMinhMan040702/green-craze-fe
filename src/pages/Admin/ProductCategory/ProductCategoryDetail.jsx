@@ -33,7 +33,12 @@ function transformData(productCategory) {
         {
             key: '6',
             property: 'Hình ảnh',
-            value: <img className="w-20 h-20 rounded-xl" src={productCategory.image} />,
+            value: (
+                <img
+                    className="bg-[--primary-color] w-20 h-20 rounded-xl"
+                    src={productCategory.image}
+                />
+            ),
         },
         {
             key: '7',

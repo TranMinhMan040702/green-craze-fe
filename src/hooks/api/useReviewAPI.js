@@ -34,10 +34,6 @@ export const useGetListReview = (params) => {
     return useFetch({ url: apiRoutes.common.review, params, key: 'getList' });
 };
 
-export const useGetTop5ReviewLatest = () => {
-    return useFetch({ url: `${apiRoutes.common.review}/top5-review-latest`, key: 'getList' });
-};
-
 export const useGetReview = (id) => {
     return useFetch({ url: `${apiRoutes.common.review}/${id}`, key: 'getById' });
 };

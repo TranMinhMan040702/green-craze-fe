@@ -20,10 +20,17 @@ function StatisticSale() {
                     src={data?.data?.image}
                 />
                 <div className="flex flex-col items-center">
-                    <h3 className="text-[1.6rem] font-medium">Sale lễ 30/4</h3>
+                    <h3 className="text-[1.6rem] font-medium">
+                        {data?.data ? data?.data?.name : 'Không có đợi Sale'}
+                    </h3>
                     <div className="w-full flex flex-col items-center text-[1.4rem]">
-                        <span>Bắt đầu: {new Date(data?.data?.startDate).toLocaleString()}</span>
-                        <span>Kết thúc: {new Date(data?.data?.endDate).toLocaleString()}</span>
+                        <span>
+                            Bắt đầu:{' '}
+                            {data?.data && new Date(data?.data?.startDate).toLocaleString()}
+                        </span>
+                        <span>
+                            Kết thúc: {data?.data && new Date(data?.data?.endDate).toLocaleString()}
+                        </span>
                     </div>
                     <Tag
                         bordered={false}
@@ -31,7 +38,7 @@ function StatisticSale() {
                         className="w-full py-[0.5rem] text-center text-[1.8rem]"
                     >
                         <ArrowDownOutlined />
-                        10%
+                        {data?.data ? data.data?.promotionalPercent : ''}
                     </Tag>
                 </div>
             </div>

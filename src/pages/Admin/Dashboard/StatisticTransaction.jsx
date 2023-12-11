@@ -16,8 +16,6 @@ function StatisticTransaction() {
         setTransactions(data?.data);
     }, [isLoading, data]);
 
-    console.log(transactions);
-
     return (
         <Card bordered={false} className="card-container min-h-[382px]">
             <div className="flex items-center justify-between mb-[2rem]">
@@ -41,15 +39,15 @@ function StatisticTransaction() {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[1.6rem] font-medium text-[--text-color]">
-                                {`${item?.user?.lastName}  ${item?.user?.firstName}`}
+                                {`${item?.user?.lastName} ${item?.user?.firstName}`}
                             </span>
                             <span className="text-[1.2rem]">
-                                {new Date(item?.transaction?.createdAt).toLocaleString()}
+                                {new Date(item?.createdAt).toLocaleString()}
                             </span>
                         </div>
                     </div>
                     <div className="text-[1.7rem] text-[--primary-color] font-bold">
-                        {numberFormatter(item?.transaction?.totalPay)}
+                        {numberFormatter(item?.totalPay)}
                     </div>
                 </div>
             ))}

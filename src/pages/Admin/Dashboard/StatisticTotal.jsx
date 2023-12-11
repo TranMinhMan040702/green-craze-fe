@@ -50,7 +50,7 @@ function StatisticTotal() {
                     <Card bordered={false} className="bg-[rgb(255,243,205)]">
                         <Statistic
                             title="Khách hàng"
-                            value={data?.data?.users}
+                            value={data?.data?.user}
                             valueStyle={{
                                 color: '#055160',
                             }}
@@ -66,7 +66,7 @@ function StatisticTotal() {
                     <Card bordered={false} className="bg-[rgb(207,244,252)]">
                         <Statistic
                             title="Đơn hàng đã giao"
-                            value={data?.data?.orders}
+                            value={data?.data?.order}
                             valueStyle={{
                                 color: '#664d03',
                             }}

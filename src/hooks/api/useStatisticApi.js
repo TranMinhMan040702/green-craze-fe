@@ -7,7 +7,7 @@ export const useStatisticTotal = () => {
 
 export const useStatisticRevenue = (params) => {
     return useFetch({
-        url: `${apiRoutes.admin.statistic}/revenue`,
+        url: `${apiRoutes.admin.statistic}/revenue-expense`,
         params,
         key: 'statisticRevenue',
     });
@@ -39,4 +39,26 @@ export const useStatisticOrderStatus = (params) => {
 
 export const useStatisticRating = (params) => {
     return useFetch({ url: `${apiRoutes.admin.statistic}/rating`, params, key: 'statisticRating' });
+};
+
+export const useGetTop5OrderLatest = () => {
+    return useFetch({
+        url: apiRoutes.admin.statistic + '/top5-order-latest',
+        key: 'getUserList',
+    });
+};
+
+export const usGetTop5TransactionLatest = () => {
+    return useFetch({
+        url: `${apiRoutes.admin.statistic}/top5-transaction-latest`,
+        key: 'getList',
+    });
+};
+
+export const useGetTop5ReviewLatest = () => {
+    return useFetch({ url: `${apiRoutes.admin.statistic}/top5-review-latest`, key: 'getList' });
+};
+
+export const useGetSaleLatest = () => {
+    return useFetch({ url: `${apiRoutes.admin.statistic}/sale-latest`, key: 'getById' });
 };
