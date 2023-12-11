@@ -4,7 +4,7 @@ import { numberFormatter } from '../../../utils/formatter';
 function Info({ order }) {
     return (
         <div className="flex max-md:flex-col justify-between p-[2rem] border-t-[0.1rem] gap-[1.2rem]">
-            <div>
+            <div className='md:w-1/2'>
                 <div>
                     <h1 className="capitalize text-[2rem] text-black">Thông tin thanh toán</h1>
 
