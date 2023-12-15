@@ -2,25 +2,25 @@ import { createContext, useEffect, useState } from 'react';
 import { useGetListNotification, useGetMe } from '../hooks/api';
 import { notification } from 'antd';
 import connection from '../utils/websocket';
+import { getUserId } from '../utils/storage';
 
 export const NotificationContext = createContext();
 var stompClient = null;
 function NotificationContextProvider({ children }) {
+    var userId = getUserId();
     const [countNotify, setCountNotify] = useState(0);
 
-    const { data: me } = useGetMe();
-
     const { isLoading, data, refetch } = useGetListNotification({
-        size: 5,
+        size: 99,
         columnName: 'createdAt',
         isSortAscending: false,
     });
 
     useEffect(() => {
-        if (me && !stompClient) {
-            stompClient = connection(me?.data?.id, onNotificationReceived);
+        if (userId && !stompClient) {
+            stompClient = connection(userId, onNotificationReceived);
         }
-    }, [me]);
+    }, [userId]);
 
     useEffect(() => {
         if (data) {

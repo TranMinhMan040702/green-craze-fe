@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  green-craze-ui:
+    container_name: green-craze-ui
+    image: green-craze-ui
+    restart: always
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - BROWSER=none
+      - NODE_ENV=development
+    build:
+      dockerfile: Dockerfile
+      target: development
+    networks:
+      - green-craze-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 5173:5173
+networks:
+  green-craze-network:
+    external: true
