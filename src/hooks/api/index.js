@@ -192,6 +192,7 @@ export {
 
 export {
     useGetListNotification,
+    useGetCountNotification,
     useUpdateNotification,
     useUpdateAllNotification,
 } from './useNotificationApi.js';

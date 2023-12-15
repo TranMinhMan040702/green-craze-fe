@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { useGetListNotification, useGetMe } from '../hooks/api';
+import { useGetCountNotification, useGetListNotification, useGetMe } from '../hooks/api';
 import { notification } from 'antd';
 import connection from '../utils/websocket';
 import { getUserId } from '../utils/storage';
@@ -10,11 +10,13 @@ function NotificationContextProvider({ children }) {
     var userId = getUserId();
     const [countNotify, setCountNotify] = useState(0);
 
-    const { isLoading, data, refetch } = useGetListNotification({
-        size: 99,
+    const { data, refetch } = useGetListNotification({
+        size: 5,
         columnName: 'createdAt',
         isSortAscending: false,
     });
+
+    const { isLoading, data: dCount } = useGetCountNotification();
 
     useEffect(() => {
         if (userId && !stompClient) {
@@ -23,8 +25,8 @@ function NotificationContextProvider({ children }) {
     }, [userId]);
 
     useEffect(() => {
-        if (data) {
-            setCountNotify(data?.data?.items?.filter((item) => !item.status)?.length || 0);
+        if (dCount) {
+            setCountNotify(dCount?.data?.count);
         }
     }, [data, isLoading]);
 

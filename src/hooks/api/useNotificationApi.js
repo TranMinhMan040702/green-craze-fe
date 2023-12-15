@@ -5,6 +5,10 @@ export const useGetListNotification = (params) => {
     return useFetch({ url: apiRoutes.web.notification, params, key: 'getList' });
 };
 
+export const useGetCountNotification = () => {
+    return useFetch({ url: apiRoutes.web.notification + '/count', params: {}, key: 'getCount' });
+};
+
 export const useUpdateNotification = (updater) => {
     return usePatch(apiRoutes.web.notification, updater);
 };
