@@ -20,7 +20,7 @@ function Item({ cartItem }) {
                 message: 'Không thể cập nhật số lượng sản phẩm',
                 description: 'Có thể do số lượng trong kho không đủ!',
             });
-            setCount(cartItem?.quantity);
+            // setCount(cartItem?.quantity);
         },
         obj: {
             params: {
