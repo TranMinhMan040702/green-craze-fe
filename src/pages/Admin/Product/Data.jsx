@@ -189,7 +189,7 @@ function Data({ setProductIds, params, setParams }) {
                 total: data?.data?.totalItems,
             },
         });
-    });
+    }, [isLoading, data]);
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {

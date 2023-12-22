@@ -468,7 +468,7 @@ function ProductFormPage() {
                             >
                                 <Input.TextArea
                                     showCount
-                                    maxLength={100}
+                                    maxLength={500}
                                     style={{
                                         height: 60,
                                         resize: 'none',

@@ -11,6 +11,9 @@ const LIMIT = 5;
 
 function params({ params, setParams, categoryId }) {
     const location = useLocation();
+    const [brandIdsCb, setBrandIdsCb] = useState([]);
+    const [categoryIdsCb, setCategoryIdsCb] = useState([]);
+
     const { data: brandData } = useGetListBrand({
         status: true,
     });
@@ -30,33 +33,31 @@ function params({ params, setParams, categoryId }) {
     };
 
     const onBrandCheckBoxChange = (checked, id) => {
-        let brandArr = params.brandIds;
         let temp = [];
         if (checked) {
-            temp = [...brandArr, id];
+            temp = [...brandIdsCb, id];
         } else {
-            temp = [...brandArr]?.filter((item) => item !== id);
+            temp = [...brandIdsCb]?.filter((item) => item !== id);
         }
-
         setParams({
             ...params,
-            brandIds: temp,
+            brandIds: temp.join(','),
         });
+        setBrandIdsCb(temp);
     };
 
     const onCategoryCheckBoxChange = (checked, id) => {
-        let categoryArr = params.categoryIds;
         let temp = [];
         if (checked) {
-            temp = [...categoryArr, id];
+            temp = [...categoryIdsCb, id];
         } else {
-            temp = [...categoryArr]?.filter((item) => item !== id);
+            temp = [...categoryIdsCb]?.filter((item) => item !== id);
         }
-
         setParams({
             ...params,
-            categoryIds: temp,
+            categoryIds: temp.join(','),
         });
+        setCategoryIdsCb(temp);
     };
 
     const onRatingSelect = (e) => {
@@ -78,7 +79,7 @@ function params({ params, setParams, categoryId }) {
                                     onChange={(e) =>
                                         onBrandCheckBoxChange(e.target.checked, item.id)
                                     }
-                                    checked={params?.brandIds?.includes(item.id)}
+                                    checked={brandIdsCb.includes(item.id)}
                                     key={item.id}
                                     className="text-[1.6rem] mb-[1rem]"
                                 >
