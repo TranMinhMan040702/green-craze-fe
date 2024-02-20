@@ -1,11 +1,26 @@
 .card-product {
+    transition: transform 0.3s ease-in-out;
+    .ant-card-cover {
+        overflow: hidden;
+        img {
+            transition: transform 0.3s ease-in-out;
+        }
+    }
+    .heart {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+    }
     &:hover {
+        .ant-card-cover {
+            img {
+                transform: scale(1.2);
+            }
+        }
         .heart {
-            display: inline-flex !important;
+            opacity: 1;
         }
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
     }
-    transition: all 0.5s !important;
     box-shadow: 0.01em 0.01em 0.3em rgba(0, 0, 0, 0.1) !important;
     .ant-card-body {
         max-width: 250px !important;

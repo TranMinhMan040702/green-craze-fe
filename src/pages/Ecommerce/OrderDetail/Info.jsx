@@ -4,7 +4,7 @@ import { numberFormatter } from '../../../utils/formatter';
 function Info({ order }) {
     return (
         <div className="flex max-md:flex-col justify-between p-[2rem] border-t-[0.1rem] gap-[1.2rem]">
-            <div className='md:w-1/2'>
+            <div className="md:w-1/2">
                 <div>
                     <h1 className="capitalize text-[2rem] text-black">Thông tin thanh toán</h1>
 
@@ -51,10 +51,10 @@ function Info({ order }) {
                     </div>
                 </div>
             </div>
-            <div className="md:text-right">
+            <div className="md:text-right flex flex-col justify-end">
                 <h1 className="capitalize text-[2rem] text-black">Tổng tiền</h1>
                 <div className="bg-[#FFFAF4] p-[2rem] flex flex-col gap-[2.2rem]">
-                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal">
+                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal border-b-[1px]">
                         <p>Tổng tiền hàng</p>
                         <span>
                             {numberFormatter(
@@ -62,7 +62,7 @@ function Info({ order }) {
                             )}
                         </span>
                     </div>
-                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal">
+                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal border-b-[1px]">
                         <p>Thuế (10%)</p>
                         <span>
                             {numberFormatter(
@@ -71,7 +71,7 @@ function Info({ order }) {
                             )}
                         </span>
                     </div>
-                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal">
+                    <div className="flex justify-between gap-[11rem] text-[1.6rem] font-normal border-b-[1px]">
                         <p>Phí vận chuyển</p>
                         <span>{numberFormatter(order?.shippingCost)}</span>
                     </div>

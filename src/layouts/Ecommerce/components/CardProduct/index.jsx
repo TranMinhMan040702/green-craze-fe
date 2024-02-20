@@ -36,7 +36,7 @@ function CardProduct({ product }) {
         error: (err) => {
             let description = 'Có lỗi xảy ra khi thêm sản phẩm vào danh sách yêu thích';
             let detail = err?.response?.data?.detail;
-            if(detail?.includes('already')) {
+            if (detail?.includes('already')) {
                 description = `Sản phẩm "${product.name}" đã tồn tại trong danh sách yêu thích`;
             }
             notification.error({
@@ -55,7 +55,6 @@ function CardProduct({ product }) {
     return (
         <Card
             onClick={() => navigate(`${config.routes.web.product_detail}/${product.slug}`)}
-            hoverable
             className="card-product"
             style={{
                 width: '100%',
@@ -89,14 +88,16 @@ function CardProduct({ product }) {
                     )}
                 </div>
                 <Tooltip placement="bottom" title="Yêu thích">
-                    <FontAwesomeIcon
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onFollowProduct();
-                        }}
-                        className="price-color transition-all delay-[0.3] text-[2.4rem] text-end hidden heart"
-                        icon={faHeart}
-                    />
+                    <div className="heart">
+                        <FontAwesomeIcon
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onFollowProduct();
+                            }}
+                            className="price-color text-[2.4rem] text-end"
+                            icon={faHeart}
+                        />
+                    </div>
                 </Tooltip>
             </div>
         </Card>
