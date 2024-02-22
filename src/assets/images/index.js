@@ -33,6 +33,7 @@ const images = {
     review_empty: require('../../../src/assets/images/review/review-empty.png'),
     not_found: require('../../../src/assets/images/not-found.png'),
     forbidden: require('../../../src/assets/images/forbidden.png'),
+    product_empty: require('../../../src/assets/images/product-empty.png'),
 };
 
 export default images;

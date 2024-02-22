@@ -11,6 +11,10 @@ export const useGetListProduct = (params) => {
     return useFetch({ url: apiRoutes.admin.product, params, key: 'getList' });
 };
 
+export const useGetListProductForAdmin = (params) => {
+    return useFetch({ url: apiRoutes.admin.product + '/admin', params, key: 'getListAdmin' });
+};
+
 export const useGetListFilteringProduct = (params) => {
     return useFetch({ url: apiRoutes.admin.product + '/filter', params, key: 'getFilteringList' });
 };

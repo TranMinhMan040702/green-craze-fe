@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
-import { useDeleteProduct, useGetListProduct } from '../../../hooks/api';
+import { useDeleteProduct, useGetListProduct, useGetListProductForAdmin } from '../../../hooks/api';
 import ProductDetail from './ProductDetail';
 
 const baseColumns = [
@@ -165,7 +165,7 @@ function transformData(dt, navigate, setIsDetailOpen, setIsDisableOpen) {
 }
 
 function Data({ setProductIds, params, setParams }) {
-    const { isLoading, data } = useGetListProduct(params);
+    const { isLoading, data } = useGetListProductForAdmin(params);
     const navigate = useNavigate();
     const [tdata, setTData] = useState([]);
     const [tableParams, setTableParams] = useState({

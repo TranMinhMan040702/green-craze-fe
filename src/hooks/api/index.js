@@ -89,9 +89,10 @@ export {
 } from './useProductCategoryApi.js';
 
 export {
+    useGetListProduct,
+    useGetListProductForAdmin,
     useGetListSearchingProduct,
     useGetListFilteringProduct,
-    useGetListProduct,
     useGetProduct,
     useCreateProduct,
     useUpdateProduct,

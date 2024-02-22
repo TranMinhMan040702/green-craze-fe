@@ -52,7 +52,12 @@ function Product({ params, setParams, categoryName }) {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center text-[2rem]">Không có sản phẩm nào</div>
+                        <div className="text-center">
+                            <div>
+                                <img className="mx-auto" src={images.product_empty} />
+                            </div>
+                            <p className="text-[2.4rem]">Không có sản phẩm</p>
+                        </div>
                     )
                 ) : (
                     <div className="text-center">
