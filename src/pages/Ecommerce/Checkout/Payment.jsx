@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useCreateOrder, useGetListPaymentMethod } from '../../../hooks/api';
 
-function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartItems }) {
+function Payment({ chosenAddress, chosenDelivery, totalCartPrice, chosenCartItems }) {
     const [chosenPaymentMethod, setChosenPaymentMethod] = useState(null);
     const { data, isLoading } = useGetListPaymentMethod({
         status: true,
@@ -57,6 +57,7 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
             paymentMethodId: chosenPaymentMethod?.id,
             deliveryId: chosenDelivery?.id,
             items: chosenCartItems,
+            addressId: chosenAddress?.id,
         });
     };
 
@@ -129,14 +130,14 @@ function Payment({ defaultAddress, chosenDelivery, totalCartPrice, chosenCartIte
                     onClick={onCreateOrder}
                     loading={processing}
                     disabled={
-                        !defaultAddress ||
+                        !chosenAddress ||
                         chosenCartItems?.length === 0 ||
                         !chosenDelivery ||
                         !chosenPaymentMethod
                     }
                     className={`w-[21rem] h-[3.6rem] md:ml-[2.5rem] max-md:mb-[1rem] text-[1.8rem] font-normal bg-[#FF5722] text-white border-none rounded-md
                     ${
-                        (!defaultAddress ||
+                        (!chosenAddress ||
                             chosenCartItems?.length === 0 ||
                             !chosenDelivery ||
                             !chosenPaymentMethod) &&

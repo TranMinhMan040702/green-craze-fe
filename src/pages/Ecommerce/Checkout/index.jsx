@@ -7,7 +7,7 @@ import './checkout.scss';
 import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 
 function CheckoutPage() {
-    const [defaultAddress, setDefaultAddress] = useState(null);
+    const [chosenAddress, setChosenAddress] = useState(null);
     const [chosenDelivery, setChosenDelivery] = useState(null);
     const [totalCartPrice, setTotalCartPrice] = useState(null);
     const [chosenCartItems, setChosenCartItems] = useState([]);
@@ -16,7 +16,10 @@ function CheckoutPage() {
         <>
             <BreadCrumb routes={[{ title: 'Thanh toán' }]} />
             <div className="w-[80%] mx-auto checkout-container pt-[5.6rem] pb-[10rem]">
-                <OrderAddress setDefaultAddress={setDefaultAddress} />
+                <OrderAddress 
+                    chosenAddress={chosenAddress} 
+                    setChosenAddress={setChosenAddress} 
+                />
                 <OrderProducts
                     setChosenCartItems={setChosenCartItems}
                     setTotalCartPrice={setTotalCartPrice}
@@ -27,7 +30,7 @@ function CheckoutPage() {
                 />
                 <Payment
                     chosenCartItems={chosenCartItems}
-                    defaultAddress={defaultAddress}
+                    chosenAddress={chosenAddress}
                     chosenDelivery={chosenDelivery}
                     totalCartPrice={totalCartPrice}
                 />
