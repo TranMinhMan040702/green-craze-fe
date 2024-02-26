@@ -3,13 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import config from '../../../config';
 import { useGetDefaultAddress } from '../../../hooks/api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ChangeOrderAddressModal from './ChangeOrderAddressModal';
 
-function OrderAddress({ setDefaultAddress }) {
+function OrderAddress({ setChosenAddress, chosenAddress }) {
     const { data, isLoading } = useGetDefaultAddress();
     useEffect(() => {
-        setDefaultAddress(data?.data);
+        if(isLoading)
+            return;
+        setChosenAddress(data?.data);
     }, [data, isLoading]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <div className="address-container">
             <div className="top"></div>
@@ -18,26 +24,32 @@ function OrderAddress({ setDefaultAddress }) {
                     <FontAwesomeIcon icon={faLocationDot} />
                     <p className="">Địa chỉ nhận hàng</p>
                 </div>
-                {data?.data ? (
+                {chosenAddress ? (
                     <div className="flex items-center justify-between gap-[5rem] mt-[2rem]">
                         <div className="flex">
                             <span className="text-black text-[1.6rem] font-medium mr-[1rem]">
-                                {data?.data?.receiver}
+                                {chosenAddress?.receiver}
                             </span>
                             <span className="text-black text-[1.6rem] font-medium mr-[2rem]">
-                                {data?.data?.phone}
+                                {chosenAddress?.phone}
                             </span>
                         </div>
                         <span className="text-black text-[1.6rem] font-normal">
-                            {`${data?.data?.street}, ${data?.data?.ward?.name}, ${data?.data?.district?.name}, ${data?.data?.province?.name}`}
+                            {`${chosenAddress?.street}, ${chosenAddress?.ward?.name}, ${chosenAddress?.district?.name}, ${chosenAddress?.province?.name}`}
                         </span>
                         <div>
-                            <NavLink
-                                to={config.routes.web.address}
-                                className="text-blue-800 text-[1.6rem] font-normal"
+                            <p
+                                onClick={() => setIsModalOpen(true)}
+                                className="text-blue-800 text-[1.6rem] font-normal cursor-pointer"
                             >
                                 Thay đổi
-                            </NavLink>
+                            </p>
+                            <ChangeOrderAddressModal
+                                isModalOpen={isModalOpen}
+                                chosenAddress={chosenAddress}
+                                setChosenAddress={setChosenAddress}
+                                setIsModalOpen={setIsModalOpen}
+                            />
                         </div>
                     </div>
                 ) : (

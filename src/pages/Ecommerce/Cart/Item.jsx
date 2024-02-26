@@ -8,19 +8,29 @@ import ConfirmPrompt from '../../../layouts/Admin/components/ConfirmPrompt';
 
 function Item({ cartItem }) {
     const [count, setCount] = useState(cartItem?.quantity);
+    const [quantity, setQuantity] = useState(cartItem?.quantity);
+
+    const [isUpdating, setIsUpdating] = useState(false);
+
     const [isRemoveOpen, setIsRemoveOpen] = useState({
         id: cartItem?.id,
         isOpen: false,
     });
     const mutateUpdate = useUpdateCartQuantity({
         success: (data) => {
+            setIsUpdating(false);
         },
         error: (error) => {
             notification.error({
                 message: 'Không thể cập nhật số lượng sản phẩm',
                 description: 'Có thể do số lượng trong kho không đủ!',
             });
-            // setCount(cartItem?.quantity);
+            setCount(cartItem?.quantity);
+            setQuantity(cartItem?.quantity);
+            setIsUpdating(false);
+        },
+        mutate: (data) => {
+            setIsUpdating(true);
         },
         obj: {
             params: {
@@ -36,10 +46,8 @@ function Item({ cartItem }) {
                 localStorage.setItem('chosenCartItems', JSON.stringify(chosenItems));
             }
             setIsRemoveOpen({ ...isRemoveOpen, isOpen: false });
-            // console.log(data);
         },
         error: (error) => {
-            // console.log(error);
             setIsRemoveOpen({ ...isRemoveOpen, isOpen: false });
         },
         obj: {
@@ -49,7 +57,7 @@ function Item({ cartItem }) {
         },
     });
     useEffect(() => {
-        if (count < 1) return;
+        if (count < 1 || count === cartItem?.quantity) return;
 
         async function updateCartItem() {
             await mutateUpdate.mutateAsync({
@@ -65,6 +73,7 @@ function Item({ cartItem }) {
 
     useEffect(() => {
         setCount(cartItem?.quantity);
+        setQuantity(cartItem?.quantity);
     }, [cartItem]);
 
     const onDelete = async (id) => {
@@ -72,18 +81,26 @@ function Item({ cartItem }) {
     };
     const onIncrease = () => {
         setCount((value) => value + 1);
+        setQuantity((value) => value + 1);
     };
     const onDescrease = () => {
         if (count <= 1) setIsRemoveOpen({ ...isRemoveOpen, isOpen: true });
-        else setCount(count - 1);
+        else {
+            setCount(count - 1);
+            setQuantity(count - 1);
+        }
     };
     const onChange = (e) => {
         if (Number.parseInt(e.target.value) < 1) {
-            setCount(1);
+            setQuantity(1);
             return;
         }
-        !isNaN(e.target.value) && setCount(Number.parseInt(e.target.value));
+        !isNaN(e.target.value) && setQuantity(Number.parseInt(e.target.value));
     };
+
+    const onInputBlur = () => {
+        setCount(quantity);
+    }
 
     return (
         <div
@@ -128,20 +145,24 @@ function Item({ cartItem }) {
                     </p>
                     <div className="flex items-center gap-[0.7rem] mt-[1.2rem]">
                         <button
+                            disabled={isUpdating}
                             onClick={onDescrease}
                             className="h-[2.5rem] w-[2.5rem] rounded-[4px] bg-white text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
                         >
                             -
                         </button>
                         <Input
+                            disabled={isUpdating}
+                            onBlur={onInputBlur}
                             onChange={onChange}
                             className="w-[5rem] h-[2.5rem] rounded-[4px] focus:outline-none focus-within:border-none text-center text-black border-none text-[1.5rem] font-medium shadow-[0px_0px_2px_0px_#0000004D]"
-                            value={count}
+                            value={quantity}
                             min={1}
                         />
                         <button
+                            disabled={isUpdating}
                             onClick={onIncrease}
-                            className="h-[2.5rem] w-[2.5rem] rounded-[4px] bg-white cursor-pointer text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
+                            className="h-[2.5rem] w-[2.5rem] rounded-[4px] bg-white text-black border-none shadow-[0px_0px_2px_0px_#0000004D]"
                         >
                             +
                         </button>

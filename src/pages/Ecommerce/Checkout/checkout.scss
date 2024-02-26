@@ -56,3 +56,15 @@
 }
 .paypal-payment-container {
 }
+.ant-modal-content {
+    .ant-modal-body{
+        .ant-radio-group {
+            .radio-address-item{
+                display: flex;
+                span:last-child {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+}
