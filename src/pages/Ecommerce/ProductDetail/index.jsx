@@ -9,6 +9,7 @@ import config from '../../../config';
 import { useEffect, useState } from 'react';
 import BreadCrumb from '../../../layouts/Ecommerce/components/Breadcrumb';
 import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
+import images from '../../../assets/images';
 
 function ProductDetailPage() {
     let { slug } = useParams();
@@ -43,7 +44,12 @@ function ProductDetailPage() {
                             <Review product={data?.data} />
                         </>
                     ) : (
-                        <div className="text-center text-[2rem]">Không tìm thấy sản phẩm</div>
+                        <div className="text-center">
+                            <div>
+                                <img className="mx-auto" src={images.product_empty} />
+                            </div>
+                            <p className="text-[2.4rem]">Không có sản phẩm</p>
+                        </div>
                     )}
                 </div>
             </div>
