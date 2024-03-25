@@ -54,6 +54,8 @@ const routes = {
         payment_method_update: '/admin/payment-methods/update',
         // Transaction
         transaction: '/admin/transactions',
+        // Chat
+        chat: '/admin/chats',
     },
     web: {
         home: '',

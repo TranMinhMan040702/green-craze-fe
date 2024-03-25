@@ -19,6 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <GlobalStyles>
                         <App />
                         <FloatButton
+                            style={{
+                                right: 24
+                            }}
                             icon={<ArrowUpOutlined />}
                             className="transition-all bg-yellow-200 border-[1px]"
                             onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
