@@ -1,27 +1,22 @@
-import { Button } from 'antd';
+import { useEffect, useRef } from 'react';
+import Message from './Message';
 
-function ChatBody({ setIsNewChat, isNewChat }) {
+function ChatBody({ messages }) {
+    const messagesEndRef = useRef(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
     return (
         <div className="overflow-y-scroll">
             <div className="bg-[#f3f3f3] min-h-[50rem] grow flex flex-col justify-end gap-[1.5rem] py-[1rem] px-[1.3rem]">
-                {!isNewChat ? (
-                    <>
-                        <div className="bg-white border border-black p-4 w-[90%] rounded-xl flex flex-col">
-                            <div className=" text-[1.4rem]">Hello bạn nha</div>
-                            <div className="self-end text-[1.2rem]">21:50</div>
-                        </div>
-                        <div className="bg-[--primary-color] p-4 text-white w-[90%] self-end rounded-xl flex flex-col">
-                            <div className=" text-[1.4rem]">Hello chào shop cc</div>
-                            <div className="self-end text-[1.2rem]">21:50</div>
-                        </div>
-                    </>
-                ) : (
-                    <div className="self-center">
-                        <Button className="bg-[--primary-color] text-white border-[--primary-color]">
-                            Bắt đầu chat
-                        </Button>
-                    </div>
-                )}
+                {messages?.map((message) => {
+                    return <Message message={message} key={message.id} />;
+                })}
+                <div ref={messagesEndRef} />
             </div>
         </div>
     );

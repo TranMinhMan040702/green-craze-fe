@@ -1,15 +1,55 @@
 import { FileImageOutlined, SendOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import { useState } from 'react';
+import { useStompClient, useSubscription } from 'react-stomp-hooks';
+import { getUserId } from '../../../../utils/storage';
 
-function ChatFooter() {
+function ChatFooter({ roomId, setMessages }) {
+    let userId = getUserId();
+    const stompClient = useStompClient();
+
     const [image, setImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [text, setText] = useState('');
 
     const onCloseImage = () => {
         setImageFile(null);
         setImage(null);
     };
+
+    const onSendMessage = () => {
+        if (!text && !imageFile) return;
+        if (stompClient) {
+            console.log(text);
+            console.log(stompClient);
+            stompClient.publish({
+                destination: `/app/chat/send/${userId}`,
+                body: {
+                    userId: userId,
+                    roomId: roomId,
+                    image: imageFile,
+                    status: false,
+                    content: text,
+                },
+            });
+            setText('');
+            setImage(null);
+            setImageFile(null);
+        }
+    };
+
+    useSubscription(`/chat/receive/${userId}`, (message) => {
+        setMessages((messages) => [
+            ...messages,
+            {
+                id: message.id,
+                content: message.content,
+                status: message.status,
+                image: message.image,
+                isMe: message.userId == userId,
+            },
+        ]);
+    });
 
     return (
         <div>
@@ -41,6 +81,8 @@ function ChatFooter() {
             )}
             <div className="relative py-[2rem] z-2000 bg-[#ffffff] h-[5rem] flex items-center">
                 <input
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
                     type="text"
                     placeholder="Nhập nội dung tin nhắn . . ."
                     className="w-full pl-[2rem] outline-none ring-0 border-none text-[1.6rem]"
@@ -63,7 +105,10 @@ function ChatFooter() {
                         className="cursor-pointer"
                         onClick={() => document.querySelector('.image-file-input').click()}
                     />
-                    <SendOutlined className="text-[--primary-color] cursor-pointer" />
+                    <SendOutlined
+                        className="text-[--primary-color] cursor-pointer"
+                        onClick={onSendMessage}
+                    />
                 </div>
             </div>
         </div>

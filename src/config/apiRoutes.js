@@ -18,6 +18,7 @@ const apiRoutes = {
         review: '/api/reviews',
         address: '/api/addresses',
         order: '/api/orders',
+        chat: 'api/chat'
     },
     admin: {
         unit: '/api/units',

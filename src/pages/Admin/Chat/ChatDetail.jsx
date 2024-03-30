@@ -1,33 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 import ChatForm from './ChatForm';
 import Message from './Message';
+import { useGetAllMessagesByRoomId } from '../../../hooks/api';
+import { useStompClient } from 'react-stomp-hooks';
 
 function ChatDetail({ chat }) {
-    const [loading, setLoading] = useState(false);
-    const [messages, setMessages] = useState([
-        {
-            messageId: 1,
-            isMe: true,
-            text: 'Hello there!',
-            image: null,
-            userAvatar: 'https://picsum.photos/536/354',
-        },
-        {
-            messageId: 2,
-            isMe: false,
-            text: 'Hello!',
-            image: 'https://picsum.photos/536/354',
-            userAvatar: 'https://picsum.photos/536/354',
-        },
-    ]);
+    const stompClient = useStompClient();
+    const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [image, setImage] = useState(null);
+
     const divRef = useRef(null);
+
+    const { data, isLoading } = useGetAllMessagesByRoomId(chat.chatId);
 
     useEffect(() => {
         if (divRef.current) divRef.current.scrollIntoView({ behavior: 'smooth' });
     });
+
+    useEffect(() => {
+        if (isLoading || !data) return;
+        setMessages(
+            data?.data?.map((m) => {
+                return {
+                    messageId: m.id,
+                    text: m.content,
+                    status: m.status,
+                    image: m.image,
+                    isMe: m.userId == getUserId(),
+                };
+            }),
+        );
+    }, [data, isLoading]);
 
     const onChange = (e) => {
         setText(e.target.value);
@@ -37,10 +42,36 @@ function ChatDetail({ chat }) {
         let file = null;
         file = imageFile;
         if ((text == null || text == '') && file == null) return;
-        setImage(null);
-        setImageFile(null);
-        setText('');
+        if (stompClient) {
+            stompClient.publish({
+                destination: `/send/${chat.userId}`,
+                body: {
+                    userId: getUserId(),
+                    roomId: chat.chatId,
+                    image: imageFile,
+                    status: false,
+                    content: text,
+                },
+            });
+            setImage(null);
+            setImageFile(null);
+            setText('');
+        }
     };
+
+    useSubscription(`/chat/receive/${chat.userId}`, (message) => {
+        setMessages((messages) => [
+            ...messages,
+            {
+                id: message.id,
+                content: message.content,
+                status: message.status,
+                image: message.image,
+                isMe: message.userId == userId,
+            },
+        ]);
+    });
+
     return (
         <div>
             <div class="flex flex-col h-[62.5rem]">
@@ -77,7 +108,7 @@ function ChatDetail({ chat }) {
                         </button>
                     </div>
                 </div>
-                {loading ? (
+                {isLoading ? (
                     <div class="flex justify-center space-x-2 animate-pulse">
                         <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
                         <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
@@ -85,9 +116,7 @@ function ChatDetail({ chat }) {
                     </div>
                 ) : (
                     <div className="h-full">
-                        <div
-                            class="h-full flex flex-col justify-end space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-                        >
+                        <div class="h-full flex flex-col justify-end space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                             {messages.map((m) => {
                                 return <Message message={m} key={m.messageId} />;
                             })}
