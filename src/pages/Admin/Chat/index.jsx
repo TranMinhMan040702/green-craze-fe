@@ -9,7 +9,7 @@ function ChatPage({ chat }) {
     const [chosenChat, setChosenChat] = useState(-1);
     const [chats, setChats] = useState([]);
 
-    const { data, isLoading } = useGetAllRoom();
+    const { data, isLoading, refetch: refetchAllRoom } = useGetAllRoom();
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -20,8 +20,9 @@ function ChatPage({ chat }) {
                     chatId: c.id,
                     avatar: 'https://picsum.photos/536/354',
                     name: c.name,
-                    lastMessage: c.lastMessage,
-                    userId: c.userId
+                    lastMessage: c.message?.content || (c.message?.image && 'Đã gửi một ảnh'),
+                    userId: c.userId,
+                    isUnread: !c.message?.status && c.message?.userId !== 'ADMIN',
                 };
             }),
         );
@@ -38,7 +39,12 @@ function ChatPage({ chat }) {
                         <SearchBar onChatClick={onChatClick} />
                         {chats.map((c) => {
                             return (
-                                <UserChat key={c.chatId} chat={c} setChosenChat={setChosenChat} />
+                                <UserChat
+                                    key={c.chatId}
+                                    chat={c}
+                                    setChosenChat={setChosenChat}
+                                    refetchAllRoom={refetchAllRoom}
+                                />
                             );
                         })}
                     </div>

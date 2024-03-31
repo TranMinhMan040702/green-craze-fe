@@ -5,7 +5,7 @@ import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { getUserId } from '../../../../utils/storage';
 import { useSendMessageWithImage } from '../../../../hooks/api/useChat';
 
-function ChatFooter({ roomId, setMessages }) {
+function ChatFooter({ roomId, setMessages, messages }) {
     let userId = getUserId();
     const stompClient = useStompClient();
 
@@ -18,7 +18,7 @@ function ChatFooter({ roomId, setMessages }) {
         setImage(null);
     };
 
-    const mutationCreate = useSendMessageWithImage({
+    const mutationCreateMessageWithImage = useSendMessageWithImage({
         success: () => {},
         error: (err) => {
             console.log(err.message);
@@ -36,7 +36,8 @@ function ChatFooter({ roomId, setMessages }) {
             formData.append('image', imageFile);
             formData.append('status', false);
             formData.append('content', text);
-            await mutationCreate.mutateAsync(formData);
+            await mutationCreateMessageWithImage.mutateAsync(formData);
+
             setText('');
             setImage(null);
             setImageFile(null);
@@ -44,8 +45,6 @@ function ChatFooter({ roomId, setMessages }) {
         }
 
         if (stompClient) {
-            console.log(text);
-            console.log(stompClient);
             stompClient.publish({
                 destination: `/app/send/message`,
                 body: JSON.stringify({
@@ -63,17 +62,19 @@ function ChatFooter({ roomId, setMessages }) {
         }
     };
 
-    useSubscription(`/chat/receive/${userId}`, (message) => {
-        setMessages((messages) => [
+    useSubscription(`/chat/receive/${userId}`, (content) => {
+        let message = JSON.parse(content.body);
+        let currentMessages = [
             ...messages,
             {
-                id: message.id,
-                content: message.content,
+                messageId: message.id,
+                text: message.content,
                 status: message.status,
                 image: message.image,
                 isMe: message.userId == userId,
             },
-        ]);
+        ];
+        setMessages(currentMessages);
     });
 
     return (

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import ChatForm from './ChatForm';
 import Message from './Message';
-import { useGetAllMessagesByRoomId } from '../../../hooks/api';
-import { useStompClient } from 'react-stomp-hooks';
+import { useGetAllMessagesByRoomId, useSendMessageWithImage } from '../../../hooks/api';
+import { useStompClient, useSubscription } from 'react-stomp-hooks';
+import { getUserId } from '../../../utils/storage';
 
 function ChatDetail({ chat }) {
     const stompClient = useStompClient();
@@ -14,6 +15,13 @@ function ChatDetail({ chat }) {
     const divRef = useRef(null);
 
     const { data, isLoading } = useGetAllMessagesByRoomId(chat.chatId);
+
+    const mutationCreateMessageWithImage = useSendMessageWithImage({
+        success: () => {},
+        error: (err) => {
+            console.log(err.message);
+        },
+    });
 
     useEffect(() => {
         if (divRef.current) divRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -28,7 +36,7 @@ function ChatDetail({ chat }) {
                     text: m.content,
                     status: m.status,
                     image: m.image,
-                    isMe: m.userId == getUserId(),
+                    isMe: m.userId == 'ADMIN',
                 };
             }),
         );
@@ -38,50 +46,65 @@ function ChatDetail({ chat }) {
         setText(e.target.value);
     };
 
-    const onSend = async () => {
-        let file = null;
-        file = imageFile;
-        if ((text == null || text == '') && file == null) return;
-        if (stompClient) {
-            stompClient.publish({
-                destination: `/send/${chat.userId}`,
-                body: {
-                    userId: getUserId(),
-                    roomId: chat.chatId,
-                    image: imageFile,
-                    status: false,
-                    content: text,
-                },
-            });
+    const onSendMessage = async () => {
+        if (!text && !imageFile) return;
+
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append('destination', chat.userId);
+            formData.append('userId', 'ADMIN');
+            formData.append('roomId', chat.chatId);
+            formData.append('image', imageFile);
+            formData.append('status', false);
+            formData.append('content', text);
+            await mutationCreateMessageWithImage.mutateAsync(formData);
+
+            setText('');
             setImage(null);
             setImageFile(null);
+            return;
+        }
+
+        if (stompClient) {
+            stompClient.publish({
+                destination: `/app/send/message`,
+                body: JSON.stringify({
+                    destination: chat.userId,
+                    userId: 'ADMIN',
+                    roomId: chat.chatId,
+                    image: null,
+                    status: false,
+                    content: text,
+                }),
+            });
             setText('');
+            setImage(null);
+            setImageFile(null);
         }
     };
 
-    useSubscription(`/chat/receive/${chat.userId}`, (message) => {
-        setMessages((messages) => [
+    useSubscription(`/chat/receive/${chat.userId}`, (content) => {
+        let message = JSON.parse(content.body);
+        let currentMessages = [
             ...messages,
             {
-                id: message.id,
-                content: message.content,
+                messageId: message.id,
+                text: message.content,
                 status: message.status,
                 image: message.image,
-                isMe: message.userId == userId,
+                isMe: message.userId == 'ADMIN',
             },
-        ]);
+        ];
+        setMessages(currentMessages);
     });
 
     return (
-        <div>
+        <div className="">
             <div class="flex flex-col h-[62.5rem]">
                 <div class="flex sm:items-center justify-between px-[1rem] py-[1.6rem] border-b border-gray-200">
                     <div class="relative flex items-center space-x-4">
-                        <div class="relative">
-                            <img src={chat?.avatar} alt="" class="w-16 h-16 rounded-full" />
-                        </div>
                         <div class="flex flex-col leading-tight">
-                            <div class="text-2xl mt-1 flex items-center">
+                            <div class="text-2xl mt-1 ml-3 flex items-center">
                                 <span class="text-gray-700 mr-3 font-bold">{chat?.name}</span>
                             </div>
                         </div>
@@ -115,12 +138,12 @@ function ChatDetail({ chat }) {
                         <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
                     </div>
                 ) : (
-                    <div className="h-full">
-                        <div class="h-full flex flex-col justify-end space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+                    <div className="h-full overflow-y-scroll">
+                        <div class="flex flex-col justify-end space-y-4 p-3 min-h-[50rem] scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                             {messages.map((m) => {
                                 return <Message message={m} key={m.messageId} />;
                             })}
-                            {/* <div ref={divRef} /> */}
+                            <div ref={divRef} />
                         </div>
                     </div>
                 )}
@@ -131,7 +154,7 @@ function ChatDetail({ chat }) {
                 setImageFile={setImageFile}
                 text={text}
                 onChange={onChange}
-                onSend={onSend}
+                onSend={onSendMessage}
             />
         </div>
     );

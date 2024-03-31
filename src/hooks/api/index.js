@@ -203,4 +203,5 @@ export {
     useGetMessagesByUserId,
     useGetAllRoom,
     useGetAllMessagesByRoomId,
+    useSendMessageWithImage
 } from './useChat.js';

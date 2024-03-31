@@ -12,7 +12,7 @@ function ChatBody({ messages }) {
     }, [messages]);
     return (
         <div className="overflow-y-scroll">
-            <div className="bg-[#f3f3f3] min-h-[50rem] grow flex flex-col justify-end gap-[1.5rem] py-[1rem] px-[1.3rem]">
+            <div className="bg-[#f3f3f3] min-h-[40rem] grow flex flex-col justify-end gap-[1.5rem] py-[1rem] px-[1.3rem]">
                 {messages?.map((message) => {
                     return <Message message={message} key={message.id} />;
                 })}

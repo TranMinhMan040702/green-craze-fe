@@ -1,5 +1,6 @@
 import { FileImageOutlined, SendOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
+import { useSendMessageWithImage } from '../../../hooks/api/useChat';
 
 function ChatForm({ text, onChange, onSend, setImageFile, image, setImage }) {
     const onCloseImage = () => {
@@ -64,7 +65,10 @@ function ChatForm({ text, onChange, onSend, setImageFile, image, setImage }) {
                             onClick={() => document.querySelector('.image-file-input').click()}
                             className="cursor-pointer"
                         />
-                        <SendOutlined className="text-[--primary-color] cursor-pointer" />
+                        <SendOutlined
+                            onClick={onSend}
+                            className="text-[--primary-color] cursor-pointer"
+                        />
                     </div>
                 </div>
             </div>

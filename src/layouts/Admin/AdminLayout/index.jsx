@@ -1,10 +1,11 @@
 import './adminlayout.scss';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import ChatWSGlobalWrapper from '../../../components/ChatWSGlobalWrapper';
 
 function AdminLayout({ children }) {
     return (
-        <>
+        <ChatWSGlobalWrapper>
             <Header />
             <div className="main pt-[58px]">
                 <div className="grid grid-cols-12">
@@ -21,7 +22,7 @@ function AdminLayout({ children }) {
                     </div>
                 </div>
             </div>
-        </>
+        </ChatWSGlobalWrapper>
     );
 }
 
