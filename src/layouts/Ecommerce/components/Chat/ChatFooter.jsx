@@ -3,6 +3,7 @@ import { Image } from 'antd';
 import { useState } from 'react';
 import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { getUserId } from '../../../../utils/storage';
+import { useSendMessageWithImage } from '../../../../hooks/api/useChat';
 
 function ChatFooter({ roomId, setMessages }) {
     let userId = getUserId();
@@ -17,20 +18,44 @@ function ChatFooter({ roomId, setMessages }) {
         setImage(null);
     };
 
-    const onSendMessage = () => {
+    const mutationCreate = useSendMessageWithImage({
+        success: () => {},
+        error: (err) => {
+            console.log(err.message);
+        },
+    });
+
+    const onSendMessage = async () => {
         if (!text && !imageFile) return;
+
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append('destination', userId);
+            formData.append('userId', userId);
+            formData.append('roomId', roomId);
+            formData.append('image', imageFile);
+            formData.append('status', false);
+            formData.append('content', text);
+            await mutationCreate.mutateAsync(formData);
+            setText('');
+            setImage(null);
+            setImageFile(null);
+            return;
+        }
+
         if (stompClient) {
             console.log(text);
             console.log(stompClient);
             stompClient.publish({
-                destination: `/app/chat/send/${userId}`,
-                body: {
+                destination: `/app/send/message`,
+                body: JSON.stringify({
+                    destination: userId,
                     userId: userId,
                     roomId: roomId,
-                    image: imageFile,
+                    image: null,
                     status: false,
                     content: text,
-                },
+                }),
             });
             setText('');
             setImage(null);

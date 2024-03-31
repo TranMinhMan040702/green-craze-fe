@@ -1,6 +1,10 @@
 import apiRoutes from '../../config/apiRoutes';
-import { useFetch, usePost } from '../../utils/reactQuery';
+import { useFetch, usePost, usePostForm } from '../../utils/reactQuery';
 import { getUserId } from '../../utils/storage';
+
+export const useSendMessageWithImage = (updater) => {
+    return usePostForm(apiRoutes.common.chat + '/send/message', updater);
+};
 
 export const useCreateRoomChat = (updater) => {
     return usePost(apiRoutes.common.chat + '/rooms', updater);
