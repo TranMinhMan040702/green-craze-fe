@@ -18,7 +18,7 @@ function Product() {
         setProducts(data?.data?.items);
     }, [isLoading, data]);
 
-    if (isLoading) return <WebLoading />;
+    // if (isLoading) return <WebLoading />;
 
     return (
         <div className="products">

@@ -43,7 +43,7 @@ function Header() {
                             </Link>
                         </li>
                         <li className="mr-[2rem] py-[0.5rem] px-[1rem] hover:bg-[--background-item-menu-color] rounded-[5px]">
-                            <Link className="flex items-center">
+                            <Link to={config.routes.admin.chat} className="flex items-center">
                                 <IconBrandMessenger className="h-[1.8rem]" />
                                 Tin nhắn
                             </Link>

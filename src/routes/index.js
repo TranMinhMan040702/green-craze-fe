@@ -51,6 +51,7 @@ import OTPVerificationPage from '../pages/Ecommerce/OTPVerification';
 import ForgotPasswordPage from '../pages/Ecommerce/ForgotPassword';
 import AdminProfilePage from '../pages/Admin/Profile';
 import ContactPage from '../pages/Ecommerce/Contact';
+import ChatPage from '../pages/Admin/Chat';
 
 const privateRoutes = [
     // Admin Layout
@@ -341,6 +342,14 @@ const privateRoutes = [
         layout: AdminLayout,
         roles: ['ADMIN'],
         private: true,
+    },
+    // Chat
+    {
+        path: config.routes.admin.chat,
+        component: ChatPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: false,
     },
     //================================================================//
     // Web Ecommerce Layout
