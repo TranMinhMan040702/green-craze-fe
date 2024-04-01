@@ -343,6 +343,14 @@ const privateRoutes = [
         roles: ['ADMIN'],
         private: true,
     },
+    // Chat
+    {
+        path: config.routes.admin.chat,
+        component: ChatPage,
+        layout: AdminLayout,
+        roles: ['ADMIN'],
+        private: false,
+    },
     //================================================================//
     // Web Ecommerce Layout
     {
@@ -485,13 +493,6 @@ const publicRoutes = [
         path: config.routes.web.contact,
         component: ContactPage,
         layout: EcommerceLayout,
-        roles: ['USER'],
-        private: false,
-    },
-    {
-        path: config.routes.admin.chat,
-        component: ChatPage,
-        layout: AdminLayout,
         roles: ['USER'],
         private: false,
     },

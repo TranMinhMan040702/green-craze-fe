@@ -1,11 +1,30 @@
 import { FileImageOutlined, SendOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
-import { useSendMessageWithImage } from '../../../hooks/api/useChat';
+import { useUpdateMessageStatus } from '../../../hooks/api';
 
-function ChatForm({ text, onChange, onSend, setImageFile, image, setImage }) {
+function ChatForm({
+    text,
+    onChange,
+    onSend,
+    setImageFile,
+    image,
+    setImage,
+    chatId,
+    refetchAllRoom
+}) {
     const onCloseImage = () => {
         setImageFile(null);
         setImage(null);
+    };
+
+    const mutateUpdateMessageStatus = useUpdateMessageStatus({
+        success: () => {
+            refetchAllRoom();
+        },
+    });
+
+    const onUpdateMessageStatus = async () => {
+        await mutateUpdateMessageStatus.mutateAsync({ id: chatId });
     };
 
     return (
@@ -41,6 +60,12 @@ function ChatForm({ text, onChange, onSend, setImageFile, image, setImage }) {
                 <input
                     type="text"
                     placeholder="Nhập tin nhắn..."
+                    onClick={onUpdateMessageStatus}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            onSend();
+                        }
+                    }}
                     value={text}
                     onChange={onChange}
                     className="w-full text-2xl py-[1rem] bg-slate-100 outline-none border-none focus:outline-none pl-12 rounded-3xl"

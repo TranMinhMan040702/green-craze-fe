@@ -3,9 +3,8 @@ import ChatForm from './ChatForm';
 import Message from './Message';
 import { useGetAllMessagesByRoomId, useSendMessageWithImage } from '../../../hooks/api';
 import { useStompClient, useSubscription } from 'react-stomp-hooks';
-import { getUserId } from '../../../utils/storage';
 
-function ChatDetail({ chat }) {
+function ChatDetail({ chat, refetchAllRoom }) {
     const stompClient = useStompClient();
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
@@ -14,7 +13,7 @@ function ChatDetail({ chat }) {
 
     const divRef = useRef(null);
 
-    const { data, isLoading } = useGetAllMessagesByRoomId(chat.chatId);
+    const { data, isLoading } = useGetAllMessagesByRoomId(chat?.chatId);
 
     const mutationCreateMessageWithImage = useSendMessageWithImage({
         success: () => {},
@@ -51,9 +50,9 @@ function ChatDetail({ chat }) {
 
         if (imageFile) {
             const formData = new FormData();
-            formData.append('destination', chat.userId);
+            formData.append('destination', chat?.userId);
             formData.append('userId', 'ADMIN');
-            formData.append('roomId', chat.chatId);
+            formData.append('roomId', chat?.chatId);
             formData.append('image', imageFile);
             formData.append('status', false);
             formData.append('content', text);
@@ -69,9 +68,9 @@ function ChatDetail({ chat }) {
             stompClient.publish({
                 destination: `/app/send/message`,
                 body: JSON.stringify({
-                    destination: chat.userId,
+                    destination: chat?.userId,
                     userId: 'ADMIN',
-                    roomId: chat.chatId,
+                    roomId: chat?.chatId,
                     image: null,
                     status: false,
                     content: text,
@@ -83,7 +82,7 @@ function ChatDetail({ chat }) {
         }
     };
 
-    useSubscription(`/chat/receive/${chat.userId}`, (content) => {
+    useSubscription(`/chat/receive/${chat?.userId}`, (content) => {
         let message = JSON.parse(content.body);
         let currentMessages = [
             ...messages,
@@ -155,6 +154,8 @@ function ChatDetail({ chat }) {
                 text={text}
                 onChange={onChange}
                 onSend={onSendMessage}
+                chatId={chat?.chatId}
+                refetchAllRoom={refetchAllRoom}
             />
         </div>
     );

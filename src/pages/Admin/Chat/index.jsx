@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import UserChat from './UserChat';
 import ChatDetail from './ChatDetail';
 import SearchBar from './SearchBar';
-import { useGetAllRoom } from '../../../hooks/api';
+import { useGetAllRoom, useUpdateMessageStatus } from '../../../hooks/api';
 
-function ChatPage({ chat }) {
+function ChatPage() {
     const [chosenChat, setChosenChat] = useState(-1);
     const [chats, setChats] = useState([]);
 
@@ -51,7 +51,10 @@ function ChatPage({ chat }) {
                 </Col>
                 {chosenChat != -1 ? (
                     <Col span={18} className="border">
-                        <ChatDetail chat={chats.find((c) => c.chatId === chosenChat)} />
+                        <ChatDetail
+                            chat={chats.find((c) => c.chatId === chosenChat)}
+                            refetchAllRoom={refetchAllRoom}
+                        />
                     </Col>
                 ) : null}
             </Row>

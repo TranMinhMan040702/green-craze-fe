@@ -3,9 +3,9 @@ import { Image } from 'antd';
 import { useState } from 'react';
 import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { getUserId } from '../../../../utils/storage';
-import { useSendMessageWithImage } from '../../../../hooks/api/useChat';
+import { useSendMessageWithImage } from '../../../../hooks/api';
 
-function ChatFooter({ roomId, setMessages, messages }) {
+function ChatFooter({ roomId, setMessages, messages, onUpdateMessageStatus }) {
     let userId = getUserId();
     const stompClient = useStompClient();
 
@@ -109,6 +109,12 @@ function ChatFooter({ roomId, setMessages, messages }) {
                 <input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
+                    onClick={onUpdateMessageStatus}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            onSendMessage();
+                        }
+                    }}
                     type="text"
                     placeholder="Nhập nội dung tin nhắn . . ."
                     className="w-full pl-[2rem] outline-none ring-0 border-none text-[1.6rem]"
@@ -119,6 +125,9 @@ function ChatFooter({ roomId, setMessages, messages }) {
                     accept="image/*"
                     className="image-file-input"
                     hidden
+                    onClick={(event) => {
+                        event.currentTarget.value = null;
+                    }}
                     onChange={({ target: { files } }) => {
                         files[0] && setImageFile(files[0]);
                         if (files && files[0]) {

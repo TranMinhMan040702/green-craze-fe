@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
-import { useGetMessagesByUserId } from "../../../hooks/api";
-import { getUserId } from "../../../utils/storage";
-import Chat from "../components/Chat";
-import { useSubscription } from "react-stomp-hooks";
-import { Badge } from "antd";
-import { WechatOutlined } from "@ant-design/icons";
+import { useEffect, useState } from 'react';
+import { useGetMessagesByUserId, useUpdateMessageStatus } from '../../../hooks/api';
+import { getUserId } from '../../../utils/storage';
+import Chat from '../components/Chat';
+import { useSubscription } from 'react-stomp-hooks';
+import { Badge } from 'antd';
+import { WechatOutlined } from '@ant-design/icons';
 
 function ChatBox({ showChat, setShowChat }) {
     const userId = getUserId();
     const [isNewMessage, setIsNewMessage] = useState(false);
 
     const { data, isLoading, refetch: refetchAllMessageByUserId } = useGetMessagesByUserId();
+
+    const mutateUpdateMessageStatus = useUpdateMessageStatus({
+        success: () => {
+            setShowChat(true);
+            refetchAllMessageByUserId();
+        },
+    });
 
     useEffect(() => {
         if (isLoading || !data) return;
@@ -21,11 +28,15 @@ function ChatBox({ showChat, setShowChat }) {
         refetchAllMessageByUserId();
     });
 
+    const onUpdateMessageStatus = async () => {
+        await mutateUpdateMessageStatus.mutateAsync({ id: data?.data?.id });
+    };
+
     return (
         <>
             {!showChat ? (
                 <div
-                    onClick={() => setShowChat(true)}
+                    onClick={onUpdateMessageStatus}
                     style={{
                         backgroundColor: isNewMessage ? 'var(--primary-color)' : '#fff',
                         color: isNewMessage ? 'white' : 'var(--primary-color)',
@@ -46,7 +57,7 @@ function ChatBox({ showChat, setShowChat }) {
                 </div>
             ) : (
                 <div className="relative">
-                    <Chat setShowChat={setShowChat} data={data} isLoading={isLoading} />
+                    <Chat setShowChat={setShowChat} data={data} isLoading={isLoading} onUpdateMessageStatus={onUpdateMessageStatus}/>
                 </div>
             )}
         </>

@@ -1,11 +1,20 @@
 import { Typography } from 'antd';
 import { useSubscription } from 'react-stomp-hooks';
+import { useUpdateMessageStatus } from '../../../hooks/api';
 const { Paragraph } = Typography;
 
-function UserChat({ setChosenChat, chat, refetchAllRoom }) {
-    const onChoosen = () => {
-        setChosenChat(chat?.chatId);
+function UserChat({ chat, refetchAllRoom, setChosenChat }) {
+    const onChoosen = async () => {
+        await mutateUpdateMessageStatus.mutateAsync({ id: chat?.chatId });
     };
+
+    const mutateUpdateMessageStatus = useUpdateMessageStatus({
+        success: () => {
+            setChosenChat(chat?.chatId);
+            refetchAllRoom();
+        },
+    });
+
     useSubscription(`/chat/receive/${chat.userId}`, (content) => {
         refetchAllRoom();
     });
@@ -24,7 +33,14 @@ function UserChat({ setChosenChat, chat, refetchAllRoom }) {
                     fontWeight: chat?.isUnread ? 'bold' : 'normal',
                 }}
             >
-                <div class="text-2xl mb-2 font-semibold">{chat?.name}</div>
+                <div
+                    style={{
+                        fontWeight: chat?.isUnread ? 'bold' : 'normal',
+                    }}
+                    className="text-2xl mb-2"
+                >
+                    {chat?.name}
+                </div>
                 <Paragraph
                     ellipsis={{
                         rows: 1,
@@ -34,7 +50,7 @@ function UserChat({ setChosenChat, chat, refetchAllRoom }) {
                 </Paragraph>
             </div>
             {chat?.isUnread ? (
-                <div className="bg-black p-0 w-[1.3rem] h-[1rem] rounded-full"></div>
+                <div className="bg-red-500 p-0 w-[1rem] h-[1rem] rounded-full"></div>
             ) : null}
         </div>
     );

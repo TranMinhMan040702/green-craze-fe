@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useGetMe } from '../../../../hooks/api';
 import { getUserId } from '../../../../utils/storage';
 
-function Chat({ setShowChat, data, isLoading }) {
+function Chat({ setShowChat, data, isLoading, onUpdateMessageStatus }) {
     let userId = getUserId();
     let currentUser = useGetMe();
     const [roomId, setRoomId] = useState(-1);
@@ -32,7 +32,7 @@ function Chat({ setShowChat, data, isLoading }) {
         <div className="chat-container flex flex-col fixed w-[40rem] h-[45rem] right-[8rem] bottom-[0rem] border">
             <ChatHeader setShowChat={setShowChat} />
             <ChatBody messages={messages} />
-            <ChatFooter roomId={roomId} setMessages={setMessages} messages={messages} />
+            <ChatFooter onUpdateMessageStatus={onUpdateMessageStatus} roomId={roomId} setMessages={setMessages} messages={messages} />
         </div>
     );
 }

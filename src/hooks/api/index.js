@@ -200,8 +200,9 @@ export {
 
 export {
     useCreateRoomChat,
+    useUpdateMessageStatus,
     useGetMessagesByUserId,
     useGetAllRoom,
     useGetAllMessagesByRoomId,
     useSendMessageWithImage
-} from './useChat.js';
+} from './useChatApi.js';
