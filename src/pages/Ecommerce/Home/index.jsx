@@ -6,6 +6,8 @@ import Product from './Product';
 import Quality from './Quality';
 import News from './News';
 import Partners from './Partners';
+import { isTokenStoraged } from '../../../utils/storage';
+import RecommendationProducts from './RecommendationProducts';
 
 function HomePage() {
     return (
@@ -14,6 +16,9 @@ function HomePage() {
                 <Banner />
                 <SlideCategory />
                 <Product />
+                {
+                    isTokenStoraged() && <RecommendationProducts />
+                }
                 <div className="w-full h-[340px] mt-[4rem] mb-[2rem]">
                     <img
                         className="w-full h-full object-cover object-top rounded-[5px] shadow-[2px_2px_3px_1px_rgba(0,0,0,0.15)]"

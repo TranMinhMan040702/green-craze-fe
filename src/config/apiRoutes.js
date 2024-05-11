@@ -42,6 +42,10 @@ const apiRoutes = {
         cart: '/api/carts',
         follow_product: '/api/user-follow-products',
         notification: '/api/notifications',
+        recommendation_products: {
+            user: '/api/recommendations/user',
+            product: '/api/recommendations/product',
+        },
     },
 };
 

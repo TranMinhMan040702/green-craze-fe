@@ -1,14 +1,11 @@
 import './recommentProduct.scss';
 import { Button } from 'antd';
 import CardProductRecomment from '../../components/CardProductRecomment';
-import { useGetListProduct } from '../../../../hooks/api';
+import { useGetListRecommendationByProduct } from '../../../../hooks/api';
 
-function RecommentProduct() {
-    const { data, isLoading } = useGetListProduct({
-        page: 1,
-        size: 5,
-        status: true,
-    });
+function RecommentProduct({ productId }) {
+    const { data, isLoading } = useGetListRecommendationByProduct(productId);
+
     return (
         <div className="recomment">
             <Button className="w-full h-[38px] text-white font-medium text-[1.6rem] text-star mb-[1.2rem] hover:border-none border-none">

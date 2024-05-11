@@ -43,7 +43,7 @@ function Description({ product }) {
                     </div>
                 </div>
                 <div className="col-span-3 max-lg:col-span-12 pl-[1rem]">
-                    <RecommentProduct />
+                    <RecommentProduct productId={product?.id} />
                 </div>
             </div>
         </div>
