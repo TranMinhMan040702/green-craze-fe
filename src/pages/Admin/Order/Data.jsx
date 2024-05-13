@@ -111,6 +111,8 @@ function Data() {
     const [params, setParams] = useState({
         page: 1,
         size: 5,
+        isSortAscending: false,
+        columnName: 'createdAt'
     });
     const [tdata, setTData] = useState([]);
     const navigate = useNavigate();

@@ -33,8 +33,8 @@ function Payment({ chosenAddress, chosenDelivery, totalCartPrice, chosenCartItem
             // });
             localStorage.removeItem('chosenCartItems');
             let url = config.routes.web.order;
-            if (chosenPaymentMethod?.name?.toLowerCase().includes('paypal'))
-                url = config.routes.web.checkout + '/payment/' + data?.data?.code;
+            // if (chosenPaymentMethod?.name?.toLowerCase().includes('paypal'))
+            //     url = config.routes.web.checkout + '/payment/' + data?.data?.code;
             navigate(url);
         },
         error: (e) => {
