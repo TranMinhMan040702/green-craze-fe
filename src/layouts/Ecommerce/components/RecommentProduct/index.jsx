@@ -1,11 +1,16 @@
 import './recommentProduct.scss';
 import { Button } from 'antd';
 import CardProductRecomment from '../../components/CardProductRecomment';
-import { useGetListRecommendationByProduct } from '../../../../hooks/api';
+import {
+    useGetListRecommendationByProduct,
+    useGetListRecommendationByUser,
+} from '../../../../hooks/api';
 import { useEffect, useState } from 'react';
 
 function RecommentProduct({ productId }) {
-    const { data, isLoading } = useGetListRecommendationByProduct(productId);
+    const { data, isLoading } = !!productId
+        ? useGetListRecommendationByProduct(productId)
+        : useGetListRecommendationByUser();
 
     const [products, setProducts] = useState([]);
 
@@ -13,6 +18,8 @@ function RecommentProduct({ productId }) {
         if (isLoading || !data) return;
         setProducts(data?.data);
     }, [isLoading, data]);
+
+    console.log(productId);
 
     return (
         <div className="recomment">
