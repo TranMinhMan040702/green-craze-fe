@@ -6,6 +6,7 @@ import { useGetListBrand, useGetListProductCategory } from '../../../hooks/api';
 import { useState } from 'react';
 import { MAX_PRICE, MIN_PRICE } from '../../../utils/constants';
 import { useLocation } from 'react-router-dom';
+import RecommendationProducts from '../Home/RecommendationProducts';
 
 const LIMIT = 5;
 
