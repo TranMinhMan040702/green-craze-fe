@@ -31,8 +31,8 @@ function ChatPage() {
     const onChatClick = (user) => {};
 
     return (
-        <div className="chat-container">
-            <Row>
+        <div className="chat-container h-full">
+            <Row className="h-full">
                 <Col span={6} className="border">
                     <h1 className="mb-0 pl-[1.5rem] font-bold">Chats</h1>
                     <div className=" min-h-[62rem]">
