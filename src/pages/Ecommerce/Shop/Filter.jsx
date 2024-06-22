@@ -17,6 +17,7 @@ function params({ params, setParams, categoryId }) {
 
     const { data: brandData } = useGetListBrand({
         status: true,
+        size: 1000,
     });
     const { data: categoryData } = useGetListProductCategory({
         status: true,

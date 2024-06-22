@@ -8,6 +8,7 @@ import './brand.scss';
 import config from '../../../config';
 import { useCreateBrand, useGetBrand, useUpdateBrand } from '../../../hooks/api';
 import SpinLoading from '../../../layouts/Ecommerce/components/SpinLoading';
+import generateCode from '../../../utils/generateCode';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -122,6 +123,13 @@ function BrandFormPage() {
         }
     };
 
+    const setCodeValue = (name) => {
+        const code = generateCode(name.target.value);
+        form.setFieldsValue({
+            code: code,
+        });
+    };
+
     if (isLoading && id)
         return (
             <div className="flex justify-center">
@@ -187,7 +195,7 @@ function BrandFormPage() {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input onChange={(v) => setCodeValue(v)} />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -201,7 +209,7 @@ function BrandFormPage() {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input disabled={true} className="text-black" />
                             </Form.Item>
                         </Col>
                     </Row>

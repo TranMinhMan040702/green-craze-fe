@@ -32,7 +32,12 @@ function Chat({ setShowChat, data, isLoading, onUpdateMessageStatus }) {
         <div className="chat-container flex flex-col fixed w-[40rem] h-[45rem] right-[8rem] bottom-[0rem] border">
             <ChatHeader setShowChat={setShowChat} />
             <ChatBody messages={messages} />
-            <ChatFooter onUpdateMessageStatus={onUpdateMessageStatus} roomId={roomId} setMessages={setMessages} messages={messages} />
+            <ChatFooter
+                onUpdateMessageStatus={onUpdateMessageStatus}
+                roomId={roomId}
+                setMessages={setMessages}
+                messages={messages}
+            />
         </div>
     );
 }

@@ -99,7 +99,7 @@ function ChatDetail({ chat, refetchAllRoom }) {
 
     return (
         <div className="">
-            <div class="flex flex-col h-[62.5rem]">
+            <div class="flex flex-col h-[98rem]">
                 <div class="flex sm:items-center justify-between px-[1rem] py-[1.6rem] border-b border-gray-200">
                     <div class="relative flex items-center space-x-4">
                         <div class="flex flex-col leading-tight">
@@ -138,7 +138,7 @@ function ChatDetail({ chat, refetchAllRoom }) {
                     </div>
                 ) : (
                     <div className="h-full overflow-y-scroll">
-                        <div class="flex flex-col justify-end space-y-4 p-3 min-h-[50rem] scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+                        <div class="flex flex-col justify-end space-y-4 p-3 min-h-[90rem] scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                             {messages.map((m) => {
                                 return <Message message={m} key={m.messageId} />;
                             })}
