@@ -30,6 +30,7 @@ import ModalVariant from '../../../layouts/Admin/components/ModalVariant';
 import slugify from '../../../utils/slugify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import generateCode from '../../../utils/generateCode';
 
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -221,6 +222,10 @@ function ProductFormPage() {
         }
     };
 
+    const getCountVariant = () => {
+        return rowVariants.length + 1;
+    };
+
     const mutationCreate = useCreateProduct({
         success: () => {
             notification.success({
@@ -374,9 +379,10 @@ function ProductFormPage() {
                                 ]}
                             >
                                 <Input
-                                    onChange={(e) =>
-                                        form.setFieldValue('slug', slugify(e.target.value))
-                                    }
+                                    onChange={(e) => {
+                                        form.setFieldValue('slug', slugify(e.target.value));
+                                        form.setFieldValue('code', generateCode(e.target.value));
+                                    }}
                                 />
                             </Form.Item>
                         </Col>
@@ -436,7 +442,7 @@ function ProductFormPage() {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input disabled={true} className="text-black" />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -450,7 +456,7 @@ function ProductFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly />
+                                <Input disabled={true} className="text-black" />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -524,7 +530,14 @@ function ProductFormPage() {
                                     onClick={() =>
                                         setModalVariant({
                                             title: 'Thêm dạng sản phẩm bán ra',
-                                            variant: null,
+                                            variant: form.getFieldValue('code')
+                                                ? {
+                                                      sku:
+                                                          form.getFieldValue('code') +
+                                                          '-' +
+                                                          getCountVariant(),
+                                                  }
+                                                : null,
                                             edit: {
                                                 index: null,
                                                 isEdit: false,

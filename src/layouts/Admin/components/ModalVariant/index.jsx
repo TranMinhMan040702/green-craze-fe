@@ -29,6 +29,8 @@ function ModalVariant({ modalVariant, setModalVariant, handleVariant, loading })
             quantity: modalVariant.variant.quantity,
             status: modalVariant.variant.status,
         });
+    } else if (modalVariant.variant) {
+        form.setFieldValue('sku', modalVariant.variant.sku);
     }
 
     return (
@@ -92,7 +94,7 @@ function ModalVariant({ modalVariant, setModalVariant, handleVariant, loading })
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={true} className="text-black" />
                     </Form.Item>
                     <Form.Item
                         label="Giá 1 sản phẩm"
