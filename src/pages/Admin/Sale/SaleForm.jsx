@@ -271,7 +271,7 @@ function SaleFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly />
+                                <Input disabled={true} className="text-black" />
                             </Form.Item>
                             <Form.Item
                                 label="Phần trăm giảm giá"

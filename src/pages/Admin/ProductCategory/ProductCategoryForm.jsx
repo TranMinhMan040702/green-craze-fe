@@ -212,7 +212,7 @@ function ProductCategoryFormPage() {
                                     },
                                 ]}
                             >
-                                <Input readOnly />
+                                <Input disabled={true} className="text-black" />
                             </Form.Item>
                         </Col>
                     </Row>
