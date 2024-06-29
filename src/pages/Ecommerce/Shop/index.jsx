@@ -15,7 +15,7 @@ function ShopPage() {
 
     const [params, setParams] = useState({
         page: 1,
-        size: 50,
+        size: 20,
         status: true,
         categorySlug: productCategory,
         minPrice: MIN_PRICE,
