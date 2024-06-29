@@ -69,9 +69,9 @@ function Product({ params, setParams, categoryName }) {
                 <div className="mt-[4rem] text-center">
                     <Pagination
                         onChange={handlePagingChange}
-                        size={data?.data?.itemsPerPage}
                         current={data?.data?.page}
                         total={data?.data?.totalItems}
+                        pageSize={data?.data?.itemsPerPage}
                     />
                 </div>
             )}
