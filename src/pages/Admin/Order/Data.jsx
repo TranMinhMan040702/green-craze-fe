@@ -21,6 +21,7 @@ const baseColumns = [
         title: 'Ngày đặt hàng',
         dataIndex: 'createdAt',
         sorter: true,
+        defaultSortOrder: 'descend'
     },
     {
         title: 'Mã đơn hàng',
@@ -110,7 +111,7 @@ function transformData(dt, navigate, setIsDetailOpen) {
 function Data() {
     const [params, setParams] = useState({
         page: 1,
-        size: 5,
+        size: 10,
         isSortAscending: false,
         columnName: 'createdAt'
     });
@@ -185,6 +186,7 @@ function Data() {
                 dataSource={tdata}
                 pagination={{ ...tableParams.pagination, showSizeChanger: true }}
                 onChange={handleTableChange}
+                
             />
             {isDetailOpen.id !== 0 && (
                 <OrderDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />

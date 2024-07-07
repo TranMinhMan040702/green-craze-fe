@@ -7,7 +7,7 @@ function ProductCategoryPage() {
     const [productCategoryIds, setProductCategoryIds] = useState([]);
     const [params, setParams] = useState({
         page: 1,
-        size: 5,
+        size: 10,
     });
 
     return (

@@ -7,6 +7,8 @@ function InventoryPage() {
     const [params, setParams] = useState({
         page: 1,
         size: 10,
+        isSortAscending: true,
+        columnName: 'actualInventory'
     });
 
     return (

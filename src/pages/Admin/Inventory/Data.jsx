@@ -26,6 +26,7 @@ const baseColumns = [
         title: 'Có thể bán',
         dataIndex: 'actualInventory',
         sorter: true,
+        defaultSortOrder: 'ascend'
     },
     {
         title: 'Đã bán',
@@ -101,11 +102,12 @@ function transformData(dt, setIsImportProduct, setIsDetailOpen) {
 function Data({ params, setParams }) {
     const { isLoading, data, refetch } = useGetListProduct(params);
     const [tdata, setTData] = useState([]);
+    
     const [tableParams, setTableParams] = useState({
         pagination: {
-            current: params.page + 1,
+            current: params.page,
             pageSize: params.size,
-            totalPages: data?.data?.totalItems,
+            total: data?.data?.totalItems,
         },
     });
     const [isImportProduct, setIsImportProduct] = useState({
@@ -127,6 +129,13 @@ function Data({ params, setParams }) {
     useEffect(() => {
         if (isLoading || !data) return;
         setTData(transformData(data?.data?.items, setIsImportProduct, setIsDetailOpen));
+        setTableParams({
+            ...tableParams,
+            pagination: {
+                ...tableParams.pagination,
+                total: data?.data?.totalItems,
+            },
+        });
     }, [isLoading, data]);
 
     const onSearch = (value) => {

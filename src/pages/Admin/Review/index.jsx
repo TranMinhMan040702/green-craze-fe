@@ -8,7 +8,7 @@ function ReviewPage() {
 
     const [params, setParams] = useState({
         page: 1,
-        size: 5,
+        size: 10,
         isSortAscending: false,
         columnName: 'updatedAt',
     });

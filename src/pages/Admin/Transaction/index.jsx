@@ -7,7 +7,9 @@ import Data from './Data';
 function TransactionPage() {
     const [params, setParams] = useState({
         page: 1,
-        size: 5,
+        size: 10,
+        isSortAscending: false,
+        columnName: 'createdAt'
     });
     return (
         <div className="transaction-container">

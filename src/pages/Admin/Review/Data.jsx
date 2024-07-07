@@ -19,6 +19,7 @@ const baseColumns = [
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
         sorter: true,
+        defaultSortOrder: 'descend'
     },
     {
         title: 'Tiêu đề',

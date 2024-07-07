@@ -20,6 +20,12 @@ const baseColumns = [
         sorter: true,
     },
     {
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        sorter: true,
+        defaultSortOrder: 'descend'
+    },
+    {
         title: 'Ngày hoàn tất',
         dataIndex: 'completedAt',
         sorter: true,
