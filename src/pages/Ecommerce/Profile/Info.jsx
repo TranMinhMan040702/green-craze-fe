@@ -44,10 +44,12 @@ function Info() {
     }, [profile?.data, profile?.isLoading]);
 
     const onEditUser = async (values) => {
+        let dob = new Date(values.dob);
+        let exactInputDob = new Date(dob.setDate(dob.getDate() + 1));
         let data = {
             ...values,
             avatar: avatar,
-            dob: values.dob.$d.toISOString(),
+            dob: exactInputDob,
         };
         await mutateEditUser.mutateAsync(data);
     };

@@ -16,7 +16,7 @@ function NotificationContextProvider({ children }) {
         isSortAscending: false,
     });
 
-    const { isLoading, data: dCount } = useGetCountNotification();
+    const { isLoading, data: dCount, refetch: refetchCountNotification } = useGetCountNotification();
 
     useEffect(() => {
         if (userId && !stompClient) {
@@ -47,6 +47,7 @@ function NotificationContextProvider({ children }) {
                 notifications: data?.data?.items || [],
                 refetchNotification: refetch,
                 setCountNotify: setCountNotify,
+                refetchCountNotification: refetchCountNotification
             }}
         >
             {children}

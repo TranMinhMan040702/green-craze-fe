@@ -9,7 +9,7 @@ function ReasonCancelPage() {
 
     const [params, setParams] = useState({
         page: 1,
-        size: 5,
+        size: 10,
     });
     return (
         <div className="cancel-reason-container">

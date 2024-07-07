@@ -7,10 +7,11 @@ import { NotificationContext } from '../../../../context/NotificationContext';
 
 
 function NotificationItem({ notification, isRead = false }) {
-    const { refetchNotification } = useContext(NotificationContext);
+    const { refetchNotification, refetchCountNotification } = useContext(NotificationContext);
     const mutateRead = useUpdateNotification({
         success: (data) => {
             refetchNotification();
+            refetchCountNotification();
         },
     });
 

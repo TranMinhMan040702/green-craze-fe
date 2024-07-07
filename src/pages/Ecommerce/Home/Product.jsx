@@ -8,7 +8,7 @@ import WebLoading from '../../../layouts/Ecommerce/components/WebLoading';
 
 function Product() {
     const { isLoading, data } = useGetListProduct({
-        size: 50,
+        size: 20,
         status: true,
     });
     const [products, setProducts] = useState([]);
