@@ -18,13 +18,8 @@ const baseColumns = [
         sorter: true,
     },
     {
-        title: 'Mã đơn',
+        title: 'Mã đơn hàng',
         dataIndex: 'code',
-        sorter: true,
-    },
-    {
-        title: 'Phương thức',
-        dataIndex: 'paymentMethod',
         sorter: true,
     },
     {
@@ -55,13 +50,6 @@ function transformData(dt) {
                 <Tag className="uppercase" color={`${item?.paymentStatus ? 'green' : 'red'}`}>
                     {item?.paymentStatus ? 'Đã thanh toán' : 'Chưa thanh toán'}
                 </Tag>
-            ),
-            paymentMethod: (
-                <div className="flex justify-center">
-                    <Tag className="w-fit uppercase" color="green">
-                        {item?.transaction?.paymentMethod}
-                    </Tag>
-                </div>
             ),
             totalAmount: (
                 <div className="font-bold text-red-500">{numberFormatter(item?.totalAmount)}</div>
