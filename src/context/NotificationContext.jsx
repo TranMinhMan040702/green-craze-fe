@@ -32,7 +32,8 @@ function NotificationContextProvider({ children }) {
 
     const onNotificationReceived = (payload) => {
         var payloadData = JSON.parse(payload.body);
-        refetch();
+        // refetch();
+        refetchCountNotification();
         notification.success({
             message: payloadData.title,
             description: payloadData.content,
