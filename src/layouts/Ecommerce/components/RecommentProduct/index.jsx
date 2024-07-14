@@ -19,8 +19,6 @@ function RecommentProduct({ productId }) {
         setProducts(data?.data);
     }, [isLoading, data]);
 
-    console.log(productId);
-
     return (
         <div className="recomment">
             <Button className="w-full h-[38px] text-white font-medium text-[1.6rem] text-star mb-[1.2rem] hover:border-none border-none">
