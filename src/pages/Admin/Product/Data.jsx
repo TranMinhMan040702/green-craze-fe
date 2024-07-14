@@ -36,6 +36,7 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
+        sorter: true,
     },
     {
         title: 'Dạng bán ra',

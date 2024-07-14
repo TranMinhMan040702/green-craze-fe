@@ -19,44 +19,25 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
-            multiple: 4,
-        },
         width: 50,
     },
     {
         title: 'Dạng sản phẩm bán ra',
         dataIndex: 'name',
-        sorter: {
-            compare: (a, b) => a.email.localeCompare(b.email),
-            multiple: 3,
-        },
         width: 150,
     },
     {
         title: 'Sku',
         dataIndex: 'sku',
-        sorter: {
-            compare: (a, b) => a.fullname.localeCompare(b.fullname),
-            multiple: 2,
-        },
     },
     {
         title: 'Giá 1 sản phẩm',
         dataIndex: 'itemPrice',
-        sorter: {
-            compare: (a, b) => a.phone.localeCompare(b.phone),
-            multiple: 1,
-        },
+        sorter: true,
     },
     {
         title: 'Giá khuyến mãi',
         dataIndex: 'promotionalItemPrice',
-        sorter: {
-            compare: (a, b) => a.gender.localeCompare(b.gender),
-            multiple: 1,
-        },
     },
     {
         title: 'Số lượng',
@@ -70,10 +51,6 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: {
-            compare: (a, b) => a?.status?.props?.children.localeCompare(b?.status?.props?.children),
-            multiple: 1,
-        },
     },
     {
         title: 'Thao tác',

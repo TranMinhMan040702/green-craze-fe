@@ -26,6 +26,7 @@ function ChatPage() {
                 };
             }),
         );
+        setChosenChat(data?.data[0]?.id);
     }, [data, isLoading]);
 
     const onChatClick = (user) => {};

@@ -37,6 +37,7 @@ const baseColumns = [
     },
     {
         title: 'Trạng thái',
+        sorter: true,
         dataIndex: 'status',
     },
     {
