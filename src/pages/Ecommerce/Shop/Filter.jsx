@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { MAX_PRICE, MIN_PRICE } from '../../../utils/constants';
 import { useLocation } from 'react-router-dom';
 import RecommendationProducts from '../Home/RecommendationProducts';
-import { isTokenStorage } from '../../../utils/storage';
+import { isTokenStoraged } from '../../../utils/storage';
 
 const LIMIT = 5;
 
@@ -207,7 +207,7 @@ function params({ params, setParams, categoryId }) {
                 </div>
             </div>
             {
-                isTokenStorage() && <RecommentProduct />
+                isTokenStoraged() && <RecommentProduct />
             }
         </div>
     );
