@@ -19,17 +19,15 @@ const baseColumns = [
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
         sorter: true,
-        defaultSortOrder: 'descend'
+        defaultSortOrder: 'descend',
     },
     {
         title: 'Tiêu đề',
         dataIndex: 'title',
-        sorter: true,
     },
     {
         title: 'Sản phẩm',
         dataIndex: 'product',
-        sorter: true,
     },
     {
         title: 'Số sao',
@@ -39,7 +37,6 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: true,
     },
     {
         title: 'Thao tác',

@@ -43,7 +43,7 @@ function SaleFormPage() {
         ? useGetSale(id)
         : { isLoading: null, data: null };
     const { isLoading: isLoadingProductCategory, data: dProductCategory } =
-        useGetListProductCategory(null);
+        useGetListProductCategory({ all: true });
     const [form] = Form.useForm();
     const formData = new FormData();
     const [imageUrl, setImageUrl] = useState();

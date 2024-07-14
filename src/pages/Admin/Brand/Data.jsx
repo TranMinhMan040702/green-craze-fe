@@ -31,7 +31,6 @@ const baseColumns = [
     {
         title: 'Code',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Hình đại diện',
@@ -40,7 +39,6 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: true,
     },
     {
         title: 'Thao tác',

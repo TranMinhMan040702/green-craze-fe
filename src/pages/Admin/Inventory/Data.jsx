@@ -10,7 +10,6 @@ const baseColumns = [
     {
         title: 'Mã sản phẩm',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Tên sản phẩm',
@@ -26,7 +25,7 @@ const baseColumns = [
         title: 'Có thể bán',
         dataIndex: 'actualInventory',
         sorter: true,
-        defaultSortOrder: 'ascend'
+        defaultSortOrder: 'ascend',
     },
     {
         title: 'Đã bán',
@@ -102,7 +101,7 @@ function transformData(dt, setIsImportProduct, setIsDetailOpen) {
 function Data({ params, setParams }) {
     const { isLoading, data, refetch } = useGetListProduct(params);
     const [tdata, setTData] = useState([]);
-    
+
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: params.page,

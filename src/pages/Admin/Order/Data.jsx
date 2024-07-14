@@ -21,27 +21,23 @@ const baseColumns = [
         title: 'Ngày đặt hàng',
         dataIndex: 'createdAt',
         sorter: true,
-        defaultSortOrder: 'descend'
+        defaultSortOrder: 'descend',
     },
     {
         title: 'Mã đơn hàng',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Phương thức',
         dataIndex: 'paymentMethod',
-        sorter: true,
     },
     {
         title: 'Thanh toán',
         dataIndex: 'paymentStatus',
-        sorter: true,
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: true,
     },
     {
         title: 'Tổng tiền',
@@ -113,7 +109,7 @@ function Data() {
         page: 1,
         size: 10,
         isSortAscending: false,
-        columnName: 'createdAt'
+        columnName: 'createdAt',
     });
     const [tdata, setTData] = useState([]);
     const navigate = useNavigate();
@@ -186,7 +182,6 @@ function Data() {
                 dataSource={tdata}
                 pagination={{ ...tableParams.pagination, showSizeChanger: true }}
                 onChange={handleTableChange}
-                
             />
             {isDetailOpen.id !== 0 && (
                 <OrderDetail isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />

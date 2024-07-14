@@ -47,7 +47,6 @@ const baseColumns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        sorter: true,
     },
     {
         title: 'Vai trò',
@@ -56,7 +55,6 @@ const baseColumns = [
     {
         title: 'Loại nhân viên',
         dataIndex: 'type',
-        sorter: true,
     },
     {
         title: 'Thao tác',
