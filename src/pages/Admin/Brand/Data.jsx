@@ -31,7 +31,6 @@ const baseColumns = [
     {
         title: 'Code',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Hình đại diện',

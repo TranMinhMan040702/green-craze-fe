@@ -56,7 +56,6 @@ const baseColumns = [
     {
         title: 'Loại nhân viên',
         dataIndex: 'type',
-        sorter: true,
     },
     {
         title: 'Thao tác',

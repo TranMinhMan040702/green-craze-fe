@@ -17,13 +17,12 @@ const baseColumns = [
     {
         title: 'Mã đơn hàng',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Ngày tạo',
         dataIndex: 'createdAt',
         sorter: true,
-        defaultSortOrder: 'descend'
+        defaultSortOrder: 'descend',
     },
     {
         title: 'Ngày hoàn tất',
@@ -38,7 +37,6 @@ const baseColumns = [
     {
         title: 'Phương thức thanh toán',
         dataIndex: 'paymentMethod',
-        sorter: true,
     },
     {
         title: 'Tổng tiền',

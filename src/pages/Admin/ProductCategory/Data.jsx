@@ -26,7 +26,6 @@ const baseColumns = [
     {
         title: 'Slug',
         dataIndex: 'slug',
-        sorter: true,
     },
     {
         title: 'Hình đại diện',

@@ -13,7 +13,6 @@ const baseColumns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        sorter: true,
         width: 50,
     },
     {
@@ -24,7 +23,6 @@ const baseColumns = [
     {
         title: 'Mã sản phẩm',
         dataIndex: 'code',
-        sorter: true,
     },
     {
         title: 'Hình đại diện',
@@ -34,7 +32,6 @@ const baseColumns = [
     {
         title: 'Tên danh mục',
         dataIndex: 'productCategory',
-        sorter: true,
     },
     {
         title: 'Trạng thái',
